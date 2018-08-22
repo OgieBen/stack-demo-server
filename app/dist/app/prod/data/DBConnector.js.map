@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../prod/data/DBConnector.js"],"names":["DBConnector"],"mappings":";;;;;;;;IAEqBA,W;;;;kBAAAA,W","file":"DBConnector.js","sourcesContent":["\n\nexport default class DBConnector {\n    \n}"]}

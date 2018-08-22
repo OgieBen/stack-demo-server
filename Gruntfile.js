@@ -1,16 +1,35 @@
-require("load-grunt-tasks")(grunt); // npm install --save-dev load-grunt-tasks
+// let grunt = require("load-grunt-tasks"); //(grunt); 
+module.exports = function(grunt){
 
-grunt.initConfig({
-  "babel": {
-    options: {
-      sourceMap: true
-    },
-    dist: {
-      files: {
-        "dist/app.js": "src/app.js"
-      }
-    }
-  }
-});
+    require("load-grunt-tasks")(grunt);
 
-grunt.registerTask("default", ["babel"]);
+        grunt.initConfig({
+            babel: {
+                options: {
+                    sourceMap: true,
+                    presets: ['env'],
+                },
+            
+                dist: {
+        
+                    files: [{
+                        expand: true,
+                        src: ["app/prod/**/*.js"],
+                        dest: "app/dist",
+                        ext: ".js",
+                       
+                    }],
+                    
+
+                }
+            },
+
+            exec: {
+                npm: {cmd: "npm start app/"}
+            }
+        });
+        
+        //   grunt.loadNpmTasks('load-grunt-tasks');
+        
+        grunt.registerTask("default", ["babel", "exec"]);
+}

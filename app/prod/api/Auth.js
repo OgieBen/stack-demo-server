@@ -1,8 +1,8 @@
 
-import Answer from '../../bin/data/model/Answer';
-import Auth from './Auth';
+import answer from '../../bin/data/model/Answer';
 
-export default Auth {
+
+export default class Auth {
 
 
 

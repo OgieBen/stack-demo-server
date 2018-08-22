@@ -4,3 +4,7 @@ node_modules
 slate
 
 .DS_Store
+
+.env
+
+app.js

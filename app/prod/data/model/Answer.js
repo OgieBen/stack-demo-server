@@ -1,7 +1,7 @@
 
 
 
-export default Answer {
+export default class Answer {
 
     constructor(id, questionId, date, time) {
         this.id = id;
