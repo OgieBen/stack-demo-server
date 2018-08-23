@@ -1,5 +1,7 @@
 import pg, {Pool, Client} from 'pg';
+import { User } from '../model/User';
 import config from 'dotenv'
+
 
 
 export class DBConnector {
@@ -53,6 +55,19 @@ export class DBConnector {
                     callback()
                     pool.end()
                 });
+    }
+
+
+    /**
+     * Adds a user to database
+     * 
+     * @param {User} user 
+     */
+    addUser(user){
+        if( !user instanceof User){
+            return false;
+        }
+        return false;
     }
 
     getPool(){

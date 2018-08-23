@@ -11,6 +11,8 @@ var _pg = require('pg');
 
 var _pg2 = _interopRequireDefault(_pg);
 
+var _User = require('../model/User');
+
 var _dotenv = require('dotenv');
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
@@ -72,10 +74,20 @@ var DBConnector = function () {
                 pool.end();
             });
         }
+
+        /**
+         * Adds a user to database
+         * 
+         * @param {User} user 
+         */
+
     }, {
-        key: 'run',
-        value: function run(err, callback) {
-            return this._connect(err, callback);
+        key: 'addUser',
+        value: function addUser(user) {
+            if (!user instanceof _User.User) {
+                return false;
+            }
+            return false;
         }
     }, {
         key: 'getPool',
