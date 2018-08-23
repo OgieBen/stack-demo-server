@@ -4,13 +4,15 @@ export class Question {
     constructor(
         questionId,
         userId,
+        acceptedAnswerId,
         content,
         timestamp) {
 
         this._questionId = questionId;
         this._content = content;
+        this._acceptedAnswerId = acceptedAnswerId;
         this._userId = userId;
-        this._timestamp = timestamp
+        this._timestamp = timestamp;
     }
 
     getQuestionId() {
@@ -28,6 +30,10 @@ export class Question {
 
     getUserId(){
         return this._userId;
+    }
+
+    getAcceptedAnswerId(){
+        return this._acceptedAnswerId;
     }
 
 }
