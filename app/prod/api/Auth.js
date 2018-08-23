@@ -18,19 +18,19 @@ let auth = factory.getAuth();
  * 
  * @returns JSON
  */
-router.get('/v1/auth', (req, res, next ) => {
+router.get('/v1/auth/login', (req, res, next ) => {
 
     // TODO: gets user details here
     
     if(auth.login()){
         res.json({
-            msg: 'success',
+            msg: true,
         })
         return;
     }
 
     res.json({
-        msg: 'false '+ auth.login(),
+        msg: false,
     })
 });
 
@@ -44,11 +44,20 @@ router.get('/v1/auth', (req, res, next ) => {
  * 
  * @return JSON 
  */
-router.get('/v1/signup', (req, res, next) => {
+router.get('/v1/auth/signup', (req, res, next) => {
 
     // TODO validate and clean user date
+    if (auth.signUp()){
+        res.json({
+            msg: true,
+        })
+        return;
+    }
 
-    
+    res.json({
+        msg: false
+    })
+
 })
 
 module.exports = router;
