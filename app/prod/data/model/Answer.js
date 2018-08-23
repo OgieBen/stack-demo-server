@@ -3,15 +3,16 @@
 
 export class Answer {
 
-    constructor(id, questionId, date, time) {
-        this.id = id;
-        this.questionId = questionId;
-        this.date = date;
-        this.time = time;     
+    constructor(id, questionId, userId, date, time) {
+        this._id = id;
+        this._questionId = questionId;
+        this._userId = userId;
+        this._date = date;
+        this._time = time;     
     }
 
     getId(){
-        return this.id;
+        return this._id;
     }
 
 
