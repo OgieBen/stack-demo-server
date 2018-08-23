@@ -45,8 +45,7 @@ export class DBConnector {
         this
             .getPool()
                 .query(query.toString(), (err, res) => { 
-                    console.log(err, res)
-
+                    // console.log(err, res)
                     if(err){
                         errCallback();
                         return false;
@@ -62,6 +61,8 @@ export class DBConnector {
      * Adds a user to database
      * 
      * @param {User} user 
+     * 
+     * @returns {Boolean}
      */
     addUser(user){
         if( !user instanceof User){
