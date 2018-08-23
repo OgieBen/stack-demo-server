@@ -16,25 +16,89 @@ var Auth = exports.Auth = function () {
         _classCallCheck(this, Auth);
     }
 
+    /**
+     * Authenticates users i.e. check if users are registered,
+     * then logs them in
+     * 
+     * @param {String} email 
+     * @param {String} passWord 
+     * 
+     * @returns {Boolean}
+     */
+
+
     _createClass(Auth, [{
         key: "authenticate",
         value: function authenticate(email, passWord) {
             return false;
         }
+
+        /**
+         * Logs user into the platform
+         * 
+         * @param {String} email 
+         * @param {String} password 
+         */
+
     }, {
         key: "login",
         value: function login(email, password) {
-            return true;
+
+            if (this.authenticate(email, password)) {
+                // create user session here:
+                return true;
+            }
+            return false;
         }
+
+        /**
+         * Signs user up
+         * 
+         * @param {String} email 
+         * @param {String} password 
+         * 
+         * @returns {Boolean}
+         */
+
     }, {
         key: "signUp",
         value: function signUp(email, password) {
+
+            if (this.validate(email, password)) {
+                return this.addUser(email, password);
+            }
             return false;
         }
+
+        /**
+         * Adds user to database
+         * 
+         * @param {String} email 
+         * @param {String} password 
+         * 
+         * @returns {Boolean}
+         */
+
     }, {
-        key: "registerUser",
-        value: function registerUser(email, password) {
-            return fasle;
+        key: "addUser",
+        value: function addUser(email, password) {
+            return false;
+        }
+
+        /**
+         * Validates parameters 
+         * 
+         * @param {String} email 
+         * @param {String} password 
+         * 
+         * @returns {Boolean}
+         */
+
+    }, {
+        key: "validate",
+        value: function validate(email, password) {
+
+            return false;
         }
     }, {
         key: "testModel",

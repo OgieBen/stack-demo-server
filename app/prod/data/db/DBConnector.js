@@ -1,17 +1,23 @@
-import pg from 'pg';
+import pg, {Pool, Client} from 'pg';
 import config from 'dotenv'
 
 
 export class DBConnector {
     
     constructor(){
-        // this.connect = pg.connect();
-        this.configString = config['PG_CONNECT'];
+        // this.configString = config['PG_CONNECT'];
+        this._pool = new Pool({
+            user: '',
+            host: '',
+            database: '',
+            password: '',
+            port: 3211,
+        });
         
     }
 
     // callback takes client object
-    _connect(err, callback){
+    /* _connect(err, callback){
         pg.connect(this.configString, (err, client, done) => {
                 
             if(err){
@@ -23,19 +29,38 @@ export class DBConnector {
             return
 
         });
+    } */
+
+    /**
+     * Executes Queries
+     * 
+     * @param {Callback} errCallback 
+     * @param {String} query 
+     * @param {Callback} callback 
+     */
+    query(errCallback, query, callback){
+        
+        this
+            .getPool()
+                .query(query.toString(), (err, res) => { 
+                    console.log(err, res)
+
+                    if(err){
+                        errCallback();
+                        return false;
+                    }
+
+                    callback()
+                    pool.end()
+                });
     }
 
-    _query(){
-
-    }
-
-    run(err, callback){
-       return this._connect(err, callback);
+    getPool(){
+        return this._pool;
     }
 
 
     tester(){
-      
         return `Testing DBConncter! ` ; 
         // ${config['PG_CONNET']}
     }
