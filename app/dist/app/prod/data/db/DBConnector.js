@@ -63,8 +63,7 @@ var DBConnector = function () {
         value: function query(errCallback, _query, callback) {
 
             this.getPool().query(_query.toString(), function (err, res) {
-                console.log(err, res);
-
+                // console.log(err, res)
                 if (err) {
                     errCallback();
                     return false;
@@ -79,6 +78,8 @@ var DBConnector = function () {
          * Adds a user to database
          * 
          * @param {User} user 
+         * 
+         * @returns {Boolean}
          */
 
     }, {

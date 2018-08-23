@@ -8,26 +8,25 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Answer = exports.Answer = function () {
-    function Answer(id, questionId, content, userId, timestamp) {
-        _classCallCheck(this, Answer);
+var AComment = exports.AComment = function () {
+    function AComment(commentId, answerId, userId, content, timestamp) {
+        _classCallCheck(this, AComment);
 
-        this._id = id;
-        this._questionId = questionId;
-        this._content = content;
-        this._userId = userId;
+        this._commentId = commentId;
+        this._answerId = answerId;
+        this._userId = userId, this._content = content;
         this._timestamp = timestamp;
     }
 
-    _createClass(Answer, [{
-        key: "getId",
-        value: function getId() {
-            return this._id;
+    _createClass(AComment, [{
+        key: "getAnswerId",
+        value: function getAnswerId() {
+            return this._answerId;
         }
     }, {
-        key: "getQuestionId",
-        value: function getQuestionId() {
-            return this._questionId;
+        key: "getCommentId",
+        value: function getCommentId() {
+            return this._commentId;
         }
     }, {
         key: "getContent",
@@ -46,6 +45,6 @@ var Answer = exports.Answer = function () {
         }
     }]);
 
-    return Answer;
+    return AComment;
 }();
-//# sourceMappingURL=Answer.js.map
+//# sourceMappingURL=AComment.js.map

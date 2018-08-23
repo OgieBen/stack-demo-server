@@ -1,5 +1,4 @@
 var createError = require('http-errors');
-import { Question } from './prod/data/model/Question';
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -8,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authApi = require('./dist/app/prod/api/auth');
-var questionsApi = require('./dist/app/prod/api/question');
+var questionsApi = require('./dist/app/prod/api/questions');
 var answersApi = require('./dist/app/prod/api/answers');
 
 
@@ -27,9 +26,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/v1/auth', authApi);
-app.use('/v1/questions', questionsApi);
-app.use('/v1/questions/{id}', answersApi);
+app.use('/api/v1/auth', authApi);
+app.use('/api/v1/questions', questionsApi);
+app.use('/api/v1/questions/{id}', answersApi);
 
 
 // catch 404 and forward to error handler

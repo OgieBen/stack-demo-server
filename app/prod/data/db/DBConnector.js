@@ -1,12 +1,12 @@
-import pg, {Pool, Client} from 'pg';
+import pg, { Pool, Client } from 'pg';
 import { User } from '../model/User';
 import config from 'dotenv'
 
 
 
 export class DBConnector {
-    
-    constructor(){
+
+    constructor() {
         // this.configString = config['PG_CONNECT'];
         this._pool = new Pool({
             user: '',
@@ -15,7 +15,7 @@ export class DBConnector {
             password: '',
             port: 3211,
         });
-        
+
     }
 
     // callback takes client object
@@ -40,20 +40,20 @@ export class DBConnector {
      * @param {String} query 
      * @param {Callback} callback 
      */
-    query(errCallback, query, callback){
-        
+    query(errCallback, query, callback) {
+
         this
             .getPool()
-                .query(query.toString(), (err, res) => { 
-                    // console.log(err, res)
-                    if(err){
-                        errCallback();
-                        return false;
-                    }
+            .query(query.toString(), (err, res) => {
+                // console.log(err, res)
+                if (err) {
+                    errCallback();
+                    return false;
+                }
 
-                    callback()
-                    pool.end()
-                });
+                callback()
+                pool.end()
+            });
     }
 
 
@@ -64,20 +64,68 @@ export class DBConnector {
      * 
      * @returns {Boolean}
      */
-    addUser(user){
-        if( !user instanceof User){
+    addUser(user) {
+        if (!user instanceof User) {
             return false;
         }
         return false;
     }
 
-    getPool(){
+
+    getPool() {
         return this._pool;
     }
 
 
-    tester(){
-        return `Testing DBConncter! ` ; 
+    fetchAllQuestions() {
+
+    }
+
+    fetchQuestion() {
+
+    }
+
+    fetchAnswers() {
+
+    }
+
+    fetchQuestionWithHighestAnswers() {
+
+    }
+
+    fetchUserQuestions() {
+
+    }
+
+    addCommentToAnwser() {
+
+    }
+
+    addCommentToQuestion() {
+
+    }
+
+    upvoteAnswer() {
+
+    }
+
+    downVoteAnswer() {
+
+    }
+
+    searchForAnswers() {
+
+    }
+
+    deleteQuestion() {
+
+    }
+
+
+
+
+    tester() {
+        return `Testing DBConncter! `;
         // ${config['PG_CONNET']}
     }
 

@@ -13,7 +13,7 @@ var _Auth = require('./auth/Auth');
 
 var _Answer = require('./data/model/Answer');
 
-var _Comment = require('./data/model/Comment');
+var _QComment = require('./data/model/QComment');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -28,7 +28,7 @@ var Factory = exports.Factory = function () {
     _createClass(Factory, [{
         key: 'getCommentClass',
         value: function getCommentClass() {
-            return new _Comment.Comment();
+            return new _QComment.Comment();
         }
     }, {
         key: 'getdbC',
