@@ -25,11 +25,11 @@ module.exports = function(grunt){
             },
 
             exec: {
-                npm: {cmd: "npm start app/"}
+                node: {cmd: "node app/bin/www"}
             }
         });
         
         //   grunt.loadNpmTasks('load-grunt-tasks');
         
-        grunt.registerTask("default", ["babel", "exec"]);
+        grunt.registerTask("default", ["babel", ]);
 }
