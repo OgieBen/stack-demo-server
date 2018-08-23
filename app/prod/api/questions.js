@@ -13,7 +13,7 @@ let auth = factory.getAuth();
  * 
  * @returns {JSON} List
  */
-router.get('/v1/questions', (req, res, next) => {
+router.get('/', (req, res, next) => {
 
 });
 
@@ -27,21 +27,21 @@ router.get('/v1/questions', (req, res, next) => {
  * 
  * @returns {JSON} Question
  */
-router.get('/v1/questions/{id}', (req, res, next) => {
+router.get('/{id}', (req, res, next) => {
 
 });
 
 /**
  * Adds a question the platform
  */
-router.post('/v1/questions', (req, res, next) => {
+router.post('/', (req, res, next) => {
 
 });
 
 /**
  * Removes a question from the platform
  */
-router.delete('/v1/questions/{id}', (req, res, next) => {
+router.delete('/{id}', (req, res, next) => {
 
 });
 

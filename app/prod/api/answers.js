@@ -18,7 +18,7 @@ let auth = factory.getAuth();
  * 
  * @returns {JSON} Question
  */
-router.post('/v1/questions/{id}/anwsers', (req, res, next) => {
+router.post('/anwsers', (req, res, next) => {
 
 });
 
@@ -39,7 +39,7 @@ router.post('/v1/questions/{id}/anwsers', (req, res, next) => {
  * 
  * @return {Boolean}
  */
-router.put('/v1/questions/{id}/anwsers/{anwserId}', (req, res, next) => {
+router.put('/anwsers/{anwserId}', (req, res, next) => {
     // use flag to check if incoming request is an update 
     // if it is an update, update the answer entry
 });

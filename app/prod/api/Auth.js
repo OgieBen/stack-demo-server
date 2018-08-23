@@ -18,7 +18,7 @@ let auth = factory.getAuth();
  * 
  * @returns JSON
  */
-router.get('/v1/auth/login', (req, res, next ) => {
+router.get('/login', (req, res, next ) => {
 
     // TODO: gets user details here
     
@@ -44,7 +44,7 @@ router.get('/v1/auth/login', (req, res, next ) => {
  * 
  * @return JSON 
  */
-router.get('/v1/auth/signup', (req, res, next) => {
+router.get('/signup', (req, res, next) => {
 
     // TODO validate and clean user date
     if (auth.signUp()){
