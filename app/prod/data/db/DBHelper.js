@@ -39,9 +39,10 @@ export class DBConnector {
      * @param {Callback} errCallback 
      * @param {String} query 
      * @param {Callback} callback 
+     * 
+     * @returns {Boolean}
      */
     query(errCallback, query, callback) {
-
         this
             .getPool()
             .query(query.toString(), (err, res) => {
@@ -51,7 +52,7 @@ export class DBConnector {
                     return false;
                 }
 
-                callback()
+               return callback()
                 pool.end()
             });
     }

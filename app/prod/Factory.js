@@ -1,5 +1,5 @@
 
-import { DBConnector } from './data/db/DBHelper';
+import { DBHelper } from './data/db/DBHelper';
 import { Auth } from './auth/Auth';
 import { Answer } from './data/model/Answer';
 import { Comment } from './data/model/QComment';
@@ -7,7 +7,7 @@ import { Comment } from './data/model/QComment';
 export class Factory {
 
     constructor() {
-        this.dbC = new DBConnector();
+        this.db = new DBHelper();
         this.auth = new Auth();       
     }
 
@@ -16,7 +16,7 @@ export class Factory {
     }
 
     getdbC() {
-        return this.dbC;
+        return this.db;
     }
 
     getAnswer() {
