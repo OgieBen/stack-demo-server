@@ -1,11 +1,11 @@
 import  { Router } from 'express';
-import { Factory } from '../Factory';
+// import { Factory } from '../Factory';
 
 let router = Router();
 
 
-let factory = new Factory();
-let auth = factory.getAuth();
+// let factory = new Factory();
+// let auth = factory.getAuth();
 
 
 /**

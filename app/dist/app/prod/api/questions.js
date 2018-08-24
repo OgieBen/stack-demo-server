@@ -2,12 +2,13 @@
 
 var _express = require('express');
 
-var _Factory = require('../Factory');
+// import { Factory } from '../Factory';
 
 var router = (0, _express.Router)();
 
-var factory = new _Factory.Factory();
-var auth = factory.getAuth();
+// let factory = new Factory();
+// let auth = factory.getAuth();
+
 
 /**
  * Fetches all questions that have been asked on the platform

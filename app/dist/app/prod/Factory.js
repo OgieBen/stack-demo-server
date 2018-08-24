@@ -21,7 +21,7 @@ var Factory = exports.Factory = function () {
     function Factory() {
         _classCallCheck(this, Factory);
 
-        this.dbC = new _DBHelper.DBConnector();
+        this.db = new _DBHelper.DBHelper();
         this.auth = new _Auth.Auth();
     }
 
@@ -31,9 +31,9 @@ var Factory = exports.Factory = function () {
             return new _QComment.Comment();
         }
     }, {
-        key: 'getdbC',
-        value: function getdbC() {
-            return this.dbC;
+        key: 'getDbc',
+        value: function getDbc() {
+            return this.db;
         }
     }, {
         key: 'getAnswer',

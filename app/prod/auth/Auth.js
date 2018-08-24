@@ -1,11 +1,27 @@
 
 import { Answer } from '../data/model/Answer';
+import { Factory } from '../Factory';
+import { DBHelper } from '../data/db/DBHelper';
+
+
 
 
 export class Auth {
 
-    constructor(){
-        
+
+
+
+    constructor() {
+        // this._factory = new Factory();
+        this._dbc = new DBHelper();
+    }
+
+    getFactory() {
+        // return this._factory;
+    }
+
+    getDb() {
+        return this._dbc;
     }
 
     /**
@@ -17,39 +33,44 @@ export class Auth {
      * 
      * @returns {Boolean}
      */
-    authenticate(email, passWord){
-        return false;
-    }
-
-    /**
-     * Logs user into the platform
-     * 
-     * @param {String} email 
-     * @param {String} password 
-     */
-    login(email, password){
-
-        if(this.authenticate(email, password)){
-            // create user session here:
-            return true;
+    authenticate(email, password, callback) {
+        let flag = false;
+        const fetchUserQuery = {
+            name: 'fetch-user',
+            text: 'SELECT * FROM users WHERE email = $1 AND  password = $2 ',
+            values: [email.toString(), password.toString()],
         }
-        return false;
-    }
 
-    /**
-     * Signs user up
-     * 
-     * @param {String} email 
-     * @param {String} password 
-     * 
-     * @returns {Boolean}
-     */
-    signUp(email, password){
+        if (this.validate(email, password)) {
 
-        if(this.validate(email, password)){
-            return this.addUser(email, password);
+            this
+                .getDb()
+                .queryWithConfig(fetchUserQuery, (err, result) => {
+                    if (err) {
+                        console.error(err.stack);
+                        console.log("Authentication failure");
+                        callback(false);
+                        return;
+                    }
+                    
+                   const resultLength = result.rows.length;
+
+                    if (result.rows.length === 1) {
+                        let status = true;
+                        console.log("Authentication success");
+                        callback(status);
+
+                        result.rows.forEach((user) => {
+                            console.log(user);
+                        })
+                        return;
+                    }
+
+                    console.log("Authentication failure: Invalid User " + resultLength );
+                    callback(false);
+
+                });
         }
-        return false;
     }
 
     /**
@@ -60,9 +81,80 @@ export class Auth {
      * 
      * @returns {Boolean}
      */
-    addUser(email, password){
-        return false;
+    addUser(name, email, password, callback) {
+        let flag = false;
+
+        const addUserQuery = {
+            name: 'add-user',
+            text: 'INSERT INTO users(name, email, password) VALUES($1, $2, $3)',
+            values: [name, email, password],
+
+        }
+
+        this
+            .getDb()
+            .queryWithConfig(addUserQuery, (err, result) => {
+                if(err){
+                    console.log("Could not sign up user");
+                    callback(false);
+                    console.error(err.stack);
+                    return;
+                }
+   
+                console.log("Added User sucessfully");
+                
+                callback(true);               
+                // signs user in and creates a session
+                this.login(email, password, (flag) => {
+
+                }); 
+            });
     }
+
+    /**
+     * Logs user into the platform
+     * 
+     * @param {String} email 
+     * @param {String} password 
+     */
+    login(email, password, callback) {
+
+        // let flag = false;
+    
+        this.authenticate(email, password, (flag) => {  
+            if(flag){
+                console.log("Login was sucessful")   
+            }
+            callback(flag)
+        });
+
+    }
+
+    /**
+     * Signs user up
+     * 
+     * @param {String} name
+     * @param {String} email 
+     * @param {String} password 
+     * 
+     * @returns {Boolean}
+     */
+    signUp(name, email, password, callback) {
+
+        if (this.validate(name, email, password)) {
+            return this.addUser(name, email, password, (flag) => {
+                if(flag){
+                    callback(flag);
+                    return;
+                }
+                callback(false);
+            });
+        }
+
+        callback(false);
+
+    }
+
 
     /**
      * Validates parameters 
@@ -72,18 +164,19 @@ export class Auth {
      * 
      * @returns {Boolean}
      */
-    validate(email, password){
+    validate(name, email, password) {
 
-        return false;
+        return true;
     }
 
+    
+
     testModel() {
-        let _answer = new Answer(1, 2, "", "" );   //new Answer(1, 2, "", "" );
-        return  _answer.getId();
+        let _answer = new Answer(1, 2, "", "");   //new Answer(1, 2, "", "" );
+        return _answer.getId();
     }
 }
 
 
 
 
-    

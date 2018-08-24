@@ -15,7 +15,7 @@ export class Factory {
         return new Comment();
     }
 
-    getdbC() {
+    getDbc() {
         return this.db;
     }
 
