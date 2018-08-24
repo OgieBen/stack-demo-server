@@ -141,10 +141,6 @@ var Auth = exports.Auth = function () {
                 }
                 callback(flag);
             });
-
-            // this
-            //     ._dbc
-            //     .end();
         }
 
         /**
@@ -172,10 +168,6 @@ var Auth = exports.Auth = function () {
             }
 
             callback(false);
-
-            // this
-            //     ._dbc
-            //     .end();
         }
 
         /**

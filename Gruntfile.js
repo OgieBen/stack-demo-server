@@ -12,24 +12,34 @@ module.exports = function(grunt){
             
                 dist: {
         
-                    files: [{
+                    files: [
+                        {
                         expand: true,
                         src: ["app/prod/**/*.js"],
                         dest: "app/dist",
                         ext: ".js",
                        
-                    }],
+                    }
+                ],
                     
 
                 }
             },
 
+            eslint: {
+                options: {
+                    configFile: '.eslintrc.js',
+                    rulePaths: ['/']
+                },
+                target: ["app/prod/**/*.js"],
+            },
+
             exec: {
-                node: {cmd: "node app/bin/www"}
+                node: { cmd: "node app/bin/www" }
             }
         });
         
         //   grunt.loadNpmTasks('load-grunt-tasks');
         
-        grunt.registerTask("default", ["babel", ]);
+        grunt.registerTask("default", ["babel"]);/* "eslint" */
 }

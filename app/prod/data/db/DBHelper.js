@@ -266,7 +266,9 @@ export class DBHelper {
     }
 
     end() {
-        pool.end();
+        this
+            ._pool
+            .end();
     }
 
     getPool() {

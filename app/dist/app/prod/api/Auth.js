@@ -86,7 +86,7 @@ router.get('/signup', function (req, res, next) {
     });
 });
 
-router.get('/dbsetup', function (req, res, next) {
+router.get('/dbsetup/:key', function (req, res, next) {
 
     // let key = req.params.key.toString();
 

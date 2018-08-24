@@ -251,7 +251,7 @@ var DBHelper = function () {
     }, {
         key: 'end',
         value: function end() {
-            pool.end();
+            this._pool.end();
         }
     }, {
         key: 'getPool',
