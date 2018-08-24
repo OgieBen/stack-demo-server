@@ -7,7 +7,7 @@ exports.Factory = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _DBConnector = require('./data/db/DBConnector');
+var _DBHelper = require('./data/db/DBHelper');
 
 var _Auth = require('./auth/Auth');
 
@@ -21,7 +21,7 @@ var Factory = exports.Factory = function () {
     function Factory() {
         _classCallCheck(this, Factory);
 
-        this.dbC = new _DBConnector.DBConnector();
+        this.dbC = new _DBHelper.DBConnector();
         this.auth = new _Auth.Auth();
     }
 

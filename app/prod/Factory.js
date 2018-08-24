@@ -1,5 +1,5 @@
 
-import { DBConnector } from './data/db/DBConnector';
+import { DBConnector } from './data/db/DBHelper';
 import { Auth } from './auth/Auth';
 import { Answer } from './data/model/Answer';
 import { Comment } from './data/model/QComment';
