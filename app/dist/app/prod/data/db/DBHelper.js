@@ -259,39 +259,6 @@ var DBHelper = function () {
             return this._pool;
         }
     }, {
-        key: 'fetchAllQuestions',
-        value: function fetchAllQuestions() {}
-    }, {
-        key: 'fetchQuestion',
-        value: function fetchQuestion() {}
-    }, {
-        key: 'fetchAnswers',
-        value: function fetchAnswers() {}
-    }, {
-        key: 'fetchQuestionWithHighestAnswers',
-        value: function fetchQuestionWithHighestAnswers() {}
-    }, {
-        key: 'fetchUserQuestions',
-        value: function fetchUserQuestions() {}
-    }, {
-        key: 'addCommentToAnwser',
-        value: function addCommentToAnwser() {}
-    }, {
-        key: 'addCommentToQuestion',
-        value: function addCommentToQuestion() {}
-    }, {
-        key: 'upvoteAnswer',
-        value: function upvoteAnswer() {}
-    }, {
-        key: 'downVoteAnswer',
-        value: function downVoteAnswer() {}
-    }, {
-        key: 'searchForAnswers',
-        value: function searchForAnswers() {}
-    }, {
-        key: 'deleteQuestion',
-        value: function deleteQuestion() {}
-    }, {
         key: 'tester',
         value: function tester() {
             return 'Testing DBConncter! ';

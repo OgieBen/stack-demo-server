@@ -15,6 +15,8 @@ var _Answer = require('./data/model/Answer');
 
 var _QComment = require('./data/model/QComment');
 
+var _repo = require('./data/repo');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Factory = exports.Factory = function () {
@@ -23,6 +25,7 @@ var Factory = exports.Factory = function () {
 
         this.db = new _DBHelper.DBHelper();
         this.auth = new _Auth.Auth();
+        this._repo = new _repo.Repo();
     }
 
     _createClass(Factory, [{
@@ -44,6 +47,11 @@ var Factory = exports.Factory = function () {
         key: 'getAuth',
         value: function getAuth() {
             return this.auth;
+        }
+    }, {
+        key: 'getRepo',
+        value: function getRepo() {
+            return this._repo;
         }
     }]);
 

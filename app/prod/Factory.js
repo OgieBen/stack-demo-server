@@ -3,12 +3,14 @@ import { DBHelper } from './data/db/DBHelper';
 import { Auth } from './auth/Auth';
 import { Answer } from './data/model/Answer';
 import { Comment } from './data/model/QComment';
+import { Repo } from './data/repo';
 
 export class Factory {
 
     constructor() {
         this.db = new DBHelper();
-        this.auth = new Auth();       
+        this.auth = new Auth();     
+        this._repo = new Repo();  
     }
 
     getCommentClass() {
@@ -25,6 +27,10 @@ export class Factory {
 
     getAuth() {
         return this.auth;
+    }
+
+    getRepo(){
+        return this._repo;
     }
 
 
