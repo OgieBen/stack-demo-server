@@ -276,50 +276,7 @@ export class DBHelper {
     }
 
 
-    fetchAllQuestions() {
-
-    }
-
-    fetchQuestion() {
-
-    }
-
-    fetchAnswers() {
-
-    }
-
-    fetchQuestionWithHighestAnswers() {
-
-    }
-
-    fetchUserQuestions() {
-
-    }
-
-    addCommentToAnwser() {
-
-    }
-
-    addCommentToQuestion() {
-
-    }
-
-    upvoteAnswer() {
-
-    }
-
-    downVoteAnswer() {
-
-    }
-
-    searchForAnswers() {
-
-    }
-
-    deleteQuestion() {
-
-    }
-
+    
 
 
 

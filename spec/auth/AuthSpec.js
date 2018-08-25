@@ -27,8 +27,8 @@ describe("Auth", () => {
             expect(auth.getDb).toHaveBeenCalled();
         });
 
-        xit("should return Database reference", () => {
-            expect(auth.getDb).toEqual(jasmine.any(DBHelper.DBHelper));
+        it("should return Database reference", () => {
+            expect(auth._dbc).toEqual(jasmine.any(DBHelper.DBHelper));
         });
     });
 
@@ -85,7 +85,7 @@ describe("Auth", () => {
 
     describe("validate suite", () => {
 
-        let mValidate;
+        let mValidate = new Auth.Auth();
 
         beforeEach(() => {
             auth = new Auth.Auth();
@@ -103,7 +103,7 @@ describe("Auth", () => {
 
         it("should return true for valid parameters", () => {
            
-            expect(true).toEqual(true);
+            expect(mValidate.validate("", "", "")).toEqual(true);
         })
     });
 
