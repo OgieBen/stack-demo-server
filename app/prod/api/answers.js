@@ -18,7 +18,7 @@ let router = Router();
  * 
  * @returns {JSON} Question
  */
-router.post('/anwsers', (req, res, next) => {
+router.post('/anwsers', (req, res) => {
 
 });
 
@@ -39,7 +39,7 @@ router.post('/anwsers', (req, res, next) => {
  * 
  * @return {Boolean}
  */
-router.put('/anwsers/{anwserId}', (req, res, next) => {
+router.put('/anwsers/{anwserId}', (req, res) => {
     // use flag to check if incoming request is an update 
     // if it is an update, update the answer entry
 });
