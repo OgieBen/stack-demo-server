@@ -18,7 +18,7 @@ let auth = factory.getAuth();
  * 
  * @returns JSON
  */
-router.get('/login', (req, res, next ) => {
+router.get('/login', (req, res) => {
 
     // TODO: gets user details here
     
@@ -68,7 +68,7 @@ router.get('/login', (req, res, next ) => {
  * 
  * @return JSON 
  */
-router.get('/signup', (req, res, next) => {
+router.get('/signup', (req, res) => {
 
     // TODO validate and clean user date
 
@@ -89,7 +89,7 @@ router.get('/signup', (req, res, next) => {
 
 })
 
-router.get('/dbsetup/:key', (req, res, next)=> {
+router.get('/dbsetup/:key', (req, res)=> {
 
     // let key = req.params.key.toString();
 
