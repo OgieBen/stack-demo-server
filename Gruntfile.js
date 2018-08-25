@@ -1,45 +1,55 @@
 // let grunt = require("load-grunt-tasks"); //(grunt); 
-module.exports = function(grunt){
+module.exports = function (grunt) {
 
     require("load-grunt-tasks")(grunt);
 
-        grunt.initConfig({
-            babel: {
-                options: {
-                    sourceMap: true,
-                    presets: ['env'],
-                },
-            
-                dist: {
-        
-                    files: [
-                        {
+    grunt.initConfig({
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['env'],
+            },
+
+            dist: {
+
+                files: [
+                    {
                         expand: true,
                         src: ["app/prod/**/*.js"],
                         dest: "app/dist",
                         ext: ".js",
-                       
+
                     }
                 ],
-                    
 
-                }
-            },
 
-            eslint: {
-                options: {
-                    configFile: '.eslintrc.js',
-                    rulePaths: ['/']
-                },
-                target: ["app/prod/**/*.js"],
-            },
-
-            exec: {
-                node: { cmd: "node app/bin/www" }
             }
-        });
-        
-        //   grunt.loadNpmTasks('load-grunt-tasks');
-        
-        grunt.registerTask("default", ["babel"]);/* "eslint" */
+        },
+
+        jasmine: {
+            src: 'app/dist/**/*.js',
+            options: {
+                specs: 'spec/**/*.js',
+                helpers: 'spec/*Helper.js'
+            }
+        },
+
+        eslint: {
+            options: {
+                configFile: '.eslintrc.js',
+                rulePaths: ['/']
+            },
+            target: ["app/prod/**/*.js"],
+        },
+
+        exec: {
+            node: { cmd: "node app/bin/www" }
+        }
+    });
+
+    //   grunt.loadNpmTasks('load-grunt-tasks');
+
+
+    grunt.registerTask("test", ["jasmine"]);
+    grunt.registerTask("default", ["babel"]);/* "eslint" */
 }

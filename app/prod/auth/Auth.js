@@ -1,6 +1,6 @@
 
 import { Answer } from '../data/model/Answer';
-import { Factory } from '../Factory';
+// import { Factory } from '../Factory';
 import { DBHelper } from '../data/db/DBHelper';
 
 
@@ -34,7 +34,7 @@ export class Auth {
      * @returns {Boolean}
      */
     authenticate(email, password, callback) {
-        let flag = false;
+        // let flag = false;
         const fetchUserQuery = {
             name: 'fetch-user',
             text: 'SELECT * FROM users WHERE email = $1 AND  password = $2 ',
@@ -82,7 +82,7 @@ export class Auth {
      * @returns {Boolean}
      */
     addUser(name, email, password, callback) {
-        let flag = false;
+        // let flag = false;
 
         const addUserQuery = {
             name: 'add-user',
