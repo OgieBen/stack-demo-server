@@ -85,7 +85,10 @@ describe("Auth", () => {
 
     describe("validate suite", () => {
 
+        let mValidate;
+
         beforeEach(() => {
+            auth = new Auth.Auth();
             spyOn(auth, "validate");
             auth.validate("", "", "");
         });
@@ -97,7 +100,32 @@ describe("Auth", () => {
         it("should take String, String, String as arguments", () => {
             expect(auth.validate).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(String), jasmine.any(String));
         });
+
+        it("should return true for valid parameters", () => {
+           
+            expect(true).toEqual(true);
+        })
     });
+
+
+    describe("addUser suite", () => {
+       
+        beforeEach(() => {
+            spyOn(auth, "addUser");
+
+            auth.addUser("", "", "", () => {
+
+            });
+        });
+
+        it("should call addUser", () => {
+            expect(auth.addUser).toHaveBeenCalled();
+        });
+
+        it("should have been called with: String, String, String, Function", () => {
+            expect(auth.addUser).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(String), jasmine.any(String),jasmine.any(Function));
+        })
+    })
 
 
 

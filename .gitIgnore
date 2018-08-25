@@ -8,3 +8,10 @@ slate
 .env
 
 app.js
+
+#jasmine
+lib
+spec/helpers/jasmine_examples
+spec/jasmine_examples
+
+_SpaceRunner.html
