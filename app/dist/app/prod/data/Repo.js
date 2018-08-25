@@ -100,7 +100,22 @@ var Repo = exports.Repo = function () {
         }
     }, {
         key: 'fetchAnswers',
-        value: function fetchAnswers() {}
+        value: function fetchAnswers(questionId, callback) {
+            var query = {
+                name: 'fetch-answers',
+                text: 'SELECT * from answers where question_id = $1',
+                values: [questionId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+
+                callback(res.rows);
+            });
+        }
     }, {
         key: 'fetchQuestionWithHighestAnswers',
         value: function fetchQuestionWithHighestAnswers() {}

@@ -1,4 +1,4 @@
-import  { Router } from 'express';
+import { Router } from 'express';
 import { Factory } from '../Factory';
 
 let router = Router();
@@ -18,44 +18,26 @@ let auth = factory.getAuth();
  * 
  * @returns JSON
  */
-router.get('/login', (req, res) => {
+router.post('/login', (req, res) => {
 
-    // TODO: gets user details here
-    
+    let email = req.body.email.toString();
+    let name = req.body.name.toString();
 
-        /* factory
-            .getDbc()
-            .query( 'SELECT NOW()',
-                (err, _result) => {
-                    if(err){
-                        console.log("\nDb Error: " + err.stack);
-                        return false;
-                    }
-                 
-                     _result
-                        .rows
-                        .forEach((obj) => {
-                            console.log(obj);
-                        }) 
-                    console.log("\nResult Lenght "+_result.rows.length);
-                }); */
+    auth.login(email, name, (flag) => {
+        if (flag) {
+            res.json({
+                msg: true,
+            });
+            return;
+        }
+        if (flag === 'undefined' || flag == false) {
+            res.json({
+                msg: false,
+            });
+        }
 
-    auth.login('bensoft2k5@gmail.com', 'admi', (flag) => {
-
-                if(flag){
-                    res.json({
-                        msg: true,
-                    });
-                 return;
-                }
-                if(flag === 'undefined' || flag == false){
-                    res.json({
-                        msg: false,
-                    });
-                }
-           
     });
-    
+
 });
 
 /**
@@ -68,19 +50,22 @@ router.get('/login', (req, res) => {
  * 
  * @return JSON 
  */
-router.get('/signup', (req, res) => {
+router.post('/signup', (req, res) => {
 
     // TODO validate and clean user date
 
-    let flag = false;
+    let name = req.body.name.toString();
+    let email = req.body.email.toString();
+    let password = req.body.password.toString();
+
     auth
-        .signUp("ogie Ben", 'bensoft2k5@gmail.com', 'admin', (flag) => {    
-            if(flag){
-                    res.json({
-                        msg: true,
-                    })
-                    return;
-                }
+        .signUp(name, email, password, (flag) => {
+            if (flag) {
+                res.json({
+                    msg: true,
+                })
+                return;
+            }
 
             res.json({
                 msg: false,
@@ -89,28 +74,28 @@ router.get('/signup', (req, res) => {
 
 })
 
-router.get('/dbsetup/:key', (req, res)=> {
+router.get('/dbsetup/:key', (req, res) => {
 
     // let key = req.params.key.toString();
 
     // if (key ===  "123"){
-       
-        // set up db
-        let result =  factory 
-                        .getDbc()
-                        .setUpDb();
 
-        if (result){
-            res.json({
-                msg: true,
-            });
-        }
+    // set up db
+    let result = factory
+        .getDbc()
+        .setUpDb();
 
+    if (result) {
         res.json({
-            msg: false,
+            msg: true,
         });
-        
-        
+    }
+
+    res.json({
+        msg: false,
+    });
+
+
     // }
 })
 

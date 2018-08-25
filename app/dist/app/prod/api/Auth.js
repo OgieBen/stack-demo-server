@@ -19,7 +19,7 @@ var auth = factory.getAuth();
  * 
  * @returns JSON
  */
-router.get('/login', function (req, res, next) {
+router.post('/login', function (req, res) {
 
     // TODO: gets user details here
 
@@ -67,7 +67,7 @@ router.get('/login', function (req, res, next) {
  * 
  * @return JSON 
  */
-router.get('/signup', function (req, res, next) {
+router.post('/signup', function (req, res) {
 
     // TODO validate and clean user date
 
@@ -86,7 +86,7 @@ router.get('/signup', function (req, res, next) {
     });
 });
 
-router.get('/dbsetup/:key', function (req, res, next) {
+router.get('/dbsetup/:key', function (req, res) {
 
     // let key = req.params.key.toString();
 

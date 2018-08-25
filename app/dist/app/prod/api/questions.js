@@ -99,7 +99,7 @@ router.post('/', function (req, res) {
  * 
  * @method DELETE
  */
-router.get('/delete/:id', function (req, res) {
+router.delete('/:id', function (req, res) {
 
     var questionId = parseInt(req.params.id);
 
@@ -114,6 +114,58 @@ router.get('/delete/:id', function (req, res) {
             msg: false
         });
     });
+});
+
+/**
+ * Post an answer to a question
+ * 
+ * @method POST
+ * @param {Integer} id
+ * 
+ * @returns {JSON} Question
+ */
+router.get('/:questionId/answers', function (req, res) {
+
+    var questionId = parseInt(req.params.questionId);
+
+    repo.fetchAnswers(questionId, function (result) {
+        if (result) {
+
+            console.log(result);
+            res.json({
+                msg: true,
+                data: result
+            });
+            return;
+        }
+        res.json({
+            msg: false
+        });
+    });
+});
+
+/**
+ * 
+ * Mark an answer as
+ * accepted or
+ * update an answer.
+ * 
+ * This endpoint should be available to
+ * only the answer author and question
+ * author. The answer author calls the
+ * route to update answer while the
+ * question author calls the route to
+ * accept answer.
+ * 
+ * @method PUT
+ * 
+ * @return {Boolean}
+ */
+router.post('/:questionId/anwsers/:anwserId', function (req, res) {
+    // use flag to check if incoming request is an update 
+    // if it is an update, update the answer entry
+
+
 });
 
 module.exports = router;

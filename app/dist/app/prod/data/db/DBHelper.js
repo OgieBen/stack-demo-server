@@ -151,7 +151,7 @@ var DBHelper = function () {
             };var createAnswerTable = {
                 name: 'create-answers-table',
                 text: 'CREATE TABLE answers (' + 'id SERIAL NOT NULL primary key,' + 'question_id int NOT NULL references questions(id),' // 
-                + 'content varchar(5000) NOT NULL,' + 'user_id int NOT NULL references users(id),' + 'timestamp timestamp' + ') ;' + ''
+                + 'content varchar(5000) NOT NULL,' + 'up_vote int DEFAULT 0,' + 'down_vote int DEFAULT 0,' + 'user_id int NOT NULL references users(id),' + 'timestamp timestamp' + ') ;' + ''
                 // value: [] 
             };
 

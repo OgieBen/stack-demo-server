@@ -18,7 +18,7 @@ var router = (0, _express.Router)();
  * 
  * @returns {JSON} Question
  */
-router.post('/anwsers', function (req, res, next) {});
+router.post('/anwsers', function (req, res) {});
 
 /**
  * 
@@ -37,7 +37,7 @@ router.post('/anwsers', function (req, res, next) {});
  * 
  * @return {Boolean}
  */
-router.put('/anwsers/{anwserId}', function (req, res, next) {
+router.put('/anwsers/:anwserId', function (req, res) {
   // use flag to check if incoming request is an update 
   // if it is an update, update the answer entry
 });

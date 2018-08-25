@@ -39,7 +39,7 @@ router.post('/anwsers', (req, res) => {
  * 
  * @return {Boolean}
  */
-router.put('/anwsers/{anwserId}', (req, res) => {
+router.put('/anwsers/:anwserId', (req, res) => {
     // use flag to check if incoming request is an update 
     // if it is an update, update the answer entry
 });
