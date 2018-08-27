@@ -3,4 +3,4 @@ node_js:
   - "node"
 before_script:
   - npm i npm@latest -g && npm install
-script: npm start
+script: grunt && npm test

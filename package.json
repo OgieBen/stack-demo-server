@@ -4,6 +4,7 @@
   "description": "A very simple app that has simple slack features",
   "main": "index.js",
   "scripts": {
+    "check": "grunt && npm test",
     "start": "grunt && npm test && cd app && npm install  && cd .. && node app/bin/www",
     "test": "node node_modules/jasmine/bin/jasmine spec/**/*[sS]pec.js"
   },
