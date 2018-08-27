@@ -3,7 +3,7 @@ import { DBHelper } from './data/db/DBHelper';
 import { Auth } from './auth/Auth';
 import { Answer } from './data/model/Answer';
 import { Comment } from './data/model/QComment';
-import { Repo } from './data/repo';
+import { Repo } from './data/Repo';
 
 export class Factory {
 
