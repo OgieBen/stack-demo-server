@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { Factory } from '../Factory';
+import path from 'path';
+import axios from 'axios';
 
 let router = Router();
 
@@ -71,7 +73,7 @@ router.get('/:questionId', (req, res) => {
 });
 
 /**
- * Adds a question the platform
+ * Adds a question on  the platform
  * 
  * @method POST
  */
@@ -100,9 +102,10 @@ router.post('/', (req, res) => {
  * @method DELETE
  */
 router.delete('/:questionId', (req, res) => {
-    
-    let questionId = parseInt(req.params.questionId);
-    
+
+    // let questionId = parseInt(req.params.questionId);
+    let questionId = parseInt(req.body.questionId);
+
     repo
         .deleteQuestion(questionId, (status) => {
             if (status) {
@@ -130,10 +133,10 @@ router.post('/:questionId/answers', (req, res) => {
 
     let questionId = parseInt(req.body.questionId);
     let content = req.body.answer.toString();
-    let userId = parseInt(res.body.userId);
-    
+    let userId = parseInt(req.body.userId);
+
     repo
-        .addAnswer(questionId, content,  userId, (result) => {
+        .addAnswer(questionId, content, userId, (result) => {
             if (result) {
 
                 console.log(result);
@@ -165,51 +168,78 @@ router.post('/:questionId/answers', (req, res) => {
  * 
  * @return {Boolean}
  */
-router.put('/:questionId/anwsers/:anwserId', (req, res) => {
+router.put('/:questionId/answers/:anwserId/', (req, res) => {
     // use flag to check if incoming request is an update 
     // if it is an update, update the answer entry
 
     let questionId = parseInt(req.body.questionId);
-    let answerId = parseInt(req.body.anwserId);
-    let accept = req.body.resolve;
+    let answerId = parseInt(req.body.answerId);
+    let accept = req.body.accept;
     let userId = parseInt(req.body.userId);
 
     // if accept is true
     // and user id is of owner
     // mark answer as accepted
-    if(accept){
+    if (accept) {
         repo
-            .isUserAnwersOwner(userId, answerId, (status) => {
-                    if(status){
-                        // accept awnser;
-                        repo.setAcceptedAnswer(questionId, answerId, (status) => {
-                            if(status){
-                                console.log('Answer was successful updated');
-                                res.json({
-                                    msg: true,
-                                });
-                            }
+            .isUserAnswerOwner(userId, answerId, (status) => {
+                // if user is owner
+                if (status) {
+                    // accept answer;
+                    repo.setAcceptedAnswer(questionId, answerId, (status) => {
+                        if (status) {
+                            // console.log('Answer was successfully updated');
+                            console.log('Preferred Answer was set');
+
+                            res.json({
+                                msg: true,
+                            });
+
+                            return;
+                        }
+
+                        res.json({
+                            msg: false,
                         });
-                    }
+                    });
+                }
             });
+        return;
+    }
 
+    let updatedAnswer = req.body.answer;
+    repo.updateAnswer(answerId, updatedAnswer, (status) => {
+
+        if(status){
+            console.log('Update was successful');
+            res.json({
+                msg: true,
+            });
+            return;
         }
-        
-        let content = req.body.answer;
-        repo.updateAnswer(answerId, content, ()=>{
 
+        console.log('Update was not successful');
+        res.json({
+            msg: false,
         });
+        
+    });
 
-
-
-    // if user is owner
-
-    
 
 
 
 
 });
+
+
+router.get('/home/form', (req, res) => {
+
+    let homePath = path.resolve(path.join(__dirname, '../../../../'));
+    let absolutePath = path.normalize(homePath + "/public/html/index.html");
+
+
+    res.sendFile(absolutePath);
+})
 
 
 

@@ -1,6 +1,6 @@
-import pg, { Pool, Client } from 'pg';
+import { Pool } from 'pg';
 import { User } from '../model/User';
-import config from 'dotenv'
+
 
 
 
@@ -84,8 +84,8 @@ export class DBHelper {
      * @returns {Boolean}
      */
     addUser(user) {
-        if (!user instanceof User) {
-            return false;
+        if (user instanceof User) {
+            return true;
         }
         return false;
     }

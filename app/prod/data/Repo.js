@@ -119,7 +119,7 @@ export class Repo {
 
     fetchAnswers(questionId, callback) {
         const query = {
-            name: 'fetch-answers',
+            name: 'fetch-answer',
             text: 'SELECT * from answers where question_id = $1',
             values: [questionId],
         }
@@ -136,16 +136,58 @@ export class Repo {
             });
     }
 
-    isUserAnwersOwner(userId, answerId, callback){
-
+    isUserAnswerOwner(userId, answerId, callback){
+        
+        const query = {
+            name: 'fetch-answer',
+            text: 'SELECT * from answers where id = $1',
+            values: [answerId],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+                if(res.rows.length === 1){
+                    if (res.rows[0].user_id == userId){
+                        callback(true);
+                        return;
+                    }
+                }
+                callback(false);
+            });
     }
 
     setAcceptedAnswer(questionId, answerId, callback){
        
         const query = {
             name: 'set-questions-answer',
-            text: '',
-            values: [questionId, answerId],
+            text: 'UPDATE questions SET accepted_answer_id= $1 WHERE id = $2',
+            values: [answerId, questionId],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Update was not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+    }
+
+    updateAnswer(answerId, content, callback){
+        const query = {
+            name: 'set-questions-answer',
+            text: 'UPDATE answers SET content = $1 WHERE id = $2',
+            values: [content, answerId],
         }
         this
             ._db
@@ -160,10 +202,6 @@ export class Repo {
                 // true means query ran right;
                 callback(true);
             });
-    }
-
-    updateAnswer(answerId, callback){
-
     }
 
     fetchQuestionWithHighestAnswers() {

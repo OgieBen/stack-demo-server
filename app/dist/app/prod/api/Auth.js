@@ -4,6 +4,7 @@ var _express = require('express');
 
 var _Factory = require('../Factory');
 
+// config();
 var router = (0, _express.Router)();
 
 var factory = new _Factory.Factory();
@@ -21,28 +22,10 @@ var auth = factory.getAuth();
  */
 router.post('/login', function (req, res) {
 
-    // TODO: gets user details here
+    var email = req.body.email.toString();
+    var name = req.body.name.toString();
 
-
-    /* factory
-        .getDbc()
-        .query( 'SELECT NOW()',
-            (err, _result) => {
-                if(err){
-                    console.log("\nDb Error: " + err.stack);
-                    return false;
-                }
-             
-                 _result
-                    .rows
-                    .forEach((obj) => {
-                        console.log(obj);
-                    }) 
-                console.log("\nResult Lenght "+_result.rows.length);
-            }); */
-
-    auth.login('bensoft2k5@gmail.com', 'admi', function (flag) {
-
+    auth.login(email, name, function (flag) {
         if (flag) {
             res.json({
                 msg: true
@@ -71,8 +54,13 @@ router.post('/signup', function (req, res) {
 
     // TODO validate and clean user date
 
-    var flag = false;
-    auth.signUp("ogie Ben", 'bensoft2k5@gmail.com', 'admin', function (flag) {
+    var name = req.body.name.toString();
+    var email = req.body.email.toString();
+    var password = req.body.password.toString();
+
+    console.log('parameters: ' + (name, email, password));
+
+    auth.signUp(name, email, password, function (flag) {
         if (flag) {
             res.json({
                 msg: true

@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import { Factory } from '../Factory';
 
+
+// config();
 let router = Router();
 
 
 let factory = new Factory();
 let auth = factory.getAuth();
+
 
 
 /**
@@ -58,6 +61,8 @@ router.post('/signup', (req, res) => {
     let email = req.body.email.toString();
     let password = req.body.password.toString();
 
+    console.log(`parameters: ${name, email, password}`);
+
     auth
         .signUp(name, email, password, (flag) => {
             if (flag) {
@@ -98,5 +103,8 @@ router.get('/dbsetup/:key', (req, res) => {
 
     // }
 })
+
+
+
 
 module.exports = router;

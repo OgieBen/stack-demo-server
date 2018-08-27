@@ -9,15 +9,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _pg = require('pg');
 
-var _pg2 = _interopRequireDefault(_pg);
-
 var _User = require('../model/User');
-
-var _dotenv = require('dotenv');
-
-var _dotenv2 = _interopRequireDefault(_dotenv);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -105,8 +97,8 @@ var DBHelper = function () {
     }, {
         key: 'addUser',
         value: function addUser(user) {
-            if (!user instanceof _User.User) {
-                return false;
+            if (user instanceof _User.User) {
+                return true;
             }
             return false;
         }

@@ -4,6 +4,16 @@ var _express = require('express');
 
 var _Factory = require('../Factory');
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var router = (0, _express.Router)();
 
 var factory = new _Factory.Factory();
@@ -47,9 +57,9 @@ router.get('/', function (req, res) {
  * 
  * @returns {JSON} Question
  */
-router.get('/:id', function (req, res) {
+router.get('/:questionId', function (req, res) {
 
-    var questionId = parseInt(req.params.id);
+    var questionId = parseInt(req.params.questionId);
 
     repo.fetchQuestion(questionId, function (result) {
         if (result) {
@@ -72,14 +82,14 @@ router.get('/:id', function (req, res) {
 });
 
 /**
- * Adds a question the platform
+ * Adds a question on  the platform
  * 
  * @method POST
  */
 router.post('/', function (req, res) {
 
-    var content = req.params.content;
-    var userId = req.params.id;
+    var content = req.body.question;
+    var userId = req.body.userId;
 
     repo.addQuestion(content, userId, function (status) {
         if (status) {
@@ -99,9 +109,10 @@ router.post('/', function (req, res) {
  * 
  * @method DELETE
  */
-router.delete('/:id', function (req, res) {
+router.delete('/:questionId', function (req, res) {
 
-    var questionId = parseInt(req.params.id);
+    // let questionId = parseInt(req.params.questionId);
+    var questionId = parseInt(req.body.questionId);
 
     repo.deleteQuestion(questionId, function (status) {
         if (status) {
@@ -124,17 +135,18 @@ router.delete('/:id', function (req, res) {
  * 
  * @returns {JSON} Question
  */
-router.get('/:questionId/answers', function (req, res) {
+router.post('/:questionId/answers', function (req, res) {
 
-    var questionId = parseInt(req.params.questionId);
+    var questionId = parseInt(req.body.questionId);
+    var content = req.body.answer.toString();
+    var userId = parseInt(req.body.userId);
 
-    repo.fetchAnswers(questionId, function (result) {
+    repo.addAnswer(questionId, content, userId, function (result) {
         if (result) {
 
             console.log(result);
             res.json({
-                msg: true,
-                data: result
+                msg: true
             });
             return;
         }
@@ -161,11 +173,68 @@ router.get('/:questionId/answers', function (req, res) {
  * 
  * @return {Boolean}
  */
-router.post('/:questionId/anwsers/:anwserId', function (req, res) {
+router.put('/:questionId/answers/:anwserId/', function (req, res) {
     // use flag to check if incoming request is an update 
     // if it is an update, update the answer entry
 
+    var questionId = parseInt(req.body.questionId);
+    var answerId = parseInt(req.body.answerId);
+    var accept = req.body.accept;
+    var userId = parseInt(req.body.userId);
 
+    // if accept is true
+    // and user id is of owner
+    // mark answer as accepted
+    if (accept) {
+        repo.isUserAnswerOwner(userId, answerId, function (status) {
+            // if user is owner
+            if (status) {
+                // accept answer;
+                repo.setAcceptedAnswer(questionId, answerId, function (status) {
+                    if (status) {
+                        // console.log('Answer was successfully updated');
+                        console.log('Preferred Answer was set');
+
+                        res.json({
+                            msg: true
+                        });
+
+                        return;
+                    }
+
+                    res.json({
+                        msg: false
+                    });
+                });
+            }
+        });
+        return;
+    }
+
+    var updatedAnswer = req.body.answer;
+    repo.updateAnswer(answerId, updatedAnswer, function (status) {
+
+        if (status) {
+            console.log('Update was successful');
+            res.json({
+                msg: true
+            });
+            return;
+        }
+
+        console.log('Update was not successful');
+        res.json({
+            msg: false
+        });
+    });
+});
+
+router.get('/home/form', function (req, res) {
+
+    var homePath = _path2.default.resolve(_path2.default.join(__dirname, '../../../../'));
+    var absolutePath = _path2.default.normalize(homePath + "/public/html/index.html");
+
+    res.sendFile(absolutePath);
 });
 
 module.exports = router;

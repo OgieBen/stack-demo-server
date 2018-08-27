@@ -19,6 +19,27 @@ var Repo = exports.Repo = function () {
     }
 
     _createClass(Repo, [{
+        key: 'addAnswer',
+        value: function addAnswer(questionId, content, userId, callback) {
+
+            var query = {
+                name: 'fetch-answers',
+                text: 'INSERT INTO answers(question_id, content, user_id) VALUES($1, $2, $3);',
+                values: [questionId, content, userId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error adding question : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+        }
+    }, {
         key: 'addQuestion',
         value: function addQuestion(content, userId, callback) {
 
@@ -102,7 +123,7 @@ var Repo = exports.Repo = function () {
         key: 'fetchAnswers',
         value: function fetchAnswers(questionId, callback) {
             var query = {
-                name: 'fetch-answers',
+                name: 'fetch-answer',
                 text: 'SELECT * from answers where question_id = $1',
                 values: [questionId]
             };
@@ -114,6 +135,71 @@ var Repo = exports.Repo = function () {
                 }
 
                 callback(res.rows);
+            });
+        }
+    }, {
+        key: 'isUserAnswerOwner',
+        value: function isUserAnswerOwner(userId, answerId, callback) {
+
+            var query = {
+                name: 'fetch-answer',
+                text: 'SELECT * from answers where id = $1',
+                values: [answerId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+                if (res.rows.length === 1) {
+                    if (res.rows[0].user_id == userId) {
+                        callback(true);
+                        return;
+                    }
+                }
+                callback(false);
+            });
+        }
+    }, {
+        key: 'setAcceptedAnswer',
+        value: function setAcceptedAnswer(questionId, answerId, callback) {
+
+            var query = {
+                name: 'set-questions-answer',
+                text: 'UPDATE questions SET accepted_answer_id= $1 WHERE id = $2',
+                values: [answerId, questionId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Update was not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+        }
+    }, {
+        key: 'updateAnswer',
+        value: function updateAnswer(answerId, content, callback) {
+            var query = {
+                name: 'set-questions-answer',
+                text: 'UPDATE answers SET content = $1 WHERE id = $2',
+                values: [content, answerId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Update was succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
             });
         }
     }, {
