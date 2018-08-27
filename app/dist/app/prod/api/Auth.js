@@ -97,4 +97,4 @@ router.get('/dbsetup/:key', function (req, res) {
 });
 
 module.exports = router;
-//# sourceMappingURL=auth.js.map
+//# sourceMappingURL=Auth.js.map

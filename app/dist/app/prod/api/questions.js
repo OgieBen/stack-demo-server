@@ -229,13 +229,17 @@ router.put('/:questionId/answers/:anwserId/', function (req, res) {
     });
 });
 
-router.get('/home/form', function (req, res) {
+/**
+ * simple test route
+ */
+/* router.get('/home/form', (req, res) => {
 
-    var homePath = _path2.default.resolve(_path2.default.join(__dirname, '../../../../'));
-    var absolutePath = _path2.default.normalize(homePath + "/public/html/index.html");
+    let homePath = path.resolve(path.join(__dirname, '../../../../'));
+    let absolutePath = path.normalize(homePath + "/public/html/index.html");
+
 
     res.sendFile(absolutePath);
-});
+}); */
 
 module.exports = router;
 //# sourceMappingURL=questions.js.map
