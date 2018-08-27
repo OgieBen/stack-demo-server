@@ -4,12 +4,13 @@
   "description": "A very simple app that has simple slack features",
   "main": "index.js",
   "scripts": {
-    "start": "grunt && npm test && node app/bin/www",
+    "start": "grunt && npm test && cd app && npm install && cd .. && node app/bin/www",
     "test": "node node_modules/jasmine/bin/jasmine spec/**/*[sS]pec.js"
   },
   "author": "Ogie Ben",
   "license": "MIT",
   "dependencies": {
+    "app": "file:app",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
