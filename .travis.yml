@@ -4,6 +4,3 @@ node_js:
 before_script:
   - npm install
 script: npm start
-cache:
-  directories:
-    - "node_modules"
