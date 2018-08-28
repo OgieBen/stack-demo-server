@@ -204,31 +204,131 @@ var Repo = exports.Repo = function () {
         }
     }, {
         key: 'fetchQuestionWithHighestAnswers',
-        value: function fetchQuestionWithHighestAnswers() {}
+        value: function fetchQuestionWithHighestAnswers(callback) {
+            var query = {
+                name: 'fetch-top-questions',
+                text: 'SELECT * from questions ORDER BY total_answers DESC '
+                // values: [],
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+
+                callback(res.rows.length);
+            });
+        }
     }, {
-        key: 'fetchUserQuestions',
-        value: function fetchUserQuestions() {}
+        key: 'fetchAllUserQuestions',
+        value: function fetchAllUserQuestions(userId, callback) {
+            var query = {
+                name: 'fetch-all-user-questions',
+                text: 'SELECT * from questions where user_id = $1',
+                values: [userId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+
+                callback(res.rows);
+            });
+        }
     }, {
         key: 'addCommentToAnwser',
-        value: function addCommentToAnwser() {}
-    }, {
-        key: 'addCommentToQuestion',
-        value: function addCommentToQuestion() {}
+        value: function addCommentToAnwser(answerId, content, userId, callback) {
+            var query = {
+                name: 'add-answer-comment',
+                text: 'INSERT INTO a_comments(answer_id, content, user_id) VALUES($1, $2, $3);',
+                values: [answerId, content, userId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error adding comment : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+        }
 
         /* upvote and downvotes */
 
     }, {
         key: 'upvoteAnswer',
-        value: function upvoteAnswer() {}
+        value: function upvoteAnswer(answerId, callback) {
+            var query = {
+                name: 'update-questions-upvote',
+                text: 'UPDATE answers SET up_vote = ((SELECT up_vote from answers where id = $1) + 1) WHERE id = $1;',
+                values: [answerId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Upvote was not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+        }
     }, {
         key: 'downVoteAnswer',
-        value: function downVoteAnswer() {}
+        value: function downVoteAnswer(answerId, callback) {
+
+            var query = {
+                name: 'update-answers-downvote',
+                text: 'UPDATE answers SET up_vote = ((SELECT up_vote from answers where id = $1) - 1) WHERE id = $1;',
+                values: [answerId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Downvote was not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+        }
 
         /* search */
 
     }, {
         key: 'searchForAnswers',
-        value: function searchForAnswers() {}
+        value: function searchForAnswers(questionString) {
+            var query = {
+                name: 'search-questions',
+                text: 'SELECT * from questions LIKE $1',
+                values: [questionString]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+
+                callback(res.rows);
+            });
+        }
+    }, {
+        key: 'updateAnswerTotalCount',
+        value: function updateAnswerTotalCount() {}
+    }, {
+        key: 'addCommentToQuestion',
+        value: function addCommentToQuestion() {}
     }]);
 
     return Repo;

@@ -204,15 +204,136 @@ export class Repo {
             });
     }
 
-    fetchQuestionWithHighestAnswers() {
+    fetchQuestionWithHighestAnswers(callback) {
+        const query = {
+            name: 'fetch-top-questions',
+            text: 'SELECT * from questions ORDER BY total_answers DESC ',
+            // values: [],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+
+                callback(res.rows.length);
+            });
+    }
+
+    fetchAllUserQuestions(userId, callback) {
+        const query = {
+            name: 'fetch-all-user-questions',
+            text: 'SELECT * from questions where user_id = $1',
+            values: [userId],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
+
+                callback(res.rows);
+            });
+    }
+
+    addCommentToAnwser(answerId, content, userId, callback) {
+        const query = {
+            name: 'add-answer-comment',
+            text: 'INSERT INTO a_comments(answer_id, content, user_id) VALUES($1, $2, $3);',
+            values: [answerId, content, userId],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Error adding comment : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+    }
+
+    
+
+
+    /* upvote and downvotes */
+    upvoteAnswer(answerId, callback) {
+        const query = {
+            name: 'update-questions-upvote',
+            text: 'UPDATE answers SET up_vote = ((SELECT up_vote from answers where id = $1) + 1) WHERE id = $1;',
+            values: [answerId],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Upvote was not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+
+            
+    }
+
+    downVoteAnswer(answerId, callback) {
+
+        const query = {
+            name: 'update-answers-downvote',
+            text: 'UPDATE answers SET up_vote = ((SELECT up_vote from answers where id = $1) - 1) WHERE id = $1;',
+            values: [answerId],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Downvote was not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
 
     }
 
-    fetchUserQuestions() {
+    /* search */
+    searchForAnswers(questionString) {
+        const query = {
+            name: 'search-questions',
+            text: 'SELECT * from questions LIKE $1',
+            values: [questionString],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if(err){
+                    callback(false);
+                    console.log("Error fetching question");
+                    return;
+                }
 
+                callback(res.rows);
+            });
     }
 
-    addCommentToAnwser() {
+    updateAnswerTotalCount(){
 
     }
 
@@ -221,19 +342,6 @@ export class Repo {
     }
 
 
-    /* upvote and downvotes */
-    upvoteAnswer() {
-
-    }
-
-    downVoteAnswer() {
-
-    }
-
-    /* search */
-    searchForAnswers() {
-
-    }
 
     
 

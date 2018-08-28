@@ -127,7 +127,7 @@ var DBHelper = function () {
             };var createQuestionQuery = {
                 name: 'create-questions-table',
                 text: 'CREATE TABLE questions (' + 'id SERIAL NOT NULL primary key,' + 'accepted_answer_id int,' // 
-                + 'content varchar(5000) NOT NULL,' + 'user_id int NOT NULL references users(id),' + 'timestamp timestamp' + ');' + ''
+                + 'content varchar(5000) NOT NULL,' + 'user_id int NOT NULL references users(id),' + 'total_answers int DEFAULT 0,' + 'timestamp timestamp' + ');' + ''
                 // value: [] 
             };
 
@@ -149,8 +149,8 @@ var DBHelper = function () {
 
             var createAnswersCommentTable = {
                 name: 'create-acomments-table',
-                text: 'CREATE TABLE a_comments (' + 'id SERIAL NOT NULL primary key,' + 'answer_id int references answers(id),' // 
-                + 'content varchar(5000),' + 'user_id int references users(id),' + 'timestamp timestamp' + ');' + ''
+                text: 'CREATE TABLE a_comments (' + 'id SERIAL NOT NULL primary key,' + 'answer_id int NOT NULL references answers(id),' // 
+                + 'content varchar(5000),' + 'user_id int NOT NULL references users(id),' + 'timestamp timestamp' + ');' + ''
             };
 
             var pool = this.getPool();

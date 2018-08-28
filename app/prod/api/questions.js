@@ -38,6 +38,38 @@ router.get('/', (req, res) => {
     });
 });
 
+
+/**
+ * Fetches all questions that a particular user has asked on the platform
+ * @method GET
+ * 
+ * @param {Integer} userId
+ * 
+ * @returns {JSON} List
+ */
+router.get('/all/:userId', (req, res) => {
+
+    let userId = parseInt(req.params.userId);
+
+    repo.fetchAllUserQuestions(userId, (result) => {
+        if (result) {
+            console.log({
+                data: result
+            });
+
+            res.json({
+                msg: true,
+                data: result,
+            });
+            return;
+        }
+
+        res.json({
+            msg: false,
+        });
+    });
+});
+
 /**
  * Fetch a specific question
  * This should come with all the answers
@@ -120,6 +152,39 @@ router.delete('/:questionId', (req, res) => {
         });
 });
 
+
+/**
+ * Adds comment to questions being asked
+ * 
+ * @method POST
+ * @param {Integer} questionId
+ * @param {Integer} answerId
+ * 
+ * 
+ * @returns {Boolean} 
+ */
+router.post('/:questionId/answers/:answerId/comments', (req, res) => {
+
+    
+    let answerId = parseInt(req.body.answerId);
+    let content = req.body.comment.toString();
+    let userId = parseInt(req.body.userId);
+
+    repo
+        .addCommentToAnwser(answerId, content, userId, (result) => {
+            if (result) {
+
+                console.log(result);
+                res.json({
+                    msg: true,
+                });
+                return;
+            }
+            res.json({
+                msg: false,
+            })
+        });
+});
 
 /**
  * Post an answer to a question
@@ -236,14 +301,14 @@ router.put('/:questionId/answers/:anwserId/', (req, res) => {
 /**
  * simple test route
  */
-/* router.get('/home/form', (req, res) => {
+router.get('/home/form', (req, res) => {
 
     let homePath = path.resolve(path.join(__dirname, '../../../../'));
     let absolutePath = path.normalize(homePath + "/public/html/index.html");
 
 
     res.sendFile(absolutePath);
-}); */
+});
 
 
 

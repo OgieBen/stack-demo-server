@@ -48,6 +48,37 @@ router.get('/', function (req, res) {
 });
 
 /**
+ * Fetches all questions that a particular user has asked on the platform
+ * @method GET
+ * 
+ * @param {Integer} userId
+ * 
+ * @returns {JSON} List
+ */
+router.get('/all/:userId', function (req, res) {
+
+    var userId = parseInt(req.params.userId);
+
+    repo.fetchAllUserQuestions(userId, function (result) {
+        if (result) {
+            console.log({
+                data: result
+            });
+
+            res.json({
+                msg: true,
+                data: result
+            });
+            return;
+        }
+
+        res.json({
+            msg: false
+        });
+    });
+});
+
+/**
  * Fetch a specific question
  * This should come with all the answers
  * provided so far for the question.
@@ -116,6 +147,37 @@ router.delete('/:questionId', function (req, res) {
 
     repo.deleteQuestion(questionId, function (status) {
         if (status) {
+            res.json({
+                msg: true
+            });
+            return;
+        }
+        res.json({
+            msg: false
+        });
+    });
+});
+
+/**
+ * Adds comment to questions being asked
+ * 
+ * @method POST
+ * @param {Integer} questionId
+ * @param {Integer} answerId
+ * 
+ * 
+ * @returns {Boolean} 
+ */
+router.post('/:questionId/answers/:answerId/comments', function (req, res) {
+
+    var answerId = parseInt(req.body.answerId);
+    var content = req.body.comment.toString();
+    var userId = parseInt(req.body.userId);
+
+    repo.addCommentToAnwser(answerId, content, userId, function (result) {
+        if (result) {
+
+            console.log(result);
             res.json({
                 msg: true
             });
@@ -232,14 +294,13 @@ router.put('/:questionId/answers/:anwserId/', function (req, res) {
 /**
  * simple test route
  */
-/* router.get('/home/form', (req, res) => {
+router.get('/home/form', function (req, res) {
 
-    let homePath = path.resolve(path.join(__dirname, '../../../../'));
-    let absolutePath = path.normalize(homePath + "/public/html/index.html");
-
+    var homePath = _path2.default.resolve(_path2.default.join(__dirname, '../../../../'));
+    var absolutePath = _path2.default.normalize(homePath + "/public/html/index.html");
 
     res.sendFile(absolutePath);
-}); */
+});
 
 module.exports = router;
 //# sourceMappingURL=questions.js.map
