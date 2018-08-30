@@ -5,13 +5,14 @@ import { DBHelper } from './db/DBHelper';
 export class Repo {
 
 
-    constructor(){
+    constructor() {
         this._db = new DBHelper();
     }
 
 
-    addAnswer(questionId, content, userId,  callback){
+    addAnswer(questionId, content, userId, callback) {
 
+        // TODO: MAKE INSERT QUERY A TRANSACTION
         const query = {
             name: 'fetch-answers',
             text: 'INSERT INTO answers(question_id, content, user_id) VALUES($1, $2, $3);',
@@ -20,19 +21,23 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error adding question : \n");
                     console.error(err.stack);
                     return;
                 }
 
+                this.updateAnswerTotalCount(questionId, (status) => {
+                        callback(status);
+                });
+
                 // true means query ran right;
-                callback(true);
+                // callback(true);
             });
     }
 
-    addQuestion(content, userId,  callback){
+    addQuestion(content, userId, callback) {
 
         const query = {
             name: 'fetch-questions',
@@ -42,12 +47,14 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error adding question : \n");
                     console.error(err.stack);
                     return;
                 }
+
+                console.log(res.rows);
 
                 // true means query ran right;
                 callback(true);
@@ -57,7 +64,7 @@ export class Repo {
     deleteQuestion(questionId, callback) {
         const query = {
             name: 'delete-questions',
-            text: 'DELETE FROM questions where id = $1;', 
+            text: 'DELETE FROM questions where id = $1;',
             values: [questionId]
         }
 
@@ -65,7 +72,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error deleting question : \n");
                     console.error(err.stack);
@@ -88,7 +95,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error fetching questions");
                     return;
@@ -107,7 +114,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error fetching question");
                     return;
@@ -126,7 +133,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error fetching question");
                     return;
@@ -136,8 +143,8 @@ export class Repo {
             });
     }
 
-    isUserAnswerOwner(userId, answerId, callback){
-        
+    isUserAnswerOwner(userId, answerId, callback) {
+
         const query = {
             name: 'fetch-answer',
             text: 'SELECT * from answers where id = $1',
@@ -146,13 +153,13 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error fetching question");
                     return;
                 }
-                if(res.rows.length === 1){
-                    if (res.rows[0].user_id == userId){
+                if (res.rows.length === 1) {
+                    if (res.rows[0].user_id == userId) {
                         callback(true);
                         return;
                     }
@@ -161,8 +168,8 @@ export class Repo {
             });
     }
 
-    setAcceptedAnswer(questionId, answerId, callback){
-       
+    setAcceptedAnswer(questionId, answerId, callback) {
+
         const query = {
             name: 'set-questions-answer',
             text: 'UPDATE questions SET accepted_answer_id= $1 WHERE id = $2',
@@ -171,7 +178,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Update was not succesful : \n");
                     console.error(err.stack);
@@ -183,7 +190,7 @@ export class Repo {
             });
     }
 
-    updateAnswer(answerId, content, callback){
+    updateAnswer(answerId, content, callback) {
         const query = {
             name: 'set-questions-answer',
             text: 'UPDATE answers SET content = $1 WHERE id = $2',
@@ -192,7 +199,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Update was succesful : \n");
                     console.error(err.stack);
@@ -213,7 +220,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error fetching question");
                     return;
@@ -232,7 +239,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error fetching question");
                     return;
@@ -251,7 +258,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Error adding comment : \n");
                     console.error(err.stack);
@@ -263,7 +270,7 @@ export class Repo {
             });
     }
 
-    
+
 
 
     /* upvote and downvotes */
@@ -276,7 +283,7 @@ export class Repo {
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Upvote was not succesful : \n");
                     console.error(err.stack);
@@ -287,20 +294,20 @@ export class Repo {
                 callback(true);
             });
 
-            
+
     }
 
     downVoteAnswer(answerId, callback) {
 
         const query = {
             name: 'update-answers-downvote',
-            text: 'UPDATE answers SET up_vote = ((SELECT up_vote from answers where id = $1) - 1) WHERE id = $1;',
+            text: 'UPDATE answers SET down_vote = ((SELECT down_vote from answers where id = $1) + 1) WHERE id = $1;',
             values: [answerId],
         }
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
+                if (err) {
                     callback(false);
                     console.log("Downvote was not succesful : \n");
                     console.error(err.stack);
@@ -314,18 +321,19 @@ export class Repo {
     }
 
     /* search */
-    searchForAnswers(questionString) {
+    searchForQuestions(questionString, callback) {
         const query = {
             name: 'search-questions',
-            text: 'SELECT * from questions LIKE $1',
+            text: 'SELECT * FROM questions WHERE to_tsvector(content) @@ to_tsquery($1)',
             values: [questionString],
         }
         this
             ._db
             .queryWithConfig(query, (err, res) => {
-                if(err){
-                    callback(false);
+                if (err) {
                     console.log("Error fetching question");
+                    console.error(err.stack);
+                    callback(false);
                     return;
                 }
 
@@ -333,8 +341,25 @@ export class Repo {
             });
     }
 
-    updateAnswerTotalCount(){
+    updateAnswerTotalCount(questionId, callback) {
+        const query = {
+            name: 'update-answers-downvote',
+            text: 'UPDATE questions SET total_answers = ((SELECT total_answers from questions where id = $1) + 1) WHERE id = $1;',
+            values: [questionId],
+        }
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if (err) {
+                    callback(false);
+                    console.log("Total count update not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
 
+                // true means query ran right;
+                callback(true);
+            });
     }
 
     addCommentToQuestion() {
@@ -343,6 +368,6 @@ export class Repo {
 
 
 
-    
+
 
 }

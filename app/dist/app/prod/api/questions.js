@@ -190,6 +190,69 @@ router.post('/:questionId/answers/:answerId/comments', function (req, res) {
 });
 
 /**
+ * Upvotes an Answer
+ * 
+ * @method PUT
+ * @param {Integer} answerId
+ * 
+ * @returns {Boolean} 
+ */
+router.put('/:questionId/answers/:answerId/upvote', function (req, res) {
+
+    var answerId = parseInt(req.body.answerId);
+
+    // check if user has upvoted before
+    // if false upvote
+    // else
+    //  deny upvote 
+    repo.upvoteAnswer(answerId, function (result) {
+        if (result) {
+
+            console.log(result);
+            res.json({
+                msg: true
+            });
+            return;
+        }
+        res.json({
+            msg: false
+        });
+    });
+});
+
+/**
+ * Downvotes an Answer
+ * 
+ * @method PUT
+ * @param {Integer} answerId
+ * 
+ * @returns {Boolean} 
+ */
+router.put('/:questionId/answers/:answerId/downvote', function (req, res) {
+
+    var answerId = parseInt(req.body.answerId);
+
+    // check if user has downvoted before
+    // if false downvote
+    // else
+    //  deny downvote 
+
+    repo.downVoteAnswer(answerId, function (result) {
+        if (result) {
+
+            console.log(result);
+            res.json({
+                msg: true
+            });
+            return;
+        }
+        res.json({
+            msg: false
+        });
+    });
+});
+
+/**
  * Post an answer to a question
  * 
  * @method POST
@@ -207,6 +270,7 @@ router.post('/:questionId/answers', function (req, res) {
         if (result) {
 
             console.log(result);
+
             res.json({
                 msg: true
             });
@@ -285,6 +349,34 @@ router.put('/:questionId/answers/:anwserId/', function (req, res) {
         }
 
         console.log('Update was not successful');
+        res.json({
+            msg: false
+        });
+    });
+});
+
+/**
+ * Post an answer to a question
+ * 
+ * @method POST
+ * @param {Integer} id
+ * 
+ * @returns {JSON} Question
+ */
+router.post('/search', function (req, res) {
+
+    var searchKey = req.body.searchKey.toString();
+
+    repo.searchForQuestions(searchKey, function (result) {
+        if (result) {
+
+            console.log(result);
+            res.json({
+                msg: true,
+                data: result
+            });
+            return;
+        }
         res.json({
             msg: false
         });

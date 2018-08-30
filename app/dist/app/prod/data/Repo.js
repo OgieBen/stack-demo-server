@@ -21,7 +21,9 @@ var Repo = exports.Repo = function () {
     _createClass(Repo, [{
         key: 'addAnswer',
         value: function addAnswer(questionId, content, userId, callback) {
+            var _this = this;
 
+            // TODO: MAKE INSERT QUERY A TRANSACTION
             var query = {
                 name: 'fetch-answers',
                 text: 'INSERT INTO answers(question_id, content, user_id) VALUES($1, $2, $3);',
@@ -35,8 +37,12 @@ var Repo = exports.Repo = function () {
                     return;
                 }
 
+                _this.updateAnswerTotalCount(questionId, function (status) {
+                    callback(status);
+                });
+
                 // true means query ran right;
-                callback(true);
+                // callback(true);
             });
         }
     }, {
@@ -55,6 +61,8 @@ var Repo = exports.Repo = function () {
                     console.error(err.stack);
                     return;
                 }
+
+                console.log(res.rows);
 
                 // true means query ran right;
                 callback(true);
@@ -287,7 +295,7 @@ var Repo = exports.Repo = function () {
 
             var query = {
                 name: 'update-answers-downvote',
-                text: 'UPDATE answers SET up_vote = ((SELECT up_vote from answers where id = $1) - 1) WHERE id = $1;',
+                text: 'UPDATE answers SET down_vote = ((SELECT down_vote from answers where id = $1) + 1) WHERE id = $1;',
                 values: [answerId]
             };
             this._db.queryWithConfig(query, function (err, res) {
@@ -306,17 +314,18 @@ var Repo = exports.Repo = function () {
         /* search */
 
     }, {
-        key: 'searchForAnswers',
-        value: function searchForAnswers(questionString) {
+        key: 'searchForQuestions',
+        value: function searchForQuestions(questionString, callback) {
             var query = {
                 name: 'search-questions',
-                text: 'SELECT * from questions LIKE $1',
+                text: 'SELECT * FROM questions WHERE to_tsvector(content) @@ to_tsquery($1)',
                 values: [questionString]
             };
             this._db.queryWithConfig(query, function (err, res) {
                 if (err) {
-                    callback(false);
                     console.log("Error fetching question");
+                    console.error(err.stack);
+                    callback(false);
                     return;
                 }
 
@@ -325,7 +334,24 @@ var Repo = exports.Repo = function () {
         }
     }, {
         key: 'updateAnswerTotalCount',
-        value: function updateAnswerTotalCount() {}
+        value: function updateAnswerTotalCount(questionId, callback) {
+            var query = {
+                name: 'update-answers-downvote',
+                text: 'UPDATE questions SET total_answers = ((SELECT total_answers from questions where id = $1) + 1) WHERE id = $1;',
+                values: [questionId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Total count update not succesful : \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                callback(true);
+            });
+        }
     }, {
         key: 'addCommentToQuestion',
         value: function addCommentToQuestion() {}

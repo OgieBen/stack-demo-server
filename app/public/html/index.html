@@ -56,17 +56,36 @@
     <input id="delete-question" type="text" name="" id="">
 
 
+    <br><h1>Upvote</h1>
+    <button id="upvote-button" type="submit"> Upvote</button>
+    <input placeholder="Answer Id" id="upvote-input-aId" type="text" name="" id="">
+    <input placeholder="Question id" id="upvote-input-qId" type="text">
+
+
+    <br><h1>Downvote</h1>
+    <button id="downvote-button" type="submit"> Downvote</button>
+    <input placeholder="Answer Id" id="downvote-input-aId" type="text" name="" id="">
+    <input placeholder="Question id" id="downvote-input-qId" type="text">
+
+
     <br><br>
     <br><h1>Testing Add Comment</h1>
     <button id="add-comment-button" type="submit"> Add Comment</button>
     <input placeholder="Comment" id="add-comment-input" type="text" name="" id="">
     <input placeholder="Question id" id="add-comment-qId" type="text">
     <input placeholder="Answer Id" id="add-comment-input-aId" type="text">
+
+    <br><br>
+    <br><h1>Search</h1>
+    <button id="search-button" type="submit"> search</button>
+    <input placeholder="Comment" id="search-input" type="text" name="" id="">
     
+
 
     <br>
     <script>
 
+        // Add anwser
         $('#put').on('click', (event) => {
 
             let content = $('#answer-content').val();
@@ -90,17 +109,19 @@
                 })
                 .catch((e) => {
                     console.error(e);
-                    alert(response + "");
+                    alert(e + "");
                 });
         });
 
 
+
+        // Add comment
         $('#add-comment-button').on('click', (event) => {
 
             let content = $('#add-comment-input').val();
             let questionId = $('#add-comment-qId').val();
             let answerId = $('#add-comment-input-aId').val();
-            
+
             axios({
                 method: 'post',
                 url: `/api/v1/questions/${questionId}/answers/${answerId}/comments`,
@@ -116,10 +137,59 @@
                 })
                 .catch((e) => {
                     console.error(e);
-                    alert(response + "");
+                    alert(e + "");
                 });
         });
 
+        // Upvote
+        $('#upvote-button').on('click', (event) => {
+
+            let answerId = $('#upvote-input-aId').val();
+            let questionId = $("#upvote-input-qId").val();
+
+            axios({
+                method: 'put',
+                url: `/api/v1/questions/${questionId}/answers/${answerId}/upvote`,
+                data: {
+                    answerId: answerId,
+                    userId: 1,
+                }
+            })
+                .then(function (response) {
+                    console.log(response.data.msg);
+                    alert(response.data.msg + "");
+                })
+                .catch((e) => {
+                    console.error(e);
+                    alert(e + "");
+                });
+        });
+
+        // downvote
+        $('#downvote-button').on('click', (event) => {
+
+            let answerId = $('#downvote-input-aId').val();
+            let questionId = $("#downvote-input-qId").val();
+
+            axios({
+                method: 'put',
+                url: `/api/v1/questions/${questionId}/answers/${answerId}/downvote`,
+                data: {
+                    answerId: answerId,
+                    userId: 1,
+                }
+            })
+                .then(function (response) {
+                    console.log(response.data.msg);
+                    alert(response.data.msg + "");
+                })
+                .catch((e) => {
+                    console.error(e);
+                    alert(e + "");
+                });
+        });
+
+        // Delete Question
         $('#delete').on('click', (event) => {
 
             let questionId = $('#delete-question').val();
@@ -142,7 +212,36 @@
                 })
                 .catch((e) => {
                     console.error(e);
-                    alert(response + "");
+                    alert(e + "");
+                });
+        });
+
+        // Delete Question
+        $('#search-button').on('click', (event) => {
+
+            let searchKey = $('#search-input').val();
+
+
+            axios({
+                method: 'post',
+                url: `/api/v1/questions/search`,
+                data: {
+                    searchKey: searchKey,
+                    
+                }
+            })
+                .then(function (response) {
+                    //console.log(response.data.msg);
+                    //console.log(response.data.data);
+                    let data  = response.data.data;
+                    data.forEach(element => {
+                        console.log(element)
+                    });
+                    alert(response.data.data[0] + "");
+                })
+                .catch((e) => {
+                    console.error(e);
+                    alert(e + "");
                 });
         });
 

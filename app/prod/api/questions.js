@@ -165,13 +165,83 @@ router.delete('/:questionId', (req, res) => {
  */
 router.post('/:questionId/answers/:answerId/comments', (req, res) => {
 
-    
+
     let answerId = parseInt(req.body.answerId);
     let content = req.body.comment.toString();
     let userId = parseInt(req.body.userId);
 
     repo
         .addCommentToAnwser(answerId, content, userId, (result) => {
+            if (result) {
+
+                console.log(result);
+                res.json({
+                    msg: true,
+                });
+                return;
+            }
+            res.json({
+                msg: false,
+            })
+        });
+});
+
+
+
+/**
+ * Upvotes an Answer
+ * 
+ * @method PUT
+ * @param {Integer} answerId
+ * 
+ * @returns {Boolean} 
+ */
+router.put('/:questionId/answers/:answerId/upvote', (req, res) => {
+
+
+    let answerId = parseInt(req.body.answerId);
+
+
+    // check if user has upvoted before
+    // if false upvote
+    // else
+    //  deny upvote 
+    repo
+        .upvoteAnswer(answerId, (result) => {
+            if (result) {
+
+                console.log(result);
+                res.json({
+                    msg: true,
+                });
+                return;
+            }
+            res.json({
+                msg: false,
+            })
+        });
+});
+
+/**
+ * Downvotes an Answer
+ * 
+ * @method PUT
+ * @param {Integer} answerId
+ * 
+ * @returns {Boolean} 
+ */
+router.put('/:questionId/answers/:answerId/downvote', (req, res) => {
+
+
+    let answerId = parseInt(req.body.answerId);
+
+    // check if user has downvoted before
+    // if false downvote
+    // else
+    //  deny downvote 
+
+    repo
+        .downVoteAnswer(answerId, (result) => {
             if (result) {
 
                 console.log(result);
@@ -205,6 +275,7 @@ router.post('/:questionId/answers', (req, res) => {
             if (result) {
 
                 console.log(result);
+
                 res.json({
                     msg: true,
                 });
@@ -275,7 +346,7 @@ router.put('/:questionId/answers/:anwserId/', (req, res) => {
     let updatedAnswer = req.body.answer;
     repo.updateAnswer(answerId, updatedAnswer, (status) => {
 
-        if(status){
+        if (status) {
             console.log('Update was successful');
             res.json({
                 msg: true,
@@ -287,13 +358,43 @@ router.put('/:questionId/answers/:anwserId/', (req, res) => {
         res.json({
             msg: false,
         });
-        
+
     });
 
 
 
 
 
+});
+
+
+/**
+ * Post an answer to a question
+ * 
+ * @method POST
+ * @param {Integer} id
+ * 
+ * @returns {JSON} Question
+ */
+router.post('/search', (req, res) => {
+
+    let searchKey = req.body.searchKey.toString();
+    
+    repo
+        .searchForQuestions(searchKey, (result) => {
+            if(result) {
+
+                console.log(result);
+                res.json({
+                    msg: true,
+                    data: result,
+                });
+                return;
+            }
+            res.json({
+                msg: false,
+            })
+        });
 });
 
 
