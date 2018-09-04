@@ -1,0 +1,88 @@
+
+/* Header Section*/
+html, body{
+
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.main-content{
+    background-color: white;
+    height: 90vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    resize: none;
+}
+
+
+.main-content> .panel > .panel-top-text {
+}
+
+.panel-top-text{
+    height: auto;
+}
+
+
+.panel{
+    height: 40vh;
+    background-color: white;
+}
+
+.panel:hover {
+    box-shadow: 0px 4px 4px 0px rgba(205,205,205,.6);
+}
+
+.cred-input{
+    height: auto;
+}
+
+input{
+    border: 0px solid rgba(255, 255, 255, 0);
+    outline-color: rgba(255, 255, 255, 0);
+    border-bottom: 1px solid rgba(255, 87, 51, 1);
+    font-size: 16px;
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+
+
+
+
+/* Media query Break points*/
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+    
+    .panel{
+        height: 50vh;
+        }
+    
+   
+}
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (min-width: 576px) and (max-width: 767.98px) { 
+
+}
+
+/* Medium devices (tablets, less than 992px)*/
+@media (min-width: 768px) and (max-width: 991.98px) { 
+
+}
+
+/* Large devices (desktops, less than 1200px)*/
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+
+    
+}
+
+
+@media (min-width: 1200px) {
+    
+    
+}
+
+
+
+
+
