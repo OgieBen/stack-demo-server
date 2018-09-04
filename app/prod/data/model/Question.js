@@ -21,7 +21,7 @@ export class Question {
 
 
     getContent() {
-        return this._content
+        return this._content;
     }
 
     getTimestamp() {

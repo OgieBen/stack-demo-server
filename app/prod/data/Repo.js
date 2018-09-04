@@ -17,7 +17,7 @@ export class Repo {
             name: 'fetch-answers',
             text: 'INSERT INTO answers(question_id, content, user_id) VALUES($1, $2, $3);',
             values: [questionId, content, userId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -43,7 +43,7 @@ export class Repo {
             name: 'fetch-questions',
             text: 'INSERT INTO questions(content, user_id) VALUES($1, $2);',
             values: [content, userId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -66,7 +66,7 @@ export class Repo {
             name: 'delete-questions',
             text: 'DELETE FROM questions where id = $1;',
             values: [questionId]
-        }
+        };
 
         //'DELETE FROM questions where id = $1;', //'DELETE FROM questions where id = $1 AND user_id = $2;',
         this
@@ -91,7 +91,7 @@ export class Repo {
             name: 'fetch-all-questions',
             text: 'SELECT * from questions',
             values: [],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -110,7 +110,7 @@ export class Repo {
             name: 'fetch-question',
             text: 'SELECT * from questions where id = $1',
             values: [questionId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -129,7 +129,7 @@ export class Repo {
             name: 'fetch-answer',
             text: 'SELECT * from answers where question_id = $1',
             values: [questionId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -149,7 +149,7 @@ export class Repo {
             name: 'fetch-answer',
             text: 'SELECT * from answers where id = $1',
             values: [answerId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -174,7 +174,7 @@ export class Repo {
             name: 'set-questions-answer',
             text: 'UPDATE questions SET accepted_answer_id= $1 WHERE id = $2',
             values: [answerId, questionId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -195,7 +195,7 @@ export class Repo {
             name: 'set-questions-answer',
             text: 'UPDATE answers SET content = $1 WHERE id = $2',
             values: [content, answerId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -216,7 +216,7 @@ export class Repo {
             name: 'fetch-top-questions',
             text: 'SELECT * from questions ORDER BY total_answers DESC ',
             // values: [],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -235,7 +235,7 @@ export class Repo {
             name: 'fetch-all-user-questions',
             text: 'SELECT * from questions where user_id = $1',
             values: [userId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -254,7 +254,7 @@ export class Repo {
             name: 'add-answer-comment',
             text: 'INSERT INTO a_comments(answer_id, content, user_id) VALUES($1, $2, $3);',
             values: [answerId, content, userId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -279,7 +279,7 @@ export class Repo {
             name: 'update-questions-upvote',
             text: 'UPDATE answers SET up_vote = ((SELECT up_vote from answers where id = $1) + 1) WHERE id = $1;',
             values: [answerId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -303,7 +303,7 @@ export class Repo {
             name: 'update-answers-downvote',
             text: 'UPDATE answers SET down_vote = ((SELECT down_vote from answers where id = $1) + 1) WHERE id = $1;',
             values: [answerId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -326,7 +326,7 @@ export class Repo {
             name: 'search-questions',
             text: 'SELECT * FROM questions WHERE to_tsvector(content) @@ to_tsquery($1)',
             values: [questionString],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {
@@ -346,7 +346,7 @@ export class Repo {
             name: 'update-answers-downvote',
             text: 'UPDATE questions SET total_answers = ((SELECT total_answers from questions where id = $1) + 1) WHERE id = $1;',
             values: [questionId],
-        }
+        };
         this
             ._db
             .queryWithConfig(query, (err, res) => {

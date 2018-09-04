@@ -14,7 +14,8 @@ var AComment = exports.AComment = function () {
 
         this._commentId = commentId;
         this._answerId = answerId;
-        this._userId = userId, this._content = content;
+        this._userId = userId;
+        this._content = content;
         this._timestamp = timestamp;
     }
 

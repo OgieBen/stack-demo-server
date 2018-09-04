@@ -114,7 +114,7 @@ export class DBHelper {
                 // + ');'
                 + '',
             // value: [] 
-        }
+        };
 
         /** Question Table */
         const createQuestionQuery = {
@@ -129,7 +129,7 @@ export class DBHelper {
                 + ');'
                 + '',
             // value: [] 
-        }
+        };
 
         const createQuestionCommentQuery = {
             name: 'create-qcomment-table',
@@ -142,7 +142,7 @@ export class DBHelper {
                 + ');'
                 + '',
             // value: [] 
-        }
+        };
 
         /** Answer Table  */
         /* -------- Answer Table starts here  */
@@ -159,7 +159,7 @@ export class DBHelper {
                 + ') ;'
                 + '',
             // value: [] 
-        }
+        };
 
         const createAnswersCommentTable = {
             name: 'create-acomments-table',
@@ -171,7 +171,7 @@ export class DBHelper {
                 + 'timestamp timestamp'
                 + ');'
                 + '',
-        }
+        };
 
 
 
@@ -224,7 +224,7 @@ export class DBHelper {
                             // pool.end();
                             console.log("AnswersCommentTable was set up succesfully");
                             console.log("Database was set up succesfully");
-                        })
+                        });
                     });
 
                 });
@@ -254,7 +254,7 @@ export class DBHelper {
             name: 'drop-tables',
             text: text.toString(),
             value: tableNames
-        }
+        };
 
         pool.query(query, (err, res) => {
             if (err) {

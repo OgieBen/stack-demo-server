@@ -9,9 +9,9 @@ export class AComment {
 
         this._commentId = commentId;
         this._answerId = answerId;
-        this._userId = userId,
+        this._userId = userId;
         this._content = content;
-        this._timestamp = timestamp
+        this._timestamp = timestamp;
     }
     getAnswerId() {
         return this._answerId;
@@ -22,7 +22,7 @@ export class AComment {
     }
 
     getContent() {
-        return this._content
+        return this._content;
     }
 
     getTimestamp() {

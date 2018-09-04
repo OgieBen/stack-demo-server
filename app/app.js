@@ -7,6 +7,14 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const authApi = require('./dist/app/prod/api/auth');
 const questionsApi = require('./dist/app/prod/api/questions');
+const testRouter = require('./dist/app/prod/api/answers');
+
+const cors = require('cors');
+
+const jwt = require('express-jwt');
+const jwtAuthz = require('express-jwt-authz');
+const jwks = require('jwks-rsa');
+
 
 
 
@@ -17,6 +25,7 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,7 +42,44 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }));
 
 
+const checkJwt = jwt({
+  // Dynamically provide a signing key
+  // based on the kid in the header and 
+  // the signing keys provided by the JWKS endpoint.
+  // secret: jwksRsa.expressJwtSecret({
+  //   cache: true,
+  //   rateLimit: true,
+  //   jwksRequestsPerMinute: 5,
+  //   jwksUri: `https://slackdemo.auth0.com/.well-known/jwks.json`
+  // }),
+
+  // // Validate the audience and the issuer.
+  // audience: 'https://slackdemo.auth0.com/api/v2/',
+  // issuer: `https://slackdemo.auth0.com/`,
+  // algorithms: ['RS256']
+
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://slackdemo.auth0.com/.well-known/jwks.json"
+}),
+audience: 'https://slackdemo-api.herokuapp.com/',
+issuer: "https://slackdemo.auth0.com/",
+algorithms: ['RS256']
+});
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
+// app.use('/api', cors);
+app.use('/api', checkJwt);
+
+
 app.use('/', indexRouter);
+app.use('/test/', testRouter);
 app.use('/api/v1/auth', authApi);
 app.use('/api/v1/questions', questionsApi);
 // app.use('/api/v1/questions/{id}', answersApi);

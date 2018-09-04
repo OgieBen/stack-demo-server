@@ -16,10 +16,7 @@ export class Auth {
         this._dbc = new DBHelper();
     }
 
-    getFactory() {
-        // return this._factory;
-    }
-
+   
     getDb() {
         return this._dbc;
     }
@@ -39,7 +36,7 @@ export class Auth {
             name: 'fetch-user',
             text: 'SELECT * FROM users WHERE email = $1 AND  password = $2 ',
             values: [email.toString(), password.toString()],
-        }
+        };
 
         if (this.validate(email, password)) {
 
@@ -62,7 +59,7 @@ export class Auth {
 
                         result.rows.forEach((user) => {
                             console.log(user);
-                        })
+                        });
                         return;
                     }
 
@@ -89,7 +86,7 @@ export class Auth {
             text: 'INSERT INTO users(name, email, password) VALUES($1, $2, $3)',
             values: [name, email, password],
 
-        }
+        };
 
         this
             .getDb()
@@ -123,9 +120,9 @@ export class Auth {
     
         this.authenticate(email, password, (flag) => {  
             if(flag){
-                console.log("Login was sucessful")   
+                console.log("Login was sucessful");   
             }
-            callback(flag)
+            callback(flag);
         });
 
     }

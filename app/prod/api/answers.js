@@ -1,5 +1,6 @@
 import  { Router } from 'express';
 // import { Factory } from '../Factory';
+import path from 'path';
 
 let router = Router();
 
@@ -45,6 +46,17 @@ router.put('/anwsers/:anwserId', (req, res) => {
 });
 
 
+/**
+ * simple test route
+ */
+router.get('/home/form', (req, res) => {
+
+    let homePath = path.resolve(path.join(__dirname, '../../../../'));
+    let absolutePath = path.normalize(homePath + "/public/html/index.html");
+
+
+    res.sendFile(absolutePath);
+});
 
 
 

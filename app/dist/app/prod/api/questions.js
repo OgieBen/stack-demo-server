@@ -4,10 +4,6 @@ var _express = require('express');
 
 var _Factory = require('../Factory');
 
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
 var _axios = require('axios');
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -381,17 +377,6 @@ router.post('/search', function (req, res) {
             msg: false
         });
     });
-});
-
-/**
- * simple test route
- */
-router.get('/home/form', function (req, res) {
-
-    var homePath = _path2.default.resolve(_path2.default.join(__dirname, '../../../../'));
-    var absolutePath = _path2.default.normalize(homePath + "/public/html/index.html");
-
-    res.sendFile(absolutePath);
 });
 
 module.exports = router;

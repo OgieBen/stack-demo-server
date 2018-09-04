@@ -68,16 +68,16 @@ router.post('/signup', (req, res) => {
             if (flag) {
                 res.json({
                     msg: true,
-                })
+                });
                 return;
             }
 
             res.json({
                 msg: false,
-            })
+            });
         });
 
-})
+});
 
 router.get('/dbsetup/:key', (req, res) => {
 
@@ -102,7 +102,7 @@ router.get('/dbsetup/:key', (req, res) => {
 
 
     // }
-})
+});
 
 
 

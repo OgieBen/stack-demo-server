@@ -24,11 +24,6 @@ var Auth = exports.Auth = function () {
     }
 
     _createClass(Auth, [{
-        key: 'getFactory',
-        value: function getFactory() {
-            // return this._factory;
-        }
-    }, {
         key: 'getDb',
         value: function getDb() {
             return this._dbc;

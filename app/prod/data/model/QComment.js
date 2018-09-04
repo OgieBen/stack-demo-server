@@ -11,7 +11,7 @@ export class QComment {
         this._questionId = questionId;
         this._content = content;
         this._userId = userId;
-        this._timestamp = timestamp
+        this._timestamp = timestamp;
     }
 
     getQuestionId() {
@@ -23,7 +23,7 @@ export class QComment {
     }
 
     getContent() {
-        return this._content
+        return this._content;
     }
 
     getTimestamp() {

@@ -75,9 +75,10 @@ var Repo = exports.Repo = function () {
                 name: 'delete-questions',
                 text: 'DELETE FROM questions where id = $1;',
                 values: [questionId]
+            };
 
-                //'DELETE FROM questions where id = $1;', //'DELETE FROM questions where id = $1 AND user_id = $2;',
-            };this._db.queryWithConfig(query, function (err, res) {
+            //'DELETE FROM questions where id = $1;', //'DELETE FROM questions where id = $1 AND user_id = $2;',
+            this._db.queryWithConfig(query, function (err, res) {
                 if (err) {
                     callback(false);
                     console.log("Error deleting question : \n");

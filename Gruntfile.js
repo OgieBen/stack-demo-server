@@ -42,6 +42,10 @@ module.exports = function (grunt) {
             target: ["app/prod/**/*.js"],
         },
 
+        jshint: {
+            target: ["app/prod/**/*.js"],
+        },
+
         exec: {
             node: { cmd: "node app/bin/www" }
         }
@@ -52,4 +56,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask("test", ["jasmine"]);
     grunt.registerTask("default", ["babel"]);/* "eslint" */
+
+    //node node_modules/jshint/bin/jshint app/prod      :jshint npm starter
+    // "start": "grunt && npm test && cd app && npm install  && cd .. && node app/bin/www", : start cmd with install included
 }

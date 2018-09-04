@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { Factory } from '../Factory';
-import path from 'path';
 import axios from 'axios';
 
 let router = Router();
@@ -124,7 +123,7 @@ router.post('/', (req, res) => {
             }
             res.json({
                 msg: false,
-            })
+            });
         });
 });
 
@@ -148,7 +147,7 @@ router.delete('/:questionId', (req, res) => {
             }
             res.json({
                 msg: false,
-            })
+            });
         });
 });
 
@@ -182,7 +181,7 @@ router.post('/:questionId/answers/:answerId/comments', (req, res) => {
             }
             res.json({
                 msg: false,
-            })
+            });
         });
 });
 
@@ -218,7 +217,7 @@ router.put('/:questionId/answers/:answerId/upvote', (req, res) => {
             }
             res.json({
                 msg: false,
-            })
+            });
         });
 });
 
@@ -252,7 +251,7 @@ router.put('/:questionId/answers/:answerId/downvote', (req, res) => {
             }
             res.json({
                 msg: false,
-            })
+            });
         });
 });
 
@@ -283,7 +282,7 @@ router.post('/:questionId/answers', (req, res) => {
             }
             res.json({
                 msg: false,
-            })
+            });
         });
 });
 
@@ -393,23 +392,13 @@ router.post('/search', (req, res) => {
             }
             res.json({
                 msg: false,
-            })
+            });
         });
 });
 
 
 
-/**
- * simple test route
- */
-router.get('/home/form', (req, res) => {
 
-    let homePath = path.resolve(path.join(__dirname, '../../../../'));
-    let absolutePath = path.normalize(homePath + "/public/html/index.html");
-
-
-    res.sendFile(absolutePath);
-});
 
 
 

@@ -121,10 +121,10 @@ var DBHelper = function () {
                 // + ');'
                 + ''
                 // value: [] 
+            };
 
-
-                /** Question Table */
-            };var createQuestionQuery = {
+            /** Question Table */
+            var createQuestionQuery = {
                 name: 'create-questions-table',
                 text: 'CREATE TABLE questions (' + 'id SERIAL NOT NULL primary key,' + 'accepted_answer_id int,' // 
                 + 'content varchar(5000) NOT NULL,' + 'user_id int NOT NULL references users(id),' + 'total_answers int DEFAULT 0,' + 'timestamp timestamp' + ');' + ''
@@ -136,11 +136,11 @@ var DBHelper = function () {
                 text: 'CREATE TABLE q_comments (' + 'id SERIAL NOT NULL primary key,' + 'question_id int NOT NULL references questions(id),' // 
                 + 'content varchar(5000) NOT NULL,' + 'user_id int NOT NULL references users(id),' + 'timestamp timestamp' + ');' + ''
                 // value: [] 
+            };
 
-
-                /** Answer Table  */
-                /* -------- Answer Table starts here  */
-            };var createAnswerTable = {
+            /** Answer Table  */
+            /* -------- Answer Table starts here  */
+            var createAnswerTable = {
                 name: 'create-answers-table',
                 text: 'CREATE TABLE answers (' + 'id SERIAL NOT NULL primary key,' + 'question_id int NOT NULL references questions(id),' // 
                 + 'content varchar(5000) NOT NULL,' + 'up_vote int DEFAULT 0,' + 'down_vote int DEFAULT 0,' + 'user_id int NOT NULL references users(id),' + 'timestamp timestamp' + ') ;' + ''
