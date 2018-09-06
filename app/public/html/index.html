@@ -12,6 +12,12 @@
 </head>
 
 <body>
+
+
+    <button> Click Here</button>
+    <input id="temp-input" />
+
+
     <form action="/api/v1/questions" method="POST">
         <label for="">Add a question</label>
         <input placeholder="user id" name="userId" type="text">
@@ -87,6 +93,21 @@
     <script src="https://cdn.auth0.com/js/auth0/9.5.1/auth0.min.js"></script>
     <br>
     <script>
+
+
+        let button = document.querySelector('button');
+
+        function getInputValue(){
+            button.addEventListener('click', () => {
+                let val = document.getElementById('temp-input').value;
+                alert(val);
+            });
+        }
+
+        button.addEventListener('click', getInputValue);
+
+        
+
 
         // // Add anwser
         // $('#put').on('click', (event) => {
