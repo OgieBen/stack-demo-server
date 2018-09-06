@@ -4,6 +4,10 @@ var _express = require('express');
 
 var _Factory = require('../Factory');
 
+var _cors = require('cors');
+
+var _cors2 = _interopRequireDefault(_cors);
+
 var _axios = require('axios');
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -22,13 +26,10 @@ var repo = factory.getRepo();
  * 
  * @returns {JSON} List
  */
-router.get('/', function (req, res) {
+router.get('/', (0, _cors2.default)(), function (req, res) {
 
     repo.fetchAllQuestions(function (result) {
         if (result) {
-            console.log({
-                data: result
-            });
 
             res.json({
                 msg: true,
@@ -51,15 +52,12 @@ router.get('/', function (req, res) {
  * 
  * @returns {JSON} List
  */
-router.get('/all/:userId', function (req, res) {
+router.get('/all/:userId', (0, _cors2.default)(), function (req, res) {
 
     var userId = parseInt(req.params.userId);
 
     repo.fetchAllUserQuestions(userId, function (result) {
         if (result) {
-            console.log({
-                data: result
-            });
 
             res.json({
                 msg: true,
@@ -84,7 +82,7 @@ router.get('/all/:userId', function (req, res) {
  * 
  * @returns {JSON} Question
  */
-router.get('/:questionId', function (req, res) {
+router.get('/:questionId', (0, _cors2.default)(), function (req, res) {
 
     var questionId = parseInt(req.params.questionId);
 
@@ -113,7 +111,7 @@ router.get('/:questionId', function (req, res) {
  * 
  * @method POST
  */
-router.post('/', function (req, res) {
+router.post('/', (0, _cors2.default)(), function (req, res) {
 
     var content = req.body.question;
     var userId = req.body.userId;
@@ -136,7 +134,7 @@ router.post('/', function (req, res) {
  * 
  * @method DELETE
  */
-router.delete('/:questionId', function (req, res) {
+router.delete('/:questionId', (0, _cors2.default)(), function (req, res) {
 
     // let questionId = parseInt(req.params.questionId);
     var questionId = parseInt(req.body.questionId);
@@ -164,7 +162,7 @@ router.delete('/:questionId', function (req, res) {
  * 
  * @returns {Boolean} 
  */
-router.post('/:questionId/answers/:answerId/comments', function (req, res) {
+router.post('/:questionId/answers/:answerId/comments', (0, _cors2.default)(), function (req, res) {
 
     var answerId = parseInt(req.body.answerId);
     var content = req.body.comment.toString();
@@ -193,7 +191,7 @@ router.post('/:questionId/answers/:answerId/comments', function (req, res) {
  * 
  * @returns {Boolean} 
  */
-router.put('/:questionId/answers/:answerId/upvote', function (req, res) {
+router.put('/:questionId/answers/:answerId/upvote', (0, _cors2.default)(), function (req, res) {
 
     var answerId = parseInt(req.body.answerId);
 
@@ -224,7 +222,7 @@ router.put('/:questionId/answers/:answerId/upvote', function (req, res) {
  * 
  * @returns {Boolean} 
  */
-router.put('/:questionId/answers/:answerId/downvote', function (req, res) {
+router.put('/:questionId/answers/:answerId/downvote', (0, _cors2.default)(), function (req, res) {
 
     var answerId = parseInt(req.body.answerId);
 

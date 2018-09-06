@@ -15,6 +15,12 @@
     flex-wrap: wrap;
 }
 
+.number-size{
+    font-size: 13px;
+}
+
+
+
 .lead{
     height: auto;
     color: rgba(255, 87, 51, 1);
@@ -23,8 +29,14 @@
     font-size: 20px;    
 }
 
+
+/* Fonts */
 .condensed-sans-font{
     font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.dosis-font{
+    font-family: 'Dosis', sans-serif;
 }
 
 .clean-link{
@@ -68,6 +80,10 @@
 /* Border frames*/
 .outline-slim{
     border: 1px solid rgba(62, 127, 242, 1);
+}
+
+.bottom-border-slim{
+     border-bottom: 2px solid rgba(255, 87, 51, 1);;
 }
 
 /* shadows and elevations */

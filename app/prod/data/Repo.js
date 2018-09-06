@@ -89,7 +89,7 @@ export class Repo {
 
         const query = {
             name: 'fetch-all-questions',
-            text: 'SELECT * from questions',
+            text: 'SELECT questions.id, questions.content, questions.total_answers,  questions.accepted_answer_id, users.name, users.email from questions INNER JOIN users ON (questions.user_id = users.id)',
             values: [],
         };
         this
@@ -98,6 +98,7 @@ export class Repo {
                 if (err) {
                     callback(false);
                     console.log("Error fetching questions");
+                    console.error(err);
                     return;
                 }
 

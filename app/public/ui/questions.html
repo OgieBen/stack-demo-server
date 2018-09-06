@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,13 @@
     <link rel="stylesheet" href="../stylesheets/commons.css" />
     <link rel="stylesheet" href="../stylesheets/footer.css" />
     <link rel="stylesheet" href="../stylesheets/question.css" />
+
+    <!--fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+
+    <!--axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -16,7 +24,7 @@
 
     <div class="wrapper">
         <!--Header Begins Here-->
-        <div class="header container ">
+        <div class="header shadow-dim container ">
             <div class="header-content align-content-center col container">
                 <div class="container col-4 ">
                     <a class=" hide center-box-vertical"><img src="../images/icons/outline-menu-white-18/2x/outline_menu_white_18dp.png" /></a>
@@ -30,7 +38,10 @@
                     <nav class="center-box-vertical ">
                         <a class=" pd-10">Questions</a>
                         <a class="  pd-10">Profile</a>
+                        
                     </nav>
+                    
+                    <a id="add-button"  class="pd-10 "><img src="../images/icons/outline-add-white-48/2x/outline_add_white_48dp.png"/></a>
                 </div>
             </div>
         </div>
@@ -41,14 +52,39 @@
 
             <div class="container pane-l  br-regular col-xs-12 col-sm-11 col-md-12 col-lg-4 col-xl-3  mg-l-10 mg-r-10 mg-xs-b-10 mg-sm-b-10 mg-md-b-10 mg-lg-b-10  flex-wrap ">
 
-                <div class="container panel  br-regular col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 shadow-dim   mg-l-10 mg-r-10 mg-xs-b-10 mg-sm-b-10 mg-md-b-10 mg-lg-b-10  flex-wrap ">
+                <div class="container panel  br-regular col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 shadow-dim mg-t-10  mg-l-10 mg-r-10 mg-xs-b-10 mg-sm-b-10 mg-md-b-10 mg-lg-b-10  flex-wrap bottom-border-slim ">
+
+                    <div class="  col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 profile-card ">
+
+
+
+                    </div>
+
+
+                    <div class="dosis-font container col-xs-12 col-sm-12  col-md-12 col-lg-12 col-xl-12 metrics pd-10">
+
+                        <div class=" align-content-center col-4 ">
+                            <p> <span>Name</span> </p>
+                        </div>
+                        <div class="col-4 ">
+                            <p>Questions: <span>0</span></p>
+                        </div>
+                        <div class="col-4 ">
+                            <p>Answers: <span>0</span></p>
+                        </div>
+
+                    </div>
+                    
+                    
+                  
+
 
                 </div>
 
             </div>
 
 
-            <div class=" pane-r br-regular col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7   mg-l-10 mg-r-10 mg-xs-b-10 mg-sm-b-10 mg-md-b-10 mg-lg-b-10 left-rule  ">
+            <div id="questions-card-holder" class=" pane-r  col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7   mg-l-10 mg-r-10 mg-xs-b-10 mg-sm-b-10 mg-md-b-10 mg-lg-b-10 left-rule  ">
 
                 <div class="question-top-nav container  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11  align-content-center  mg-b-10 ">
 
@@ -73,7 +109,7 @@
                         </p>
                     </div>
 
-                    <div class="col-12 pd-10 container">
+                    <div class=" dosis-font col-12 pd-10 container">
 
                         <div class="col-4 ">
                             <p>Author: </p>
@@ -102,10 +138,10 @@
                         </p>
                     </div>
 
-                    <div class="col-12 pd-10 container">
+                    <div class=" dosis-font col-12 pd-10 container">
 
                         <div class="col-4 ">
-                            <p>Author:</p>
+                            <p>Author: </p>
                         </div>
                         <div class="col-4 ">
                             <p>Answers:</p>
@@ -117,69 +153,7 @@
 
                 </div>
 
-                <div class=" question-card container card  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11 shadow-dim flex-wrap mg-b-10 ">
-                    <div class="col-12 container">
-                        <p class="pd-10 condensed-sans-font">
-                            Hello please who is the president of kentucky?
-                            The following values are accepted:
-
-                            nowrap
-                            The flex items are laid out in a single line which may cause the flex container to overflow. The cross-start is either equivalent to start or before depending flex-direction value. This is the default value.
-                            wrap
-                            The flex items break into multiple lines. The cross-start is either equivalent to start or before depending flex-direction value and the cross-end is the opposite of the specified cross-start.
-                            wrap-reverse
-                            Behaves the same as wrap but cross-start and cross-end are permuted.
-                        </p>
-                    </div>
-
-                    <div class="col-12 pd-10 container">
-
-                        <div class="col-4 ">
-                            <p>Author:</p>
-                        </div>
-                        <div class="col-4 ">
-                            <p>Answers:</p>
-                        </div>
-                        <div class="col-4 ">
-                            <p></p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class=" question-card container card  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11 shadow-dim flex-wrap mg-b-10 ">
-                    <div class="col-12 container">
-                        <p class="pd-10 condensed-sans-font">
-                            Hello please who is the president of kentucky?
-                            The following values are accepted:
-
-                            nowrap
-                            The flex items are laid out in a single line which may cause the flex container to overflow. The cross-start is either equivalent to start or before depending flex-direction value. This is the default value.
-                            wrap
-                            The flex items break into multiple lines. The cross-start is either equivalent to start or before depending flex-direction value and the cross-end is the opposite of the specified cross-start.
-                            wrap-reverse
-                            Behaves the same as wrap but cross-start and cross-end are permuted.
-                        </p>
-                    </div>
-
-                    <div class="col-12 pd-10 container">
-
-                        <div class="col-4 ">
-                            <p>Author:</p>
-                        </div>
-                        <div class="col-4 ">
-                            <p>Answers:</p>
-                        </div>
-                        <div class="col-4 ">
-                            <p></p>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!--
+                <!--
             
             <div class="container panel center-box-vertical br-regular col-xs-11 col-sm-11 col-md-6 col-lg-6 col-xl-4 shadow-dim  flex-wrap">
 
@@ -192,19 +166,134 @@
 -->
 
 
+            </div>
+
         </div>
 
-    </div>
-    
-    <script src="../javascripts/api.js">
-    </script>
-    
-    <script>
-        window.onload(() => {
-            
-        })
-    
-    </script>
+        <script src="../javascripts/api.js">
+        </script>
+
+        <script src="../javascripts/components.js">
+        </script>
+
+        <script>
+            function createElement(child, elementClasses) {
+
+                let currentNode = document.createElement(child);
+                elementClasses.forEach((claz) => {
+                    currentNode.className += " " + claz;
+                });
+                return currentNode;
+            }
+
+
+
+            /* Fetch questions */
+            window.addEventListener('load', () => {
+
+                function displayCard(questionObject) {
+
+                    let cardHolder = document.getElementById('questions-card-holder');
+
+                    // classes for html tags
+                    let elementClasses = ['question-card', 'container', 'card', 'br-regular', 'col-xs-11', 'col-sm-11', 'col-md-12', 'col-lg-11', 'col-xl-11', 'shadow-dim', 'flex-wrap', 'mg-b-10'];
+
+                    let innerContainerClasses = ['col-12', 'container'];
+                    let innerPClasses = ['pd-10', 'condensed-sans-font'];
+
+                    let bottomDivClasses = ['col-12', 'pd-10', 'container'];
+
+
+                    // create card for questions
+                    let card = createElement('div', elementClasses);
+
+                    // create contentContainer [a div tag]
+                    let contentContainer = createElement('div', innerContainerClasses);
+
+                    // create  p tags for holding content
+                    let content = createElement('p', innerPClasses);
+                    let leftp = createElement('p', []);
+                    let centerp = createElement('p', []);
+                    let rightp = createElement('p', []);
+
+                    // add content to p tag
+                    content.append(document.createTextNode(questionObject.content));
+
+
+                    let bottomDiv = createElement('div', bottomDivClasses);
+
+                    let bottomDivLeft = createElement('div', ['col-4', 'number-size', 'dosis-font']);
+                    let bottomDivCenter = createElement('div', ['col-4', 'number-size', 'dosis-font']);
+                    let bottomDivRight = createElement('div', ['col-4', 'number-size', 'dosis-font']);
+
+                    let leftP = leftp;
+                    let centerP = centerp;
+                    let rightP = rightp;
+
+                    leftP.append(document.createTextNode('Author: ' + questionObject.name));
+
+                    centerP.append(document.createTextNode('Answers: ' + questionObject.total_answers));
+
+                    rightP.append(document.createTextNode(' '));
+
+
+                    // add p tags to bottomDiv
+                    bottomDivLeft.appendChild(leftP);
+                    bottomDiv.appendChild(bottomDivLeft);
+
+                    bottomDivCenter.appendChild(centerP);
+                    bottomDiv.appendChild(bottomDivCenter);
+
+
+                    bottomDivRight.appendChild(rightP);
+                    bottomDiv.appendChild(bottomDivRight);
+
+
+
+                    // adds p tag to content container
+                    contentContainer.appendChild(content);
+
+
+                    card.appendChild(contentContainer);
+                    card.appendChild(bottomDiv);
+
+
+                    cardHolder.appendChild(card);
+                }
+
+
+
+                getQuestions((response) => {
+                    if (response === 0) {
+                        alert('Error fetching questions');
+                        return;
+                    }
+
+                    console.log(response.data.data);
+
+                    let questions = response.data.data;
+
+                    questions.forEach((question) => {
+                        displayCard(question);
+                    })
+                });
+
+                /* getQuestion(1, (response) => {
+                     if(response === 0){
+                         alert('Error fetching question');
+                         return;
+                     }
+                     
+                     let question = response.data.data[0];
+                     
+                     
+                     console.log(question);
+                     
+                 });*/
+            });
+
+        </script>
 
 </body>
+
 </html>

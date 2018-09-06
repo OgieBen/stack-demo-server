@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Factory } from '../Factory';
+import cors from 'cors';
 import axios from 'axios';
 
 let router = Router();
@@ -16,14 +17,11 @@ let repo = factory.getRepo();
  * 
  * @returns {JSON} List
  */
-router.get('/', (req, res) => {
+router.get('/', cors(), (req, res) => {
 
     repo.fetchAllQuestions((result) => {
         if (result) {
-            console.log({
-                data: result
-            });
-
+            
             res.json({
                 msg: true,
                 data: result,
@@ -46,16 +44,13 @@ router.get('/', (req, res) => {
  * 
  * @returns {JSON} List
  */
-router.get('/all/:userId', (req, res) => {
+router.get('/all/:userId', cors(), (req, res) => {
 
     let userId = parseInt(req.params.userId);
 
     repo.fetchAllUserQuestions(userId, (result) => {
         if (result) {
-            console.log({
-                data: result
-            });
-
+            
             res.json({
                 msg: true,
                 data: result,
@@ -79,7 +74,7 @@ router.get('/all/:userId', (req, res) => {
  * 
  * @returns {JSON} Question
  */
-router.get('/:questionId', (req, res) => {
+router.get('/:questionId', cors(), (req, res) => {
 
     let questionId = parseInt(req.params.questionId);
 
@@ -108,7 +103,7 @@ router.get('/:questionId', (req, res) => {
  * 
  * @method POST
  */
-router.post('/', (req, res) => {
+router.post('/', cors(), (req, res) => {
 
     let content = req.body.question;
     let userId = req.body.userId;
@@ -132,7 +127,7 @@ router.post('/', (req, res) => {
  * 
  * @method DELETE
  */
-router.delete('/:questionId', (req, res) => {
+router.delete('/:questionId', cors(), (req, res) => {
 
     // let questionId = parseInt(req.params.questionId);
     let questionId = parseInt(req.body.questionId);
@@ -162,7 +157,7 @@ router.delete('/:questionId', (req, res) => {
  * 
  * @returns {Boolean} 
  */
-router.post('/:questionId/answers/:answerId/comments', (req, res) => {
+router.post('/:questionId/answers/:answerId/comments', cors(), (req, res) => {
 
 
     let answerId = parseInt(req.body.answerId);
@@ -195,7 +190,7 @@ router.post('/:questionId/answers/:answerId/comments', (req, res) => {
  * 
  * @returns {Boolean} 
  */
-router.put('/:questionId/answers/:answerId/upvote', (req, res) => {
+router.put('/:questionId/answers/:answerId/upvote', cors(), (req, res) => {
 
 
     let answerId = parseInt(req.body.answerId);
@@ -229,7 +224,7 @@ router.put('/:questionId/answers/:answerId/upvote', (req, res) => {
  * 
  * @returns {Boolean} 
  */
-router.put('/:questionId/answers/:answerId/downvote', (req, res) => {
+router.put('/:questionId/answers/:answerId/downvote', cors(), (req, res) => {
 
 
     let answerId = parseInt(req.body.answerId);

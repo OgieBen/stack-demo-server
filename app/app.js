@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }));
 
 
-const checkJwt = jwt({
+/* const checkJwt = jwt({
   // Dynamically provide a signing key
   // based on the kid in the header and 
   // the signing keys provided by the JWKS endpoint.
@@ -67,7 +67,7 @@ const checkJwt = jwt({
 audience: 'https://slackdemo-api.herokuapp.com/',
 issuer: "https://slackdemo.auth0.com/",
 algorithms: ['RS256']
-});
+}); */
 
 app.use(cors({
   origin: 'http://localhost:3000',
@@ -75,7 +75,7 @@ app.use(cors({
 }));
 
 // app.use('/api', cors);
-app.use('/api', checkJwt);
+// app.use('/api', checkJwt);
 
 
 app.use('/', indexRouter);
