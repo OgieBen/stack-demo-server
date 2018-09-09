@@ -6,21 +6,36 @@ body {
     margin: 0px;
 }
 
+*{
+transition: all 
+}
+
 
 .main-content {
     background-color: white;
     height: 90vh;
     overflow-x: hidden;
-/*    overflow-y: hidden;*/
+    /*    overflow-y: hidden;*/
     resize: none;
 }
 
+#question-text-area {
+    resize: vertical;
+    height: 40px;
+    padding: 2px;
+    outline: none;
+}
 
-#add-button{
-   margin-top: 3px;
-    width:auto;
-    
-    
+#add-question-button {
+    height: 40px;
+}
+
+
+#add-button {
+    margin-top: 3px;
+    width: auto;
+
+
 }
 
 #add-button img {
@@ -28,10 +43,11 @@ body {
     height: 48px;
 }
 
-#add-button:hover{
+#add-button:hover {
     height: auto;
-    background-color: darkgrey;
+/*    background-color: lightgray;*/
 }
+
 .main-content > .panel > .panel-top-text {}
 
 
@@ -80,30 +96,36 @@ input {
 }
 
 
-.question-card > div > p{
+.question-card > div > p {
+    height: auto;
+    color: rgba(41, 49, 63, 1);
+}
+
+.answer-card > div > p {
     height: auto;
     color: rgba(41, 49, 63, 1);
 }
 
 
 
+
 /* Profile card */
 
-.profile-card{
-    
+.profile-card {
+
     height: 60%;
     background-color: rgba(255, 87, 51, 1);
     background-image: url('../images/adventure.jpg');
     background-repeat: no-repeat;
     background-size: cover, contain;
     background-position: center;
-   
+
 }
 
-.metrics{
+.metrics {
     height: 10%;
-/*    background-color: rgba(255, 87, 51, 1);*/
-    
+    /*    background-color: rgba(255, 87, 51, 1);*/
+
 }
 
 

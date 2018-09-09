@@ -89,7 +89,7 @@ export class Repo {
 
         const query = {
             name: 'fetch-all-questions',
-            text: 'SELECT questions.id, questions.content, questions.total_answers,  questions.accepted_answer_id, users.name, users.email from questions INNER JOIN users ON (questions.user_id = users.id)',
+            text: 'SELECT questions.id, questions.content, questions.total_answers,  questions.accepted_answer_id, users.name, users.email from questions INNER JOIN users ON (questions.user_id = users.id) ORDER BY questions.id DESC',
             values: [],
         };
         this
@@ -109,7 +109,7 @@ export class Repo {
     fetchQuestion(questionId, callback) {
         const query = {
             name: 'fetch-question',
-            text: 'SELECT * from questions where id = $1',
+            text: 'SELECT * from questions INNER JOIN users ON (questions.user_id = users.id) where questions.id = $1',
             values: [questionId],
         };
         this
@@ -118,6 +118,7 @@ export class Repo {
                 if (err) {
                     callback(false);
                     console.log("Error fetching question");
+                    console.log(err);
                     return;
                 }
 
@@ -128,7 +129,7 @@ export class Repo {
     fetchAnswers(questionId, callback) {
         const query = {
             name: 'fetch-answer',
-            text: 'SELECT * from answers where question_id = $1',
+            text: 'SELECT answers.id, answers.content, answers.user_id, answers.question_id, answers.up_vote, answers.down_vote, users.name, users.email from answers INNER JOIN users ON (answers.user_id = users.id) where (question_id = $1) ORDER BY up_vote DESC',
             values: [questionId],
         };
         this
@@ -137,6 +138,7 @@ export class Repo {
                 if (err) {
                     callback(false);
                     console.log("Error fetching question");
+                    console.error(err);
                     return;
                 }
 
@@ -234,7 +236,7 @@ export class Repo {
     fetchAllUserQuestions(userId, callback) {
         const query = {
             name: 'fetch-all-user-questions',
-            text: 'SELECT * from questions where user_id = $1',
+            text: 'SELECT * from questions where user_id = $1 ORDER BY id DESC',
             values: [userId],
         };
         this
@@ -360,6 +362,46 @@ export class Repo {
 
                 // true means query ran right;
                 callback(true);
+            });
+    }
+
+    getUser(userId, callback){
+        const query = {
+            name: 'get-user',
+            text: 'SELECT * FROM users WHERE id = $1',
+            values: [userId],
+        };
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if (err) {
+                    console.log("Error fetching question");
+                    console.error(err.stack);
+                    callback(false);
+                    return;
+                }
+
+                callback(res.rows);
+            });
+    }
+
+    getUserAnswers(userId, callback){
+        const query = {
+            name: 'get-user',
+            text: 'SELECT count(*) FROM answers WHERE user_id = $1',
+            values: [userId],
+        };
+        this
+            ._db
+            .queryWithConfig(query, (err, res) => {
+                if (err) {
+                    console.log("Error fetching question");
+                    console.error(err.stack);
+                    callback(false);
+                    return;
+                }
+
+                callback(res.rows);
             });
     }
 

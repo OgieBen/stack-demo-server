@@ -98,15 +98,25 @@
         let button = document.querySelector('button');
 
         function getInputValue(){
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (event) => {
+
+                event.preventDefault();
                 let val = document.getElementById('temp-input').value;
                 alert(val);
+
+                button.removeEventListener('click', notify('Click event listener was removed'));
             });
+           
+        }
+
+        function notify(msg){
+            alert(msg)
         }
 
         button.addEventListener('click', getInputValue);
-
         
+
+
 
 
         // // Add anwser

@@ -97,7 +97,7 @@ var Repo = exports.Repo = function () {
 
             var query = {
                 name: 'fetch-all-questions',
-                text: 'SELECT questions.id, questions.content, questions.total_answers,  questions.accepted_answer_id, users.name, users.email from questions INNER JOIN users ON (questions.user_id = users.id)',
+                text: 'SELECT questions.id, questions.content, questions.total_answers,  questions.accepted_answer_id, users.name, users.email from questions INNER JOIN users ON (questions.user_id = users.id) ORDER BY questions.id DESC',
                 values: []
             };
             this._db.queryWithConfig(query, function (err, res) {
@@ -116,13 +116,14 @@ var Repo = exports.Repo = function () {
         value: function fetchQuestion(questionId, callback) {
             var query = {
                 name: 'fetch-question',
-                text: 'SELECT * from questions where id = $1',
+                text: 'SELECT * from questions INNER JOIN users ON (questions.user_id = users.id) where questions.id = $1',
                 values: [questionId]
             };
             this._db.queryWithConfig(query, function (err, res) {
                 if (err) {
                     callback(false);
                     console.log("Error fetching question");
+                    console.log(err);
                     return;
                 }
 
@@ -134,13 +135,14 @@ var Repo = exports.Repo = function () {
         value: function fetchAnswers(questionId, callback) {
             var query = {
                 name: 'fetch-answer',
-                text: 'SELECT * from answers where question_id = $1',
+                text: 'SELECT answers.id, answers.content, answers.user_id, answers.question_id, answers.up_vote, answers.down_vote, users.name, users.email from answers INNER JOIN users ON (answers.user_id = users.id) where (question_id = $1) ORDER BY up_vote DESC',
                 values: [questionId]
             };
             this._db.queryWithConfig(query, function (err, res) {
                 if (err) {
                     callback(false);
                     console.log("Error fetching question");
+                    console.error(err);
                     return;
                 }
 
@@ -235,7 +237,7 @@ var Repo = exports.Repo = function () {
         value: function fetchAllUserQuestions(userId, callback) {
             var query = {
                 name: 'fetch-all-user-questions',
-                text: 'SELECT * from questions where user_id = $1',
+                text: 'SELECT * from questions where user_id = $1 ORDER BY id DESC',
                 values: [userId]
             };
             this._db.queryWithConfig(query, function (err, res) {
@@ -352,6 +354,44 @@ var Repo = exports.Repo = function () {
 
                 // true means query ran right;
                 callback(true);
+            });
+        }
+    }, {
+        key: 'getUser',
+        value: function getUser(userId, callback) {
+            var query = {
+                name: 'get-user',
+                text: 'SELECT * FROM users WHERE id = $1',
+                values: [userId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    console.log("Error fetching question");
+                    console.error(err.stack);
+                    callback(false);
+                    return;
+                }
+
+                callback(res.rows);
+            });
+        }
+    }, {
+        key: 'getUserAnswers',
+        value: function getUserAnswers(userId, callback) {
+            var query = {
+                name: 'get-user',
+                text: 'SELECT count(*) FROM answers WHERE user_id = $1',
+                values: [userId]
+            };
+            this._db.queryWithConfig(query, function (err, res) {
+                if (err) {
+                    console.log("Error fetching question");
+                    console.error(err.stack);
+                    callback(false);
+                    return;
+                }
+
+                callback(res.rows);
             });
         }
     }, {

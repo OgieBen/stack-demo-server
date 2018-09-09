@@ -12,9 +12,18 @@ router.get('/', function(req, res, next) {
   res.sendFile(absolutePath + "index.html");
 });
 
-router.get('/questions', (req, res) => {
+router.get('/u/:id', (req, res, next) => {
 
   res.sendFile(absolutePath + "questions.html");
 });
+
+router.get('/:uid/:qid', (req, res, next) => {
+
+  res.sendFile(absolutePath + "question-detail.html");
+});
+
+
+
+
 
 module.exports = router;

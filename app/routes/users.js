@@ -1,9 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+let path = require('path');
+
+let homePath = path.resolve(path.join(__dirname, '../'));
+let absolutePath = path.normalize(homePath + "/public/ui/");
+
+
+router.get('/', (req, res, next) => {
+
+  res.sendFile(absolutePath + "profile.html");
 });
 
 module.exports = router;

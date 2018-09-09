@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { Factory } from '../Factory';
-import cors from 'cors';
-import axios from 'axios';
+// import cors from 'cors';
+
+let cors = require('cors');
 
 let router = Router();
 
@@ -21,16 +22,18 @@ router.get('/', cors(), (req, res) => {
 
     repo.fetchAllQuestions((result) => {
         if (result) {
-            
+
             res.json({
-                msg: true,
+                msg: 'Success',
+                status: true,
                 data: result,
             });
             return;
         }
 
         res.json({
-            msg: false,
+            msg: 'There was an error fetching questions',
+            status: false,
         });
     });
 });
@@ -50,16 +53,18 @@ router.get('/all/:userId', cors(), (req, res) => {
 
     repo.fetchAllUserQuestions(userId, (result) => {
         if (result) {
-            
+
             res.json({
-                msg: true,
+                msg: 'Success',
+                status: true,
                 data: result,
             });
             return;
         }
 
         res.json({
-            msg: false,
+            msg: 'There was an error fetching questions',
+            status: true,
         });
     });
 });
@@ -78,22 +83,37 @@ router.get('/:questionId', cors(), (req, res) => {
 
     let questionId = parseInt(req.params.questionId);
 
-    repo.fetchQuestion(questionId, (result) => {
-        if (result) {
+    repo.fetchQuestion(questionId, (question) => {
+        if (question) {
 
             console.log({
-                data: result
+                question
             });
 
-            res.json({
-                msg: true,
-                data: result,
+            repo.fetchAnswers(questionId, (answers) => {
+                if (answers) {
+
+                    res.json({
+                        msg: 'Success',
+                        status: false,
+                        question,
+                        answers,
+                    });
+                    return;
+                }
+
+                res.json({
+                    msg: 'There was an error fetching answers for question with id ' + questionId,
+                    status: false,
+                });
+
             });
             return;
         }
 
         res.json({
-            msg: false,
+            msg: 'There was an Error fetching Question with id ' + questionId,
+            status: false,
         });
     });
 });
@@ -112,12 +132,14 @@ router.post('/', cors(), (req, res) => {
         .addQuestion(content, userId, (status) => {
             if (status) {
                 res.json({
-                    msg: true,
+                    msg: 'Success',
+                    status: true,
                 });
                 return;
             }
             res.json({
-                msg: false,
+                msg: 'Error adding Question',
+                status: false,
             });
         });
 });
@@ -136,12 +158,14 @@ router.delete('/:questionId', cors(), (req, res) => {
         .deleteQuestion(questionId, (status) => {
             if (status) {
                 res.json({
-                    msg: true,
+                    msg: 'Success',
+                    status: true,
                 });
                 return;
             }
             res.json({
-                msg: false,
+                msg: 'Error deleting Question',
+                status: false,
             });
         });
 });
@@ -170,12 +194,14 @@ router.post('/:questionId/answers/:answerId/comments', cors(), (req, res) => {
 
                 console.log(result);
                 res.json({
-                    msg: true,
+                    msg: 'Success',
+                    status: true,
                 });
                 return;
             }
             res.json({
-                msg: false,
+                msg: "Error adding Comment",
+                status: false,
             });
         });
 });
@@ -206,12 +232,14 @@ router.put('/:questionId/answers/:answerId/upvote', cors(), (req, res) => {
 
                 console.log(result);
                 res.json({
-                    msg: true,
+                    msg: 'Success',
+                    status: true,
                 });
                 return;
             }
             res.json({
-                msg: false,
+                msg: 'Error up-voting answer',
+                status: false,
             });
         });
 });
@@ -240,12 +268,14 @@ router.put('/:questionId/answers/:answerId/downvote', cors(), (req, res) => {
 
                 console.log(result);
                 res.json({
-                    msg: true,
+                    msg: 'Success',
+                    status: true,
                 });
                 return;
             }
             res.json({
-                msg: false,
+                msg: 'Error down-voting answer',
+                status: false,
             });
         });
 });
@@ -271,12 +301,14 @@ router.post('/:questionId/answers', (req, res) => {
                 console.log(result);
 
                 res.json({
-                    msg: true,
+                    msg: 'Success',
+                    status: true,
                 });
                 return;
             }
             res.json({
-                msg: false,
+                msg: 'Error adding Answer to question with id ' + questionId,
+                status: false,
             });
         });
 });
@@ -322,14 +354,16 @@ router.put('/:questionId/answers/:anwserId/', (req, res) => {
                             console.log('Preferred Answer was set');
 
                             res.json({
-                                msg: true,
+                                msg: 'Success',
+                                status: true,
                             });
 
                             return;
                         }
 
                         res.json({
-                            msg: false,
+                            msg: 'Answer was not selected',
+                            status: false,
                         });
                     });
                 }
@@ -343,14 +377,16 @@ router.put('/:questionId/answers/:anwserId/', (req, res) => {
         if (status) {
             console.log('Update was successful');
             res.json({
-                msg: true,
+                msg: 'Success',
+                status: true,
             });
             return;
         }
 
         console.log('Update was not successful');
         res.json({
-            msg: false,
+            msg: 'Update was not successful',
+            status: false,
         });
 
     });
@@ -363,7 +399,7 @@ router.put('/:questionId/answers/:anwserId/', (req, res) => {
 
 
 /**
- * Post an answer to a question
+ * Searches for questions based on query
  * 
  * @method POST
  * @param {Integer} id
@@ -373,27 +409,90 @@ router.put('/:questionId/answers/:anwserId/', (req, res) => {
 router.post('/search', (req, res) => {
 
     let searchKey = req.body.searchKey.toString();
-    
+
     repo
         .searchForQuestions(searchKey, (result) => {
-            if(result) {
+            if (result) {
 
                 console.log(result);
                 res.json({
-                    msg: true,
+                    msg: 'Success',
+                    status: true,
                     data: result,
                 });
                 return;
             }
             res.json({
-                msg: false,
+                msg: "No matching result was found",
+                status: false,
             });
         });
 });
 
 
 
+router.get('/user/:id', (req, res) => {
+    // let userId = req.body.userId;
+    let userId = req.params.id;
+    try {
+        userId = parseInt(userId);
+        repo
+        .getUser(userId, (result) => {
+            if (result) {
 
+                console.log(result);
+                res.json({
+                    msg: 'Success',
+                    status: true,
+                    data: result,
+                });
+                return;
+            }
+            res.json({
+                msg: `No user with ${userId} was found`,
+                status: false,
+            });
+        });
+    } catch (e) {
+        res.json({
+            msg: "Invalid query parameter",
+            status: false,
+        });
+    }
+
+});
+
+
+router.get('/answers/count/:id', (req, res) => {
+
+    let userId = req.params.id;
+    try {
+        userId = parseInt(userId);
+        repo
+        .getUserAnswers(userId, (result) => {
+            if (result) {
+
+                console.log(result);
+                res.json({
+                    msg: 'Success',
+                    status: true,
+                    data: result,
+                });
+                return;
+            }
+            res.json({
+                msg: `No user with ${userId} was found`,
+                status: false,
+            });
+        });
+    } catch (e) {
+        res.json({
+            msg: "Invalid query parameter",
+            status: false,
+        });
+   
+    }
+});
 
 
 

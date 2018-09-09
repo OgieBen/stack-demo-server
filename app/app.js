@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
+const userRouter = require('./routes/users');
 const authApi = require('./dist/app/prod/api/auth');
 const questionsApi = require('./dist/app/prod/api/questions');
 const testRouter = require('./dist/app/prod/api/answers');
@@ -69,17 +70,14 @@ issuer: "https://slackdemo.auth0.com/",
 algorithms: ['RS256']
 }); */
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+app.use(cors());
 
 // app.use('/api', cors);
 // app.use('/api', checkJwt);
 
 
 app.use('/', indexRouter);
-app.use('/test/', testRouter);
+app.use('/profile/', userRouter);
 app.use('/api/v1/auth', authApi);
 app.use('/api/v1/questions', questionsApi);
 // app.use('/api/v1/questions/{id}', answersApi);

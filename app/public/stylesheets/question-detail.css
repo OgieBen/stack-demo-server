@@ -1,0 +1,191 @@
+/* Header Section*/
+html,
+body {
+
+    padding: 0px;
+    margin: 0px;
+}
+
+*{
+transition: all 
+}
+
+
+.main-content {
+    background-color: white;
+    height: 90vh;
+    overflow-x: hidden;
+    /*    overflow-y: hidden;*/
+    resize: none;
+}
+
+#question-text-area {
+    resize: vertical;
+    height: 40px;
+    padding: 2px;
+    outline: none;
+}
+
+#add-question-button {
+    height: 40px;
+}
+
+
+#add-button {
+    margin-top: 3px;
+    width: auto;
+
+
+}
+
+#add-button img {
+    width: 48px;
+    height: 48px;
+}
+
+#add-button:hover {
+    height: auto;
+/*    background-color: lightgray;*/
+}
+
+.main-content > .panel > .panel-top-text {}
+
+
+
+.panel-top-text {
+    height: auto;
+}
+
+
+.panel {
+    height: 400px;
+    background-color: white;
+}
+
+.pane-l {
+    height: auto;
+    background-color: white;
+}
+
+.pane-r {
+    height: auto;
+    overflow-y: scroll;
+    background-color: white;
+}
+
+.pane:hover {
+    box-shadow: 0px 4px 4px 0px rgba(205, 205, 205, .6);
+}
+
+.cred-input {
+    height: auto;
+}
+
+input {
+    border: 0px solid rgba(255, 255, 255, 0);
+    outline-color: rgba(255, 255, 255, 0);
+    border-bottom: 1px solid rgba(255, 87, 51, 1);
+    font-size: 16px;
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+
+.question-top-nav {
+    font-size: 30px;
+    color: rgba(201, 199, 199, 1);
+}
+
+
+.question-card > div > p {
+    height: auto;
+    color: rgba(41, 49, 63, 1);
+}
+
+.answer-header{
+    height: auto;
+    background-color: white;
+    margin-left:4.33%;
+}
+
+.image-size-30{
+    height: 30px;
+    width: 30px;
+}
+
+
+
+
+
+/* Profile card */
+
+.profile-card {
+
+    height: 60%;
+    background-color: rgba(255, 87, 51, 1);
+    background-image: url('../images/adventure.jpg');
+    background-repeat: no-repeat;
+    background-size: cover, contain;
+    background-position: center;
+
+}
+
+
+#question-text-area{
+    height: auto;
+    min-height: 70px;
+    font-size: 18px;
+    
+}
+.metrics {
+    height: 10%;
+    /*    background-color: rgba(255, 87, 51, 1);*/
+
+}
+
+.vote-section{
+/*    background-color: black;*/
+}
+
+
+
+/* Media query Break points*/
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+
+    .panel {
+        height: 50vh;
+    }
+    
+   
+
+
+}
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (min-width: 576px) and (max-width: 767.98px) {
+    
+    
+}
+
+/* Medium devices (tablets, less than 992px)*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .md-hide{
+        display: none;
+    }
+}
+
+/* Large devices (desktops, less than 1200px)*/
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .left-rule {
+        border-left: 1px solid rgba(205, 205, 205, .4);
+    }
+
+}
+
+
+@media (min-width: 1200px) {
+    .left-rule {
+        border-left: 1px solid rgba(205, 205, 205, .4);
+    }
+
+}

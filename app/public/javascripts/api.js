@@ -14,6 +14,19 @@ function getQuestions(callback) {
         });
 }
 
+function getAllUserQuestions(userId, callback) {
+    axios({
+            method: 'get',
+            url: url + `questions/all/${userId}`,
+        })
+        .then((response) => {
+            callback(response);
+        })
+        .catch((err) => {
+            callback(0);
+        });
+}
+
 
 function getQuestion(questionId, callback) {
 
@@ -49,7 +62,7 @@ function getAnswers(questionId, callback) {
 
     axios({
             method: 'get',
-            url: '',
+            url: url + `questions`,
         })
         .then((response) => {
             callback(response);
@@ -64,7 +77,24 @@ function addQuestion(data, callback) {
 
     axios({
             method: 'post',
-            url: '',
+            url: url + 'questions',
+            data: data,
+        })
+        .then((response) => {
+            callback(response);
+        })
+        .catch((err) => {
+            callback(0);
+        });
+}
+
+
+function addAnswer(questionId, data, callback) {
+
+    axios({
+            method: 'post',
+            url: url + `questions/${questionId}/answers`,
+            data: data,
         })
         .then((response) => {
             callback(response);
@@ -79,6 +109,38 @@ function addComment(data, questionId, answerId, callback) {
             method: 'post',
             url: `/api/v1/questions/${questionId}/answers/${answerId}/comments`,
             data: data,
+        })
+        .then((response) => {
+            callback(response);
+        })
+        .catch((err) => {
+            callback(0);
+        });
+}
+
+function getUser(userId, callback) {
+    axios({
+            method: 'get',
+            url: url + `questions/user/${userId}`,
+            data: {
+                userId: userId
+            },
+        })
+        .then((response) => {
+            callback(response);
+        })
+        .catch((err) => {
+            callback(0);
+        });
+}
+
+function getUserAnswersCount(userId, callback) {
+    axios({
+            method: 'get',
+            url: url + `questions/answers/count/${userId}`,
+            data: {
+                userId: userId
+            },
         })
         .then((response) => {
             callback(response);

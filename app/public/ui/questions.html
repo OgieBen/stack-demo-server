@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../stylesheets/commons.css" />
-    <link rel="stylesheet" href="../stylesheets/header.css" />
-    <link rel="stylesheet" href="../stylesheets/commons.css" />
-    <link rel="stylesheet" href="../stylesheets/footer.css" />
-    <link rel="stylesheet" href="../stylesheets/question.css" />
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="../stylesheets/commons.css" />
+    <link rel="stylesheet" type="text/css" href="../stylesheets/header.css" />
+    <link rel="stylesheet" type="text/css" href="../stylesheets/commons.css" />
+    <link rel="stylesheet" type="text/css" href="../stylesheets/footer.css" />
+    <link rel="stylesheet" type="text/css" href="../stylesheets/question.css" />
 
     <!--fonts-->
     <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
@@ -36,12 +38,12 @@
 
                 <div class=" nav-bar container col-4 align-content-center">
                     <nav class="center-box-vertical ">
-                        <a class=" pd-10">Questions</a>
-                        <a class="  pd-10">Profile</a>
-                        
+                        <!--                        <a href="/" class=" pd-10">Questions</a>-->
+                        <a id="profile-link" class="  pd-10">Profile</a>
+
                     </nav>
-                    
-                    <a id="add-button"  class="pd-10 "><img src="../images/icons/outline-add-white-48/2x/outline_add_white_48dp.png"/></a>
+
+                    <a id="add-button" class="pd-10 "><img src="../images/icons/outline-add-white-48/2x/outline_add_white_48dp.png" /></a>
                 </div>
             </div>
         </div>
@@ -74,9 +76,9 @@
                         </div>
 
                     </div>
-                    
-                    
-                  
+
+
+
 
 
                 </div>
@@ -89,12 +91,25 @@
                 <div class="question-top-nav container  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11  align-content-center  mg-b-10 ">
 
                     <nav class="question center-box-vertical condensed-sans-font">
-                        <a class="clean-link">Questions</a>
+                        <a class="clean-link">All Questions</a>
                     </nav>
 
 
                 </div>
-                <div class=" question-card container card  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11 shadow-dim flex-wrap mg-b-10 ">
+
+                <div id="question-input-card" class="hide question-top-nav container  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11 align-content-center  mg-b-10 ">
+
+                    <textarea placeholder="Add Question" id="question-text-area" class=" br-regular col-xs-6 col-sm-6 col-md-7 col-lg-7 col-xl-7 outline-slim ">
+
+
+
+                    </textarea>
+
+                    <button id="add-question-button" class="btn-lg mg-l-10 center-box-vertical col-xs-3 col-sm-3 col-md-2 col-lg-2 col-xl-2 ">Add</button>
+
+
+                </div>
+                <!-- <div class=" question-card container card  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11 shadow-dim flex-wrap mg-b-10 ">
                     <div class="col-12 container">
                         <p class="pd-10 condensed-sans-font">
                             Hello please who is the president of kentucky?
@@ -152,7 +167,7 @@
                     </div>
 
                 </div>
-
+-->
                 <!--
             
             <div class="container panel center-box-vertical br-regular col-xs-11 col-sm-11 col-md-6 col-lg-6 col-xl-4 shadow-dim  flex-wrap">
@@ -177,21 +192,71 @@
         </script>
 
         <script>
-            function createElement(child, elementClasses) {
+            let addButton = document.getElementById('add-button');
+            let profileLink = document.getElementById('profile-link');
+            let questionInputCard = document.getElementById('question-input-card');
+            let addQuestionButton = document.getElementById('add-question-button');
+            let questionInputArea = document.getElementById('question-text-area');
+            let toggleState = false;
 
-                let currentNode = document.createElement(child);
-                elementClasses.forEach((claz) => {
-                    currentNode.className += " " + claz;
-                });
-                return currentNode;
-            }
+            let val = window.location.pathname.split('/');
+            let userId = val[2];
+
+
+
+
+            click(addButton, () => {
+
+
+                if (toggleState === false) {
+                    show(questionInputCard);
+                    toggleState = true;
+                    return;
+                }
+
+
+                if (toggleState === true) {
+                    hide(questionInputCard);
+                    toggleState = false;
+                    return;
+                }
+            });
+
+            click(addQuestionButton, () => {
+                let questionContent = questionInputArea.value;
+                let data = {
+                    question: questionContent,
+                    userId: userId,
+                }
+
+                addQuestion(data, (response) => {
+                    if (response === 0 || response.data.status === false) {
+                        alert('Error add questions');
+                        return;
+                    }
+
+                    clearText(questionInputArea);
+                    alert(response.data.msg);
+                    
+                    
+
+                })
+
+
+            });
+
+
 
 
 
             /* Fetch questions */
             window.addEventListener('load', () => {
 
+                setProfilePageLink(profileLink, userId);
+
                 function displayCard(questionObject) {
+
+                    let url = '/';
 
                     let cardHolder = document.getElementById('questions-card-holder');
 
@@ -202,6 +267,10 @@
                     let innerPClasses = ['pd-10', 'condensed-sans-font'];
 
                     let bottomDivClasses = ['col-12', 'pd-10', 'container'];
+
+                    let aTag = createElement('a', ['clean-link', 'black-font']);
+                    aTag.href = `/${userId}/${questionObject.id}`;
+                    //                    console.log( `${userId}`);
 
 
                     // create card for questions
@@ -257,10 +326,12 @@
                     card.appendChild(contentContainer);
                     card.appendChild(bottomDiv);
 
+                    aTag.appendChild(card);
 
-                    cardHolder.appendChild(card);
+
+                    cardHolder.appendChild(aTag);
+
                 }
-
 
 
                 getQuestions((response) => {
@@ -277,6 +348,7 @@
                         displayCard(question);
                     })
                 });
+
 
                 /* getQuestion(1, (response) => {
                      if(response === 0){

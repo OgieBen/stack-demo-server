@@ -4,15 +4,9 @@ var _express = require('express');
 
 var _Factory = require('../Factory');
 
-var _cors = require('cors');
+// import cors from 'cors';
 
-var _cors2 = _interopRequireDefault(_cors);
-
-var _axios = require('axios');
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var cors = require('cors');
 
 var router = (0, _express.Router)();
 
@@ -26,20 +20,22 @@ var repo = factory.getRepo();
  * 
  * @returns {JSON} List
  */
-router.get('/', (0, _cors2.default)(), function (req, res) {
+router.get('/', cors(), function (req, res) {
 
     repo.fetchAllQuestions(function (result) {
         if (result) {
 
             res.json({
-                msg: true,
+                msg: 'Success',
+                status: true,
                 data: result
             });
             return;
         }
 
         res.json({
-            msg: false
+            msg: 'There was an error fetching questions',
+            status: false
         });
     });
 });
@@ -52,7 +48,7 @@ router.get('/', (0, _cors2.default)(), function (req, res) {
  * 
  * @returns {JSON} List
  */
-router.get('/all/:userId', (0, _cors2.default)(), function (req, res) {
+router.get('/all/:userId', cors(), function (req, res) {
 
     var userId = parseInt(req.params.userId);
 
@@ -60,14 +56,16 @@ router.get('/all/:userId', (0, _cors2.default)(), function (req, res) {
         if (result) {
 
             res.json({
-                msg: true,
+                msg: 'Success',
+                status: true,
                 data: result
             });
             return;
         }
 
         res.json({
-            msg: false
+            msg: 'There was an error fetching questions',
+            status: true
         });
     });
 });
@@ -82,26 +80,40 @@ router.get('/all/:userId', (0, _cors2.default)(), function (req, res) {
  * 
  * @returns {JSON} Question
  */
-router.get('/:questionId', (0, _cors2.default)(), function (req, res) {
+router.get('/:questionId', cors(), function (req, res) {
 
     var questionId = parseInt(req.params.questionId);
 
-    repo.fetchQuestion(questionId, function (result) {
-        if (result) {
+    repo.fetchQuestion(questionId, function (question) {
+        if (question) {
 
             console.log({
-                data: result
+                question: question
             });
 
-            res.json({
-                msg: true,
-                data: result
+            repo.fetchAnswers(questionId, function (answers) {
+                if (answers) {
+
+                    res.json({
+                        msg: 'Success',
+                        status: false,
+                        question: question,
+                        answers: answers
+                    });
+                    return;
+                }
+
+                res.json({
+                    msg: 'There was an error fetching answers for question with id ' + questionId,
+                    status: false
+                });
             });
             return;
         }
 
         res.json({
-            msg: false
+            msg: 'There was an Error fetching Question with id ' + questionId,
+            status: false
         });
     });
 });
@@ -111,7 +123,7 @@ router.get('/:questionId', (0, _cors2.default)(), function (req, res) {
  * 
  * @method POST
  */
-router.post('/', (0, _cors2.default)(), function (req, res) {
+router.post('/', cors(), function (req, res) {
 
     var content = req.body.question;
     var userId = req.body.userId;
@@ -119,12 +131,14 @@ router.post('/', (0, _cors2.default)(), function (req, res) {
     repo.addQuestion(content, userId, function (status) {
         if (status) {
             res.json({
-                msg: true
+                msg: 'Success',
+                status: true
             });
             return;
         }
         res.json({
-            msg: false
+            msg: 'Error adding Question',
+            status: false
         });
     });
 });
@@ -134,7 +148,7 @@ router.post('/', (0, _cors2.default)(), function (req, res) {
  * 
  * @method DELETE
  */
-router.delete('/:questionId', (0, _cors2.default)(), function (req, res) {
+router.delete('/:questionId', cors(), function (req, res) {
 
     // let questionId = parseInt(req.params.questionId);
     var questionId = parseInt(req.body.questionId);
@@ -142,12 +156,14 @@ router.delete('/:questionId', (0, _cors2.default)(), function (req, res) {
     repo.deleteQuestion(questionId, function (status) {
         if (status) {
             res.json({
-                msg: true
+                msg: 'Success',
+                status: true
             });
             return;
         }
         res.json({
-            msg: false
+            msg: 'Error deleting Question',
+            status: false
         });
     });
 });
@@ -162,7 +178,7 @@ router.delete('/:questionId', (0, _cors2.default)(), function (req, res) {
  * 
  * @returns {Boolean} 
  */
-router.post('/:questionId/answers/:answerId/comments', (0, _cors2.default)(), function (req, res) {
+router.post('/:questionId/answers/:answerId/comments', cors(), function (req, res) {
 
     var answerId = parseInt(req.body.answerId);
     var content = req.body.comment.toString();
@@ -173,12 +189,14 @@ router.post('/:questionId/answers/:answerId/comments', (0, _cors2.default)(), fu
 
             console.log(result);
             res.json({
-                msg: true
+                msg: 'Success',
+                status: true
             });
             return;
         }
         res.json({
-            msg: false
+            msg: "Error adding Comment",
+            status: false
         });
     });
 });
@@ -191,7 +209,7 @@ router.post('/:questionId/answers/:answerId/comments', (0, _cors2.default)(), fu
  * 
  * @returns {Boolean} 
  */
-router.put('/:questionId/answers/:answerId/upvote', (0, _cors2.default)(), function (req, res) {
+router.put('/:questionId/answers/:answerId/upvote', cors(), function (req, res) {
 
     var answerId = parseInt(req.body.answerId);
 
@@ -204,12 +222,14 @@ router.put('/:questionId/answers/:answerId/upvote', (0, _cors2.default)(), funct
 
             console.log(result);
             res.json({
-                msg: true
+                msg: 'Success',
+                status: true
             });
             return;
         }
         res.json({
-            msg: false
+            msg: 'Error up-voting answer',
+            status: false
         });
     });
 });
@@ -222,7 +242,7 @@ router.put('/:questionId/answers/:answerId/upvote', (0, _cors2.default)(), funct
  * 
  * @returns {Boolean} 
  */
-router.put('/:questionId/answers/:answerId/downvote', (0, _cors2.default)(), function (req, res) {
+router.put('/:questionId/answers/:answerId/downvote', cors(), function (req, res) {
 
     var answerId = parseInt(req.body.answerId);
 
@@ -236,12 +256,14 @@ router.put('/:questionId/answers/:answerId/downvote', (0, _cors2.default)(), fun
 
             console.log(result);
             res.json({
-                msg: true
+                msg: 'Success',
+                status: true
             });
             return;
         }
         res.json({
-            msg: false
+            msg: 'Error down-voting answer',
+            status: false
         });
     });
 });
@@ -266,12 +288,14 @@ router.post('/:questionId/answers', function (req, res) {
             console.log(result);
 
             res.json({
-                msg: true
+                msg: 'Success',
+                status: true
             });
             return;
         }
         res.json({
-            msg: false
+            msg: 'Error adding Answer to question with id ' + questionId,
+            status: false
         });
     });
 });
@@ -316,14 +340,16 @@ router.put('/:questionId/answers/:anwserId/', function (req, res) {
                         console.log('Preferred Answer was set');
 
                         res.json({
-                            msg: true
+                            msg: 'Success',
+                            status: true
                         });
 
                         return;
                     }
 
                     res.json({
-                        msg: false
+                        msg: 'Answer was not selected',
+                        status: false
                     });
                 });
             }
@@ -337,20 +363,22 @@ router.put('/:questionId/answers/:anwserId/', function (req, res) {
         if (status) {
             console.log('Update was successful');
             res.json({
-                msg: true
+                msg: 'Success',
+                status: true
             });
             return;
         }
 
         console.log('Update was not successful');
         res.json({
-            msg: false
+            msg: 'Update was not successful',
+            status: false
         });
     });
 });
 
 /**
- * Post an answer to a question
+ * Searches for questions based on query
  * 
  * @method POST
  * @param {Integer} id
@@ -366,15 +394,75 @@ router.post('/search', function (req, res) {
 
             console.log(result);
             res.json({
-                msg: true,
+                msg: 'Success',
+                status: true,
                 data: result
             });
             return;
         }
         res.json({
-            msg: false
+            msg: "No matching result was found",
+            status: false
         });
     });
+});
+
+router.get('/user/:id', function (req, res) {
+    // let userId = req.body.userId;
+    var userId = req.params.id;
+    try {
+        userId = parseInt(userId);
+        repo.getUser(userId, function (result) {
+            if (result) {
+
+                console.log(result);
+                res.json({
+                    msg: 'Success',
+                    status: true,
+                    data: result
+                });
+                return;
+            }
+            res.json({
+                msg: 'No user with ' + userId + ' was found',
+                status: false
+            });
+        });
+    } catch (e) {
+        res.json({
+            msg: "Invalid query parameter",
+            status: false
+        });
+    }
+});
+
+router.get('/answers/count/:id', function (req, res) {
+
+    var userId = req.params.id;
+    try {
+        userId = parseInt(userId);
+        repo.getUserAnswers(userId, function (result) {
+            if (result) {
+
+                console.log(result);
+                res.json({
+                    msg: 'Success',
+                    status: true,
+                    data: result
+                });
+                return;
+            }
+            res.json({
+                msg: 'No user with ' + userId + ' was found',
+                status: false
+            });
+        });
+    } catch (e) {
+        res.json({
+            msg: "Invalid query parameter",
+            status: false
+        });
+    }
 });
 
 module.exports = router;
