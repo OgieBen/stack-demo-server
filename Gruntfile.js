@@ -54,7 +54,7 @@ module.exports = function (grunt) {
     //   grunt.loadNpmTasks('load-grunt-tasks');
 
 
-    grunt.registerTask("test", ["jasmine"]);
+    // grunt.registerTask("test", ["jasmine"]);
     grunt.registerTask("default", ["babel"]);/* "eslint" */
 
     //node node_modules/jshint/bin/jshint app/prod      :jshint npm starter
