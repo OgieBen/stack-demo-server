@@ -198,4 +198,4 @@ router.get('/cleardb', function (req, res) {
 });
 
 module.exports = router;
-//# sourceMappingURL=auth.js.map
+//# sourceMappingURL=Auth.js.map

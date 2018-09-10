@@ -115,7 +115,6 @@ var Auth = exports.Auth = function () {
                 // signs user in and creates a session
                 _this.login(email, password, function (flag, data) {
                     callback(flag, data);
-                    console.log("User !!!!!!!!" + +"\n");
                 });
             });
         }
