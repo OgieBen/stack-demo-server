@@ -9,7 +9,7 @@
   },
   "engines": {
     "node": "8.11.4",
-    "npm": "6.2.4"
+    "npm": "6.0.x"
   },
   "author": "Ogie Ben",
   "license": "MIT",
