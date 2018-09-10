@@ -7,6 +7,10 @@
     "start": "npm i -g npm && npm install && cd app && npm install  && cd .. && node app/bin/www",
     "test": "node node_modules/jshint/bin/jshint app/prod && node node_modules/jasmine/bin/jasmine spec/**/*[sS]pec.js"
   },
+  "engines": {
+    "node": "8.11.4",
+    "npm": ""
+  },
   "author": "Ogie Ben",
   "license": "MIT",
   "dependencies": {
@@ -31,9 +35,6 @@
     "load-grunt-tasks": "^4.0.0",
     "restler": "^3.4.0"
   },
-  "engines": {
-    "node": "8.11.4",
-    "npm": ""
-  }
+ 
 
 }
