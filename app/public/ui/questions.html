@@ -66,13 +66,13 @@
                     <div class="dosis-font container col-xs-12 col-sm-12  col-md-12 col-lg-12 col-xl-12 metrics pd-10">
 
                         <div class=" align-content-center col-4 ">
-                            <p> <span>Name</span> </p>
+                            <p> <span id="profile-name">Name</span> </p>
                         </div>
                         <div class="col-4 ">
-                            <p>Questions: <span>0</span></p>
+                            <p>Questions: <span id="q-count">0</span></p>
                         </div>
                         <div class="col-4 ">
-                            <p>Answers: <span>0</span></p>
+                            <p>Answers: <span id="a-count">0</span></p>
                         </div>
 
                     </div>
@@ -100,6 +100,10 @@
                 <div id="question-input-card" class="hide question-top-nav container  br-regular col-xs-11 col-sm-11 col-md-12 col-lg-11 col-xl-11 align-content-center  mg-b-10 ">
 
                     <textarea placeholder="Add Question" id="question-text-area" class=" br-regular col-xs-6 col-sm-6 col-md-7 col-lg-7 col-xl-7 outline-slim ">
+
+
+
+
 
 
 
@@ -198,6 +202,9 @@
             let addQuestionButton = document.getElementById('add-question-button');
             let questionInputArea = document.getElementById('question-text-area');
             let toggleState = false;
+            let profileName = document.getElementById('profile-name');
+            let questionCount = document.getElementById('q-count');
+            let answersCount = document.getElementById('a-count');
 
             let val = window.location.pathname.split('/');
             let userId = val[2];
@@ -237,8 +244,8 @@
 
                     clearText(questionInputArea);
                     alert(response.data.msg);
-                    
-                    
+
+
 
                 })
 
@@ -348,6 +355,50 @@
                         displayCard(question);
                     })
                 });
+
+                getUser(userId, (response) => {
+                    if (response === 0 || response.data.status === false) {
+                        alert('Error fetching User Details');
+                        return;
+                    }
+
+                    let payload = response.data;
+                    profileName.innerHTML = payload.data[0].name;
+
+                    console.log("---");
+                    console.log(response.data);
+
+
+                });
+                
+                getAllUserQuestions(userId, (response) => {
+                if (response === 0) {
+                    alert('Error fetching questions');
+                    return;
+                }
+
+                
+                let questions = response.data.data;
+                /*set number of questions */
+                questionCount.innerHTML = questions.length;
+
+               
+            });
+
+                getUserAnswersCount(userId, (response) => {
+                    if (response === 0 || response.data.status === false) {
+                        alert('Error fetching Answers Count');
+                        return;
+                    }
+
+                    let payload = response.data;
+                    answersCount.innerHTML = payload.data[0].count;
+
+                    console.log(response.data.data);
+
+
+                });
+
 
 
                 /* getQuestion(1, (response) => {
