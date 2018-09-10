@@ -4,7 +4,7 @@
   "description": "A very simple app that has simple slack features",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && grunt && npm test",
+    "start": "npm install && grunt && npm test && cd app && npm install",
     "test": "node node_modules/jshint/bin/jshint app/prod && node node_modules/jasmine/bin/jasmine spec/**/*[sS]pec.js"
   },
   "engines": {
