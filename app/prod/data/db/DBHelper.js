@@ -27,9 +27,9 @@ export class DBHelper {
             connectionString: process.env.DATABASE_URL,
             ssl: false,
             database: 'slackdemo',
-          });
+          });*/
 
-          this._pool.connect(); */
+          this._pool.connect(); 
 
     }
 
