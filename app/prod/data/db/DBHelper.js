@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import { Pool, Client } from 'pg';
 import { User } from '../model/User';
 
 
@@ -8,14 +8,22 @@ export class DBHelper {
 
     constructor() {
         // this.configString = config['PG_CONNECT'];
-        this._pool = new Pool({
+       /*  this._pool = new Pool({
             user: process.env.USER,
             host: 'localhost',
             database: 'slackdemo',
             password: null,
             port: 5432,
             max: 400,
-        });
+        }); */
+        this._pool = new Client({
+            connectionString: process.env.DATABASE_URL,
+            ssl: true,
+            password: '60d6bb2b37b54132e3213d6bc8dfd6497df61c418b831decaadce4a9528fdad6',
+            database: 'd90op6gho8t6jp',
+          });
+
+          this._pool.connect();
 
     }
 
@@ -237,30 +245,48 @@ export class DBHelper {
 
     }
 
-    dropTables(...tableNames) {
+    createDatabase(callback){
+        const query = {
+            name: 'delete-questions',
+            text: 'createdb  slackdemo',
+            // values: [questionId]
+        };
+
+        //'DELETE FROM questions where id = $1;', //'DELETE FROM questions where id = $1 AND user_id = $2;',
+        this
+            .getPool()
+            .query(query, (err, res) => {
+                if (err) {
+                    callback(false);
+                    console.log("Error creating database: \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                console.log("Database creation was Succesful");
+                callback(true);
+            });
+    }
+
+    dropTables(callback) {
 
         let text = 'DROP TABLE ';
         let pool = this.getPool();
 
-        for (let i = 0; i < tableNames.length; i++) {
-            if (i === (tableNames.length - 1)) {
-                text = text + `$${i}`;
-            } else {
-                text = text + `$${i},`;
-            }
-        }
-
         const query = {
             name: 'drop-tables',
-            text: text.toString(),
-            value: tableNames
+            text: text + " users, questions, answers, a_comments, q_comments",
+            // value: ,
         };
 
         pool.query(query, (err, res) => {
             if (err) {
                 console.error(err.stack);
+                callback(false);
             }
 
+            callback(true);
             console.log('Tables were removed successfully');
         });
 

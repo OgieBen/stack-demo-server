@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { Factory } from '../Factory';
 import { detect } from 'detect-browser';
-import  crypto  from 'crypto';
+import crypto from 'crypto';
 
 
 
@@ -13,6 +13,8 @@ const factory = new Factory();
 const auth = factory.getAuth();
 let browser = detect();
 
+let db = factory
+        .getDbc();
 
 
 /**
@@ -31,7 +33,7 @@ router.post('/login', (req, res) => {
     let password = req.body.password.toString();
 
     auth.login(email, password, (flag, data) => {
-        
+
         if (flag) {
 
             let encrypted = '';
@@ -52,19 +54,19 @@ router.post('/login', (req, res) => {
 
             });
 
-            if(data !== 0){
+            if (data !== 0) {
                 console.log("Value" + data[0].id);
 
                 res.json({
                     msg: "Login Succesful",
                     status: true,
                     userId: data[0].id
-    
+
                 });
                 return;
-                
+
             }
-            
+
             res.json({
                 msg: "Login Error: Could not get user",
                 status: false,
@@ -147,10 +149,17 @@ router.get('/dbsetup/:key', (req, res) => {
 
     // if (key ===  "123"){
 
+
+    
+
+    // let createDb = db.createDatabase();
+
     // set up db
-    let result = factory
-        .getDbc()
-        .setUpDb();
+    let result = db
+                    .setUpDb();
+    
+
+
 
     if (result) {
         res.json({
@@ -164,6 +173,28 @@ router.get('/dbsetup/:key', (req, res) => {
 
 
     // }
+});
+
+
+router.get('/cleardb', (req, res) => {
+
+    db.dropTables((result) => { 
+        if(result != false){
+
+            res.json({
+               msg: 'success',
+               status: false,
+            });
+            return;
+        }
+  
+    });
+
+    res.json({
+        msg: 'error',
+        status: false,
+     });
+
 });
 
 

@@ -18,14 +18,21 @@ var DBHelper = function () {
         _classCallCheck(this, DBHelper);
 
         // this.configString = config['PG_CONNECT'];
-        this._pool = new _pg.Pool({
-            user: process.env.USER,
-            host: 'localhost',
-            database: 'slackdemo',
-            password: null,
-            port: 5432,
-            max: 400
+        /*  this._pool = new Pool({
+             user: process.env.USER,
+             host: 'localhost',
+             database: 'slackdemo',
+             password: null,
+             port: 5432,
+             max: 400,
+         }); */
+        this._pool = new _pg.Client({
+            connectionString: process.env.DATABASE_URL,
+            ssl: false,
+            database: process.env.DATABASE_URL
         });
+
+        this._pool.connect();
     }
 
     // callback takes client object
@@ -209,34 +216,48 @@ var DBHelper = function () {
             return flag;
         }
     }, {
+        key: 'createDatabase',
+        value: function createDatabase(callback) {
+            var query = {
+                name: 'delete-questions',
+                text: 'createdb  slackdemo'
+                // values: [questionId]
+            };
+
+            //'DELETE FROM questions where id = $1;', //'DELETE FROM questions where id = $1 AND user_id = $2;',
+            this.getPool().query(query, function (err, res) {
+                if (err) {
+                    callback(false);
+                    console.log("Error creating database: \n");
+                    console.error(err.stack);
+                    return;
+                }
+
+                // true means query ran right;
+                console.log("Database creation was Succesful");
+                callback(true);
+            });
+        }
+    }, {
         key: 'dropTables',
-        value: function dropTables() {
-            for (var _len = arguments.length, tableNames = Array(_len), _key = 0; _key < _len; _key++) {
-                tableNames[_key] = arguments[_key];
-            }
+        value: function dropTables(callback) {
 
             var text = 'DROP TABLE ';
             var pool = this.getPool();
 
-            for (var i = 0; i < tableNames.length; i++) {
-                if (i === tableNames.length - 1) {
-                    text = text + ('$' + i);
-                } else {
-                    text = text + ('$' + i + ',');
-                }
-            }
-
             var query = {
                 name: 'drop-tables',
-                text: text.toString(),
-                value: tableNames
+                text: text + " users, questions, answers, a_comments, q_comments"
+                // value: ,
             };
 
             pool.query(query, function (err, res) {
                 if (err) {
                     console.error(err.stack);
+                    callback(false);
                 }
 
+                callback(true);
                 console.log('Tables were removed successfully');
             });
         }

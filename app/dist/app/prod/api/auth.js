@@ -19,6 +19,8 @@ var factory = new _Factory.Factory();
 var auth = factory.getAuth();
 var browser = (0, _detectBrowser.detect)();
 
+var db = factory.getDbc();
+
 /**
  *  This endpoint authenticates a user using th user's password and email 
  *  (Note: change method from get to post)
@@ -143,8 +145,11 @@ router.get('/dbsetup/:key', function (req, res) {
 
     // if (key ===  "123"){
 
+
+    // let createDb = db.createDatabase();
+
     // set up db
-    var result = factory.getDbc().setUpDb();
+    var result = db.setUpDb();
 
     if (result) {
         res.json({
@@ -157,6 +162,26 @@ router.get('/dbsetup/:key', function (req, res) {
     });
 
     // }
+});
+
+router.get('/cleardb', function (req, res) {
+
+    db.dropTables(function (result) {
+        if (result != false) {
+
+            res.json({
+                msg: 'success',
+                status: false
+            });
+
+            return;
+        }
+
+        res.json({
+            msg: 'error',
+            status: false
+        });
+    });
 });
 
 module.exports = router;
