@@ -1,13 +1,17 @@
 import { Router } from 'express';
 import { Factory } from '../Factory';
+import { detect } from 'detect-browser';
+import  crypto  from 'crypto';
+
 
 
 // config();
 let router = Router();
 
 
-let factory = new Factory();
-let auth = factory.getAuth();
+const factory = new Factory();
+const auth = factory.getAuth();
+let browser = detect();
 
 
 
@@ -24,22 +28,53 @@ let auth = factory.getAuth();
 router.post('/login', (req, res) => {
 
     let email = req.body.email.toString();
-    let name = req.body.name.toString();
+    let password = req.body.password.toString();
 
-    auth.login(email, name, (flag) => {
+    auth.login(email, password, (flag, data) => {
+        
         if (flag) {
 
-            
-            res.json({
-                msg: "Login Succesful",
-                status: true,
+            let encrypted = '';
+            const footPrint = email + password + browser.name + browser.os + browser.version;
+            const cipher = crypto.createCipher('aes192', footPrint);
+
+            cipher.on('readable', () => {
+                const data = cipher.read();
+                if (data) {
+                    encrypted += data.toString('hex');
+                }
+            });
+
+            cipher.on('end', () => {
+                console.log(encrypted);
+                req.session.footprint = encrypted;
+                req.cookie(email, encrypted);
 
             });
+
+            if(data !== 0){
+                console.log("Value" + data[0].id);
+
+                res.json({
+                    msg: "Login Succesful",
+                    status: true,
+                    userId: data[0].id
+    
+                });
+                return;
+                
+            }
+            
+            res.json({
+                msg: "Login Error: Could not get user",
+                status: false,
+            });
+
             return;
         }
         if (flag === 'undefined' || flag == false) {
             res.json({
-                msg: "Login Error",
+                msg: "Login Error: please check credentials ",
                 status: false,
             });
         }
@@ -71,14 +106,36 @@ router.post('/signup', (req, res) => {
     auth
         .signUp(name, email, password, (flag) => {
             if (flag) {
+
+
+                let encrypted = '';
+                const footPrint = email + password + browser.name + browser.os + browser.version;
+                const cipher = crypto.createCipher('aes192', footPrint);
+
+                cipher.on('readable', () => {
+                    const data = cipher.read();
+                    if (data) {
+                        encrypted += data.toString('hex');
+                    }
+                });
+
+                cipher.on('end', () => {
+                    console.log(encrypted);
+                    req.session.footprint = encrypted;
+                    req.cookie(email, encrypted);
+
+                });
+
                 res.json({
-                    msg: true,
+                    msg: "Sign Up Succesful",
+                    status: true,
                 });
                 return;
             }
 
             res.json({
-                msg: false,
+                msg: "Login Error: please check credentials ",
+                status: false,
             });
         });
 

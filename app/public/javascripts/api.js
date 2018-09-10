@@ -1,6 +1,20 @@
 let url = '/api/v1/';
 //let url = 'localhost:3000/api/v1/';
 
+function login(data, callback){
+    axios({
+            method: 'post',
+            url: url + 'auth/login',
+        data: data,
+        })
+        .then((response) => {
+            callback(response);
+        })
+        .catch((err) => {
+            callback(0);
+        });
+}
+
 function getQuestions(callback) {
     axios({
             method: 'get',

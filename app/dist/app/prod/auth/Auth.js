@@ -60,11 +60,12 @@ var Auth = exports.Auth = function () {
                     }
 
                     var resultLength = result.rows.length;
+                    console.log(email + password);
 
                     if (result.rows.length === 1) {
                         var status = true;
                         console.log("Authentication success");
-                        callback(status);
+                        callback(status, result.rows);
 
                         result.rows.forEach(function (user) {
                             console.log(user);
@@ -73,7 +74,7 @@ var Auth = exports.Auth = function () {
                     }
 
                     console.log("Authentication failure: Invalid User " + resultLength);
-                    callback(false);
+                    callback(false, 0);
                 });
             }
         }
@@ -130,11 +131,11 @@ var Auth = exports.Auth = function () {
 
             // let flag = false;
 
-            this.authenticate(email, password, function (flag) {
+            this.authenticate(email, password, function (flag, data) {
                 if (flag) {
                     console.log("Login was sucessful");
                 }
-                callback(flag);
+                callback(flag, data);
             });
         }
 

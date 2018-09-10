@@ -4,11 +4,20 @@ var _express = require('express');
 
 var _Factory = require('../Factory');
 
+var _detectBrowser = require('detect-browser');
+
+var _crypto = require('crypto');
+
+var _crypto2 = _interopRequireDefault(_crypto);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // config();
 var router = (0, _express.Router)();
 
 var factory = new _Factory.Factory();
 var auth = factory.getAuth();
+var browser = (0, _detectBrowser.detect)();
 
 /**
  *  This endpoint authenticates a user using th user's password and email 
@@ -23,18 +32,52 @@ var auth = factory.getAuth();
 router.post('/login', function (req, res) {
 
     var email = req.body.email.toString();
-    var name = req.body.name.toString();
+    var password = req.body.password.toString();
 
-    auth.login(email, name, function (flag) {
+    auth.login(email, password, function (flag, data) {
+
         if (flag) {
-            res.json({
-                msg: true
+
+            var encrypted = '';
+            var footPrint = email + password + browser.name + browser.os + browser.version;
+            var cipher = _crypto2.default.createCipher('aes192', footPrint);
+
+            cipher.on('readable', function () {
+                var data = cipher.read();
+                if (data) {
+                    encrypted += data.toString('hex');
+                }
             });
+
+            cipher.on('end', function () {
+                console.log(encrypted);
+                req.session.footprint = encrypted;
+                req.cookie(email, encrypted);
+            });
+
+            if (data !== 0) {
+                console.log("Value" + data[0].id);
+
+                res.json({
+                    msg: "Login Succesful",
+                    status: true,
+                    userId: data[0].id
+
+                });
+                return;
+            }
+
+            res.json({
+                msg: "Login Error: Could not get user",
+                status: false
+            });
+
             return;
         }
         if (flag === 'undefined' || flag == false) {
             res.json({
-                msg: false
+                msg: "Login Error: please check credentials ",
+                status: false
             });
         }
     });
@@ -62,14 +105,34 @@ router.post('/signup', function (req, res) {
 
     auth.signUp(name, email, password, function (flag) {
         if (flag) {
+
+            var encrypted = '';
+            var footPrint = email + password + browser.name + browser.os + browser.version;
+            var cipher = _crypto2.default.createCipher('aes192', footPrint);
+
+            cipher.on('readable', function () {
+                var data = cipher.read();
+                if (data) {
+                    encrypted += data.toString('hex');
+                }
+            });
+
+            cipher.on('end', function () {
+                console.log(encrypted);
+                req.session.footprint = encrypted;
+                req.cookie(email, encrypted);
+            });
+
             res.json({
-                msg: true
+                msg: "Sign Up Succesful",
+                status: true
             });
             return;
         }
 
         res.json({
-            msg: false
+            msg: "Login Error: please check credentials ",
+            status: false
         });
     });
 });
@@ -97,4 +160,4 @@ router.get('/dbsetup/:key', function (req, res) {
 });
 
 module.exports = router;
-//# sourceMappingURL=Auth.js.map
+//# sourceMappingURL=auth.js.map

@@ -51,11 +51,12 @@ export class Auth {
                     }
                     
                    const resultLength = result.rows.length;
+                   console.log(email + password);
 
                     if (result.rows.length === 1) {
                         let status = true;
                         console.log("Authentication success");
-                        callback(status);
+                        callback(status, result.rows);
 
                         result.rows.forEach((user) => {
                             console.log(user);
@@ -64,7 +65,7 @@ export class Auth {
                     }
 
                     console.log("Authentication failure: Invalid User " + resultLength );
-                    callback(false);
+                    callback(false, 0);
 
                 });
         }
@@ -118,11 +119,11 @@ export class Auth {
 
         // let flag = false;
     
-        this.authenticate(email, password, (flag) => {  
+        this.authenticate(email, password, (flag, data) => {  
             if(flag){
                 console.log("Login was sucessful");   
             }
-            callback(flag);
+            callback(flag, data);
         });
 
     }
