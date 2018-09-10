@@ -4,7 +4,7 @@
   "description": "A very simple app that has simple slack features",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && grunt",
+    "start": "npm install && grunt ",
     "test": "node node_modules/jshint/bin/jshint app/prod && node node_modules/jasmine/bin/jasmine spec/**/*[sS]pec.js"
   },
   "engines": {
@@ -18,7 +18,8 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
-    "jasmine": "^3.2.0"
+    "jasmine": "^3.2.0",
+    "pg": "^7.4.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
