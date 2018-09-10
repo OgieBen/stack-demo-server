@@ -8,20 +8,15 @@ export class DBHelper {
 
     constructor() {
         // this.configString = config['PG_CONNECT'];
-        this._pool = new Pool({
+        /* this._pool = new Pool({
             user: process.env.USER,
             host: 'localhost',
             database: 'slackdemo',
             password: null,
             port: 5432,
             max: 400,
-        });
-        // this._pool = new Client({
-        //     connectionString: process.env.DATABASE_URL,
-        //     ssl: true,
-        //     password: '60d6bb2b37b54132e3213d6bc8dfd6497df61c418b831decaadce4a9528fdad6',
-        //     database: 'd90op6gho8t6jp',
-        //   });
+        }); */
+    
 
         this._pool = new Client({
             connectionString: process.env.DATABASE_URL,
