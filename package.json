@@ -8,8 +8,7 @@
     "test": "node node_modules/jshint/bin/jshint app/prod && node node_modules/jasmine/bin/jasmine spec/**/*[sS]pec.js"
   },
   "engines": {
-    "node": "8.11.4",
-    "npm": ""
+    "node": "8.11.4"
   },
   "author": "Ogie Ben",
   "license": "MIT",
@@ -34,7 +33,5 @@
     "jshint": "^2.9.6",
     "load-grunt-tasks": "^4.0.0",
     "restler": "^3.4.0"
-  },
- 
-
+  }
 }
