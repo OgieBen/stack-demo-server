@@ -15,6 +15,22 @@ function login(data, callback){
         });
 }
 
+function signUp(data, callback){
+    axios({
+            method: 'post',
+            url: url + 'auth/signup',
+        data: data,
+        })
+        .then((response) => {
+            callback(response);
+        })
+        .catch((err) => {
+            callback(0);
+        });
+}
+
+
+
 function getQuestions(callback) {
     axios({
             method: 'get',

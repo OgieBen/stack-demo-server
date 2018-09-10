@@ -101,10 +101,10 @@ export class Auth {
    
                 console.log("Added User sucessfully");
                 
-                callback(true);               
+                              
                 // signs user in and creates a session
-                this.login(email, password, (flag) => {
-
+                this.login(email, password, (flag, data) => {
+                    callback(flag, data); 
                 }); 
             });
     }

@@ -106,7 +106,7 @@ router.post('/signup', (req, res) => {
     console.log(`parameters: ${name, email, password}`);
 
     auth
-        .signUp(name, email, password, (flag) => {
+        .signUp(name, email, password, (flag, data) => {
             if (flag) {
 
 
@@ -128,11 +128,19 @@ router.post('/signup', (req, res) => {
 
                 });
 
-                res.json({
-                    msg: "Sign Up Succesful",
-                    status: true,
-                });
-                return;
+                if (data !== 0) {
+                    console.log("Value" + data[0].id);
+    
+                    res.json({
+                        msg: "Sign Up Succesful",
+                        status: true,
+                        userId: data[0].id
+    
+                    });
+                    return;
+    
+                }
+
             }
 
             res.json({

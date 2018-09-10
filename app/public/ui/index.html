@@ -79,16 +79,16 @@
                 </div>
 
                 <div class=" mg-10 container col-12 cred-input flex-wrap">
-                    <input name="name" class="col-12 " type="text" placeholder="Name" />
+                    <input id="sign-up-name" name="name" class="col-12 " type="text" placeholder="Name" />
 
-                    <input name="email" class="col-12 mg-t-10" type="email" placeholder="Email" />
+                    <input id="sign-up-email" name="email" class="col-12 mg-t-10" type="email" placeholder="Email" />
 
-                    <input name="password" class="col-12 mg-t-10" type="password" placeholder="Password" />
+                    <input id="sign-up-password" name="password" class="col-12 mg-t-10" type="password" placeholder="Password" />
                 </div>
 
                 <div class=" mg-10 col-12">
 
-                    <Button class="btn-lg float-right">Sign Up</Button>
+                    <Button id="sign-up-button" class="btn-lg float-right">Sign Up</Button>
 
                 </div>
 
@@ -111,8 +111,12 @@
 
     <script>
         let emailInput = document.getElementById('email-input');
+        let signUpNameInput = document.getElementById('sign-up-name');
+        let signUpEmailInput = document.getElementById('sign-up-email');
+        let signUpPasswordInput = document.getElementById('sign-up-email');
         let passwordInput = document.getElementById('password-input');
         let loginButton = document.getElementById('login-button');
+        let signUpButton = document.getElementById('sign-up-button');
 
 
 
@@ -128,7 +132,7 @@
 
             login(data, (response) => {
                 if (response === 0) {
-                    alert('Error fetching questions');
+                    alert('Login Error');
                     return;
                 }
 
@@ -138,7 +142,32 @@
                 }
 
             });
-        })
+        });
+
+        click(signUpButton, () => {
+            let name = signUpNameInput.value;
+            let email = signUpEmailInput.value;
+            let password = signUpNameInput.value;
+
+            let data = {
+                name,
+                email,
+                password
+            }
+            
+            signUp(data, () => {
+                 if (response === 0) {
+                    alert('Sign up Error');
+                    return;
+                }
+
+                alert(response.data.msg);
+                if (typeof response.data.userId !== 'undefined') {
+                    window.location.href = `/u/${response.data.userId}`;
+                }
+            });
+            
+        });
 
     </script>
 
