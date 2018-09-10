@@ -58,5 +58,6 @@ module.exports = function (grunt) {
     grunt.registerTask("default", ["babel"]);/* "eslint" */
 
     //node node_modules/jshint/bin/jshint app/prod      :jshint npm starter
+    // && node node_modules/jasmine/bin/jasmine spec/**/*[sS]pec.js
     // "start": "grunt && npm test && cd app && npm install  && cd .. && node app/bin/www", : start cmd with install included
 }
