@@ -32,7 +32,6 @@
     "grunt-exec": "^3.0.0",
     "jshint": "^2.9.6",
     "load-grunt-tasks": "^4.0.0",
-    "restler": "^3.4.0",
-    "pg": "^7.4.3"
+    "restler": "^3.4.0"
   }
 }
