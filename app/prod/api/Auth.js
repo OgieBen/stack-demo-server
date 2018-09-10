@@ -28,14 +28,19 @@ router.post('/login', (req, res) => {
 
     auth.login(email, name, (flag) => {
         if (flag) {
+
+            
             res.json({
-                msg: true,
+                msg: "Login Succesful",
+                status: true,
+
             });
             return;
         }
         if (flag === 'undefined' || flag == false) {
             res.json({
-                msg: false,
+                msg: "Login Error",
+                status: false,
             });
         }
 

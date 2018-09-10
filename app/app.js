@@ -71,6 +71,8 @@ algorithms: ['RS256']
 }); */
 
 app.use(cors());
+app.use(require('cookie-parser')(credentials.cookieSecret));
+app.use(require('express-session')());
 
 // app.use('/api', cors);
 // app.use('/api', checkJwt);
