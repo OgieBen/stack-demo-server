@@ -112,9 +112,11 @@ var Auth = exports.Auth = function () {
 
                 console.log("Added User sucessfully");
 
-                callback(true);
                 // signs user in and creates a session
-                _this.login(email, password, function (flag) {});
+                _this.login(email, password, function (flag, data) {
+                    callback(flag, data);
+                    console.log("User !!!!!!!!" + +"\n");
+                });
             });
         }
 
@@ -154,9 +156,9 @@ var Auth = exports.Auth = function () {
         value: function signUp(name, email, password, callback) {
 
             if (this.validate(name, email, password)) {
-                return this.addUser(name, email, password, function (flag) {
+                return this.addUser(name, email, password, function (flag, data) {
                     if (flag) {
-                        callback(flag);
+                        callback(flag, data);
                         return;
                     }
                     callback(false);

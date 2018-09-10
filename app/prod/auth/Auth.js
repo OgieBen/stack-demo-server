@@ -101,10 +101,10 @@ export class Auth {
    
                 console.log("Added User sucessfully");
                 
-                              
+                  
                 // signs user in and creates a session
                 this.login(email, password, (flag, data) => {
-                    callback(flag, data); 
+                    callback(flag, data);  
                 }); 
             });
     }
@@ -140,9 +140,9 @@ export class Auth {
     signUp(name, email, password, callback) {
 
         if (this.validate(name, email, password)) {
-            return this.addUser(name, email, password, (flag) => {
+            return this.addUser(name, email, password, (flag, data) => {
                 if(flag){
-                    callback(flag);
+                    callback(flag, data);
                     return;
                 }
                 callback(false);

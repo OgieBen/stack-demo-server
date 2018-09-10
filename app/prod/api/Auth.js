@@ -54,7 +54,7 @@ router.post('/login', (req, res) => {
 
             });
 
-            if (data !== 0) {
+            if (typeof data !== 'undefined') {
                 console.log("Value" + data[0].id);
 
                 res.json({
@@ -128,8 +128,9 @@ router.post('/signup', (req, res) => {
 
                 });
 
-                if (data !== 0) {
-                    console.log("Value" + data[0].id);
+                console.log("Value" + data);
+                if ( typeof data !== 'undefined') {
+                    console.log("Value" + data);
     
                     res.json({
                         msg: "Sign Up Succesful",
@@ -137,9 +138,15 @@ router.post('/signup', (req, res) => {
                         userId: data[0].id
     
                     });
-                    return;
-    
+                    return; 
                 }
+
+                res.json({
+                    msg: "Login Error: Could not retrive user creds",
+                    status: false,
+                });
+
+                return;
 
             }
 

@@ -113,7 +113,7 @@
         let emailInput = document.getElementById('email-input');
         let signUpNameInput = document.getElementById('sign-up-name');
         let signUpEmailInput = document.getElementById('sign-up-email');
-        let signUpPasswordInput = document.getElementById('sign-up-email');
+        let signUpPasswordInput = document.getElementById('sign-up-password');
         let passwordInput = document.getElementById('password-input');
         let loginButton = document.getElementById('login-button');
         let signUpButton = document.getElementById('sign-up-button');
@@ -147,15 +147,15 @@
         click(signUpButton, () => {
             let name = signUpNameInput.value;
             let email = signUpEmailInput.value;
-            let password = signUpNameInput.value;
+            let password = signUpPasswordInput.value;
 
             let data = {
                 name,
                 email,
-                password
+                password,
             }
             
-            signUp(data, () => {
+            signUp(data, (response) => {
                  if (response === 0) {
                     alert('Sign up Error');
                     return;

@@ -57,7 +57,7 @@ router.post('/login', function (req, res) {
                 req.cookie(email, encrypted);
             });
 
-            if (data !== 0) {
+            if (typeof data !== 'undefined') {
                 console.log("Value" + data[0].id);
 
                 res.json({
@@ -105,7 +105,7 @@ router.post('/signup', function (req, res) {
 
     console.log('parameters: ' + (name, email, password));
 
-    auth.signUp(name, email, password, function (flag) {
+    auth.signUp(name, email, password, function (flag, data) {
         if (flag) {
 
             var encrypted = '';
@@ -125,10 +125,24 @@ router.post('/signup', function (req, res) {
                 req.cookie(email, encrypted);
             });
 
+            console.log("Value" + data);
+            if (typeof data !== 'undefined') {
+                console.log("Value" + data);
+
+                res.json({
+                    msg: "Sign Up Succesful",
+                    status: true,
+                    userId: data[0].id
+
+                });
+                return;
+            }
+
             res.json({
-                msg: "Sign Up Succesful",
-                status: true
+                msg: "Login Error: Could not retrive user creds",
+                status: false
             });
+
             return;
         }
 
@@ -173,14 +187,13 @@ router.get('/cleardb', function (req, res) {
                 msg: 'success',
                 status: false
             });
-
             return;
         }
+    });
 
-        res.json({
-            msg: 'error',
-            status: false
-        });
+    res.json({
+        msg: 'error',
+        status: false
     });
 });
 
