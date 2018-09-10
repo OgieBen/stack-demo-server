@@ -37,8 +37,9 @@ var DBHelper = function () {
              connectionString: process.env.DATABASE_URL,
              ssl: false,
              database: 'slackdemo',
-           });
-            this._pool.connect(); */
+           });*/
+
+        this._pool.connect();
     }
 
     // callback takes client object
