@@ -6,6 +6,7 @@ Slack Demo is just an app that has basic features from stackoverflow.
 # Tools
     - Grunt
     - Babel 
+    - Jasmine
 
 # Install
     npm install
