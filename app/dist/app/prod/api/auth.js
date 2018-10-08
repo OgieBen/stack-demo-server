@@ -197,5 +197,28 @@ router.get('/cleardb', function (req, res) {
     });
 });
 
+router.get('/crypto', function (req, res) {
+
+    var email = 'bensoft2k5@gmail.com';
+    var password = 'admin';
+
+    var footPrint = email + password + browser.name + browser.os + browser.version;
+    var cipher = _crypto2.default.createCipher('aes192', email);
+    var decipher = _crypto2.default.createDecipher('aes192', email);
+
+    var encrypted = cipher.update(footPrint, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    console.log("Encrypted: " + encrypted);
+
+    var decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    console.log("Decrypted: " + decrypted);
+
+    res.json({
+        encrypted: encrypted,
+        decrypted: decrypted
+    });
+});
+
 module.exports = router;
 //# sourceMappingURL=Auth.js.map

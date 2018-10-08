@@ -5,6 +5,7 @@ import crypto from 'crypto';
 
 
 
+
 // config();
 let router = Router();
 
@@ -14,7 +15,7 @@ const auth = factory.getAuth();
 let browser = detect();
 
 let db = factory
-        .getDbc();
+    .getDbc();
 
 
 /**
@@ -129,16 +130,16 @@ router.post('/signup', (req, res) => {
                 });
 
                 console.log("Value" + data);
-                if ( typeof data !== 'undefined') {
+                if (typeof data !== 'undefined') {
                     console.log("Value" + data);
-    
+
                     res.json({
                         msg: "Sign Up Succesful",
                         status: true,
                         userId: data[0].id
-    
+
                     });
-                    return; 
+                    return;
                 }
 
                 res.json({
@@ -165,14 +166,14 @@ router.get('/dbsetup/:key', (req, res) => {
     // if (key ===  "123"){
 
 
-    
+
 
     // let createDb = db.createDatabase();
 
     // set up db
     let result = db
-                    .setUpDb();
-    
+        .setUpDb();
+
 
 
 
@@ -193,22 +194,51 @@ router.get('/dbsetup/:key', (req, res) => {
 
 router.get('/cleardb', (req, res) => {
 
-    db.dropTables((result) => { 
-        if(result != false){
+    db.dropTables((result) => {
+        if (result != false) {
 
             res.json({
-               msg: 'success',
-               status: false,
+                msg: 'success',
+                status: false,
             });
             return;
         }
-  
+
     });
 
     res.json({
         msg: 'error',
         status: false,
-     });
+    });
+
+});
+
+
+router.get('/crypto', (req, res) => {
+
+    let email = 'bensoft2k5@gmail.com';
+    let password = 'admin';
+
+
+
+    const footPrint = email + password + browser.name + browser.os + browser.version;
+    const cipher = crypto.createCipher('aes192', email);
+    const decipher = crypto.createDecipher('aes192', email);
+
+    let encrypted = cipher.update(footPrint, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    console.log("Encrypted: " + encrypted);
+
+
+   
+    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    console.log("Decrypted: " + decrypted);
+
+    res.json({
+        encrypted,
+        decrypted
+        });
 
 });
 
