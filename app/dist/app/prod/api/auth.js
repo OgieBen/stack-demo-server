@@ -10,6 +10,10 @@ var _crypto = require('crypto');
 
 var _crypto2 = _interopRequireDefault(_crypto);
 
+var _expressSession = require('express-session');
+
+var _expressSession2 = _interopRequireDefault(_expressSession);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // config();
@@ -214,10 +218,23 @@ router.get('/crypto', function (req, res) {
     decrypted += decipher.final('utf8');
     console.log("Decrypted: " + decrypted);
 
+    req.session.footprint = encrypted;
+    var sessionFootPrint = req.session.footprint;
+
+    if (sessionFootPrint === 'undefined') {
+        res.send(500, "invalid session");
+        return;
+    }
+
     res.json({
         encrypted: encrypted,
-        decrypted: decrypted
+        decrypted: decrypted,
+        footprint: req.session.footprint
     });
+});
+
+router.get('/footprint', function (req, res) {
+    res.send(req.session.footprint);
 });
 
 module.exports = router;

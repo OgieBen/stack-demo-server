@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { Factory } from '../Factory';
 import { detect } from 'detect-browser';
 import crypto from 'crypto';
+import session from 'express-session';
 
 
 
@@ -235,13 +236,26 @@ router.get('/crypto', (req, res) => {
     decrypted += decipher.final('utf8');
     console.log("Decrypted: " + decrypted);
 
+    req.session.footprint = encrypted;
+    let sessionFootPrint = req.session.footprint;
+
+    if (sessionFootPrint === 'undefined'){
+        res.send(500, "invalid session"); 
+        return;
+    }
+
     res.json({
         encrypted,
-        decrypted
+        decrypted,
+        footprint: req.session.footprint,
         });
 
 });
 
+
+router.get('/footprint', (req, res) => {
+    res.send(req.session.footprint);
+})
 
 
 
