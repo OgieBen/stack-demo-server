@@ -38,32 +38,13 @@ router.post('/login', (req, res) => {
 
         if (flag) {
 
-            let encrypted = '';
-            const footPrint = email + password + browser.name + browser.os + browser.version;
-            const cipher = crypto.createCipher('aes192', footPrint);
-
-            cipher.on('readable', () => {
-                const data = cipher.read();
-                if (data) {
-                    encrypted += data.toString('hex');
-                }
-            });
-
-            cipher.on('end', () => {
-                console.log(encrypted);
-                req.session.footprint = encrypted;
-                req.cookie(email, encrypted);
-
-            });
-
             if (typeof data !== 'undefined') {
-                console.log("Value" + data[0].id);
+                // create session here 
 
                 res.json({
                     msg: "Login Succesful",
                     status: true,
                     userId: data[0].id
-
                 });
                 return;
 
@@ -111,28 +92,11 @@ router.post('/signup', (req, res) => {
         .signUp(name, email, password, (flag, data) => {
             if (flag) {
 
-
-                let encrypted = '';
-                const footPrint = email + password + browser.name + browser.os + browser.version;
-                const cipher = crypto.createCipher('aes192', footPrint);
-
-                cipher.on('readable', () => {
-                    const data = cipher.read();
-                    if (data) {
-                        encrypted += data.toString('hex');
-                    }
-                });
-
-                cipher.on('end', () => {
-                    console.log(encrypted);
-                    req.session.footprint = encrypted;
-                    req.cookie(email, encrypted);
-
-                });
-
                 console.log("Value" + data);
                 if (typeof data !== 'undefined') {
                     console.log("Value" + data);
+
+                    // create session here 
 
                     res.json({
                         msg: "Sign Up Succesful",

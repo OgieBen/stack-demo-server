@@ -18,17 +18,13 @@ const jwtAuthz = require('express-jwt-authz');
 const jwks = require('jwks-rsa');
 
 
-
-
-
-
 const app = express();
 
 let sessionConfig = {
   secret: 'session',
   resave: true,
   saveUninitialized: false,
-  cookie: {}
+  cookie: { httpOnly: true }
 }
 
 // view engine setup
@@ -42,61 +38,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
-// app.use('/protected', expressJwt({
-//   secret: jwksClient.expressJwtSecret(jwksOpts),
-//   issuer: process.env.AUTH0_API_ISSUER,
-//   audience: process.env.AUTH0_API_AUDIENCE,
-//   requestProperty: 'accessToken',
-//   getToken: (req) => req.cookies['access_token']
-// }));
-
-
-/* const checkJwt = jwt({
-  // Dynamically provide a signing key
-  // based on the kid in the header and 
-  // the signing keys provided by the JWKS endpoint.
-  // secret: jwksRsa.expressJwtSecret({
-  //   cache: true,
-  //   rateLimit: true,
-  //   jwksRequestsPerMinute: 5,
-  //   jwksUri: `https://slackdemo.auth0.com/.well-known/jwks.json`
-  // }),
-
-  // // Validate the audience and the issuer.
-  // audience: 'https://slackdemo.auth0.com/api/v2/',
-  // issuer: `https://slackdemo.auth0.com/`,
-  // algorithms: ['RS256']
-
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: "https://slackdemo.auth0.com/.well-known/jwks.json"
-}),
-audience: 'https://slackdemo-api.herokuapp.com/',
-issuer: "https://slackdemo.auth0.com/",
-algorithms: ['RS256']
-}); */
-
 app.use(cors());
 app.use(require('cookie-parser')('cookie'));
 app.use(expSession(sessionConfig));
-
-
-
-
-
-// app.use('/api', cors);
-// app.use('/api', checkJwt);
-
 
 app.use('/', indexRouter);
 app.use('/profile/', userRouter);
 app.use('/api/v1/auth', authApi);
 app.use('/api/v1/questions', questionsApi);
-// app.use('/api/v1/questions/{id}', answersApi);
 
 
 if(app.get('env' === 'production')){
