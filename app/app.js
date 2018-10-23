@@ -9,19 +9,12 @@ const indexRouter = require('./routes/index');
 const userRouter = require('./routes/users');
 const authApi = require('./dist/app/prod/api/auth');
 const questionsApi = require('./dist/app/prod/api/questions');
-const testRouter = require('./dist/app/prod/api/answers');
-
 const cors = require('cors');
-
-const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
-const jwks = require('jwks-rsa');
-
 
 const app = express();
 
 let sessionConfig = {
-  secret: 'session',
+  secret: process.env.session_secret,
   resave: true,
   saveUninitialized: false,
   cookie: { httpOnly: true }
