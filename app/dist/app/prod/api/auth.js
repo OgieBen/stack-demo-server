@@ -44,31 +44,15 @@ router.post('/login', function (req, res) {
 
         if (flag) {
 
-            var encrypted = '';
-            var footPrint = email + password + browser.name + browser.os + browser.version;
-            var cipher = _crypto2.default.createCipher('aes192', footPrint);
-
-            cipher.on('readable', function () {
-                var data = cipher.read();
-                if (data) {
-                    encrypted += data.toString('hex');
-                }
-            });
-
-            cipher.on('end', function () {
-                console.log(encrypted);
-                req.session.footprint = encrypted;
-                req.cookie(email, encrypted);
-            });
-
             if (typeof data !== 'undefined') {
-                console.log("Value" + data[0].id);
+                // create session here 
+                req.session.footPrint = auth.createFootprint(email, password);
+                console.log("footprint", req.session.footPrint);
 
                 res.json({
                     msg: "Login Succesful",
                     status: true,
                     userId: data[0].id
-
                 });
                 return;
             }
@@ -112,27 +96,13 @@ router.post('/signup', function (req, res) {
     auth.signUp(name, email, password, function (flag, data) {
         if (flag) {
 
-            var encrypted = '';
-            var footPrint = email + password + browser.name + browser.os + browser.version;
-            var cipher = _crypto2.default.createCipher('aes192', footPrint);
-
-            cipher.on('readable', function () {
-                var data = cipher.read();
-                if (data) {
-                    encrypted += data.toString('hex');
-                }
-            });
-
-            cipher.on('end', function () {
-                console.log(encrypted);
-                req.session.footprint = encrypted;
-                req.cookie(email, encrypted);
-            });
-
             console.log("Value" + data);
             if (typeof data !== 'undefined') {
                 console.log("Value" + data);
 
+                // create session here 
+                req.session.footPrint = auth.createFootprint(email, password);
+                console.log("footprint", req.session.footPrint);
                 res.json({
                     msg: "Sign Up Succesful",
                     status: true,
@@ -238,4 +208,4 @@ router.get('/footprint', function (req, res) {
 });
 
 module.exports = router;
-//# sourceMappingURL=Auth.js.map
+//# sourceMappingURL=auth.js.map

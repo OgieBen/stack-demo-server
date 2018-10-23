@@ -13,7 +13,17 @@ var _Answer = require('../data/model/Answer');
 
 var _DBHelper = require('../data/db/DBHelper');
 
+var _crypto = require('crypto');
+
+var _crypto2 = _interopRequireDefault(_crypto);
+
+var _detectBrowser = require('detect-browser');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var browser = (0, _detectBrowser.detect)();
 
 var Auth = exports.Auth = function () {
     function Auth() {
@@ -181,6 +191,27 @@ var Auth = exports.Auth = function () {
         value: function validate(name, email, password) {
 
             return true;
+        }
+    }, {
+        key: 'createFootprint',
+        value: function createFootprint(email, password) {
+
+            var footPrint = email + password + browser.name + browser.os + browser.version;
+            var cipher = _crypto2.default.createCipher('aes192', process.env.salt);
+
+            var encrypted = cipher.update(footPrint, 'utf8', 'hex');
+            encrypted += cipher.final('hex');
+            return encrypted;
+        }
+    }, {
+        key: 'checkUserSession',
+        value: function checkUserSession() {
+
+            /*  const decipher = crypto.createDecipher('aes192', process.env.salt);
+             let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+             decrypted += decipher.final('utf8'); */
+
+            console.log("Decrypted: " + decrypted);
         }
     }, {
         key: 'testModel',

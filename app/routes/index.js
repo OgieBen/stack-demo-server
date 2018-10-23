@@ -13,12 +13,18 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/u/:id', (req, res, next) => {
-
+  if(!req.session.footPrint){
+      res.redirect('/')
+    return
+  }
   res.sendFile(absolutePath + "questions.html");
 });
 
 router.get('/:uid/:qid', (req, res, next) => {
-
+  if(!req.session.footPrint){
+    res.redirect('/')
+  return
+}
   res.sendFile(absolutePath + "question-detail.html");
 });
 

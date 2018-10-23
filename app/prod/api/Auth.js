@@ -40,6 +40,8 @@ router.post('/login', (req, res) => {
 
             if (typeof data !== 'undefined') {
                 // create session here 
+                req.session.footPrint = auth.createFootprint(email, password)
+                console.log("footprint", req.session.footPrint)
 
                 res.json({
                     msg: "Login Succesful",
@@ -97,7 +99,8 @@ router.post('/signup', (req, res) => {
                     console.log("Value" + data);
 
                     // create session here 
-
+                    req.session.footPrint = auth.createFootprint(email, password)
+                    console.log("footprint", req.session.footPrint)
                     res.json({
                         msg: "Sign Up Succesful",
                         status: true,

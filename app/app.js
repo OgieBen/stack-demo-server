@@ -36,13 +36,15 @@ app.use(require('cookie-parser')('cookie'));
 app.use(expSession(sessionConfig));
 
 app.use('/', indexRouter);
+
+
 app.use('/profile/', userRouter);
 app.use('/api/v1/auth', authApi);
 app.use('/api/v1/questions', questionsApi);
 
 
-if(app.get('env' === 'production')){
-  app.set('trust proxy', 1); 
+if (app.get('env' === 'production')) {
+  app.set('trust proxy', 1);
   sessionConfig.cookie.secured = true;
 }
 
