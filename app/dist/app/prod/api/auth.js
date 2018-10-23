@@ -46,7 +46,16 @@ router.post('/login', function (req, res) {
 
             if (typeof data !== 'undefined') {
                 // create session here 
-                req.session.footPrint = auth.createFootprint(email, password);
+                var footPrint = auth.createFootprint(email, password);
+                req.session.footPrint = footPrint;
+                req.session.user = {
+                    email: email,
+                    id: data[0].id,
+                    footPrint: footPrint
+                };
+
+                console.log(req.session.user.id);
+
                 console.log("footprint", req.session.footPrint);
 
                 res.json({
@@ -101,7 +110,14 @@ router.post('/signup', function (req, res) {
                 console.log("Value" + data);
 
                 // create session here 
-                req.session.footPrint = auth.createFootprint(email, password);
+                var footPrint = auth.createFootprint(email, password);
+                req.session.footPrint = footPrint;
+
+                req.session.user = {
+                    email: email,
+                    id: data[0].id,
+                    footPrint: footPrint
+                };
                 console.log("footprint", req.session.footPrint);
                 res.json({
                     msg: "Sign Up Succesful",
@@ -208,4 +224,4 @@ router.get('/footprint', function (req, res) {
 });
 
 module.exports = router;
-//# sourceMappingURL=auth.js.map
+//# sourceMappingURL=Auth.js.map

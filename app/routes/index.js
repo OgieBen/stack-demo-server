@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/u/:id', (req, res, next) => {
-  if(!req.session.footPrint){
+  if(!req.session.user || req.session.user.id != req.params.id){
       res.redirect('/')
     return
   }
@@ -21,7 +21,7 @@ router.get('/u/:id', (req, res, next) => {
 });
 
 router.get('/:uid/:qid', (req, res, next) => {
-  if(!req.session.footPrint){
+  if(!req.session.user || req.session.user.id != req.params.qid){
     res.redirect('/')
   return
 }
